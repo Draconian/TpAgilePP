@@ -19,14 +19,20 @@ public class Employer {
     private int _minutesTeleTravail = 0;
     private int _minutesJoursOuvrableBureau = 0;
     private int _minutesWeekendBureau = 0;
-    private static final int MAX_HEURES_BUREAU = 43;
-    private static final int MIN_HEURES_BUREAU_ADMIN = 36;
-    private static final int MIN_HEURES_BUREAU_NORMAL = 38;
-    private static final int MAX_HEURES_TELETRAV_ADMIN = 10;
-    private static final int MIN_HEURES_BUREAU_NORMAL_OUVRABLE = 6;
-    private static final int MIN_HEURES_BUREAU_ADMIN_OUVRABLE = 4;
+    private static final int MAX_MINUTES_BUREAU = 43 * 60;
+    private static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
+    private static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
+    private static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
+    private static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
+    private static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
     private static final int TELETRAVAIL_ID_MIN = 900;
 
+    /**
+     * Analyser feuille de temps JSON.
+     * @param aCheminFichierInput
+     * @param aCheminFichierOutput
+     * @throws IOException 
+     */
     public void AnalyserFeuilleTemps(String aCheminFichierInput, String aCheminFichierOutput) throws IOException {
         JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(aCheminFichierInput);
 
@@ -98,9 +104,10 @@ public class Employer {
     {
         JSONArray jsonErreurs = new JSONArray();
         
-        if(((this._minutesJoursOuvrableBureau + this._minutesTeleTravail + this._minutesWeekendBureau) / 60) > MAX_HEURES_BUREAU)
+        if((this._minutesJoursOuvrableBureau + this._minutesTeleTravail + this._minutesWeekendBureau) > MAX_MINUTES_BUREAU)
         {
             jsonErreurs.add("L'employé n'a pas travaillé le nombre d'heures minimal.");
+            System.out.println("L'employé n'a pas travaillé le nombre d'heures minimal.");
         }
         
         if (this._numeroEmployer < 1000) {
@@ -120,12 +127,14 @@ public class Employer {
     private JSONArray AnalyserFeuilleTempsNormal(JSONArray aJSONErreur)
     {
      
-         if (((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) / 60) < MIN_HEURES_BUREAU_NORMAL) {
+         if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
             aJSONErreur.add("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau.");
+            System.out.println("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
 
-        if ((this._minutesJoursOuvrableBureau / 60) < MIN_HEURES_BUREAU_NORMAL_OUVRABLE) {
+        if (this._minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
             aJSONErreur.add("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+            System.out.println("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
         }
         
         
@@ -134,16 +143,19 @@ public class Employer {
     
     private JSONArray AnalyserFeuilleTempsAdministration(JSONArray aJSONErreur)
     {
-         if (((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau)  / 60) < MIN_HEURES_BUREAU_ADMIN) {
+         if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
             aJSONErreur.add("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
+            System.out.println("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
 
-        if ((this._minutesJoursOuvrableBureau / 60) < MIN_HEURES_BUREAU_ADMIN_OUVRABLE) {
+        if ((this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN_OUVRABLE) {
             aJSONErreur.add("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+            System.out.println("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
         }
 
-        if (this._minutesTeleTravail > MAX_HEURES_TELETRAV_ADMIN) {
+        if (this._minutesTeleTravail > MAX_MINUTES_TELETRAV_ADMIN) {
             aJSONErreur.add("L'employé administration a dépassé le nombre d'heures de télétravail.");
+            System.out.println("L'employé administration a dépassé le nombre d'heures de télétravail.");
         }
         
         
