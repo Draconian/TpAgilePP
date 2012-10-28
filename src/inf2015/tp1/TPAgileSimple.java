@@ -21,15 +21,11 @@ public class TPAgileSimple {
         Employer employer = new Employer();
         
         try {
-            employer.chargerFeuillerTemps(args[0]);
-            employer.calculerFeuilleTemps();
-            employer.analyserFeuilleTemps();
-            ErreurLog.Instance().ecrireErreur(args[1]);
+            employer.AnalyserFeuilleTemps(args[0], args[1]);
         } catch (IOException ex) {
             Logger.getLogger(TPAgileSimple.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        System.out.println(ErreurLog.Instance().toString());
         
     }
 }
