@@ -5,6 +5,7 @@
 package inf2015.tp1;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -19,146 +20,107 @@ public class Employer {
     private int _minutesTeleTravail = 0;
     private int _minutesJoursOuvrableBureau = 0;
     private int _minutesWeekendBureau = 0;
+    private ArrayList<Jour> _semaines = new ArrayList<>();
+    private static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3", "jour4", "jour5", "weekend1", "weekend2"};
     private static final int MAX_MINUTES_BUREAU = 43 * 60;
     private static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
     private static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
     private static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
     private static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
     private static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
-    private static final int TELETRAVAIL_ID_MIN = 900;
+    private static final int EMPLOYER_ADMINISTRATION_ID = 1000;
 
     /**
      * Analyser feuille de temps JSON.
+     *
      * @param aCheminFichierInput
      * @param aCheminFichierOutput
-     * @throws IOException 
+     * @throws IOException
      */
-    public void AnalyserFeuilleTemps(String aCheminFichierInput, String aCheminFichierOutput) throws IOException {
+    public void chargerFeuillerTemps(String aCheminFichierInput) throws IOException {
         JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(aCheminFichierInput);
-
 
         this._numeroEmployer = jsonEmployer.getInt("numero_employe");
 
-        //Obtenir jours ouvrable
-        this.obternirJourOuvrable(jsonEmployer.getJSONArray("jour1"));
-        this.obternirJourOuvrable(jsonEmployer.getJSONArray("jour2"));
-        this.obternirJourOuvrable(jsonEmployer.getJSONArray("jour3"));
-        this.obternirJourOuvrable(jsonEmployer.getJSONArray("jour4"));
-        this.obternirJourOuvrable(jsonEmployer.getJSONArray("jour5"));
-
-        //Obtenir weekend
-        this.obternirWeekend(jsonEmployer.getJSONArray("weekend1"));
-        this.obternirWeekend(jsonEmployer.getJSONArray("weekend2"));
-
-        //Analyser la feuille de temps
-        JSONArray jsonErreur = this.AnalyserFeuilleTemps();
-
-        JSONUtil.writeJSONArray(jsonErreur, aCheminFichierOutput);
-        
+        for (int i = 0; i < JOUR_SEMAINES.length; i++) {
+            if (jsonEmployer.containsKey(JOUR_SEMAINES[i])) {
+                Jour jour = this.obternirJour(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
+                jour.analyserJour();
+                this._semaines.add(jour);
+            } else {
+                System.out.println("Jour manquant: " + JOUR_SEMAINES[i]);
+                ErreurLog.Instance().effacerTout();
+                i = JOUR_SEMAINES.length; // break;
+            }
+        }
     }
 
-    private void obternirJourOuvrable(JSONArray jsonProjets) {
-
-        JSONObject jsonProjet;
-        int projetID, minutes;
-        Iterator<JSONObject> it = jsonProjets.iterator();
-
-        while (it.hasNext()) {
-            jsonProjet = it.next();
-
-            projetID = jsonProjet.getInt("projet");
-            minutes = jsonProjet.getInt("minutes");
-
-            if (projetID >= TELETRAVAIL_ID_MIN) {
-                this._minutesTeleTravail += minutes;
+    public void calculerFeuilleTemps() {
+        for (Jour jour : this._semaines) {
+            if (jour.estJourOuvrable()) {
+                this._minutesJoursOuvrableBureau += jour.getMinutesBureau();
             } else {
-                this._minutesJoursOuvrableBureau += minutes;
+                this._minutesWeekendBureau += jour.getMinutesBureau();
+
             }
 
-        }
-
-    }
-
-    private void obternirWeekend(JSONArray jsonProjets) {
-
-        JSONObject jsonProjet;
-        int projetID, minutes;
-        Iterator<JSONObject> it = jsonProjets.iterator();
-
-        while (it.hasNext()) {
-            jsonProjet = it.next();
-
-            projetID = jsonProjet.getInt("projet");
-            minutes = jsonProjet.getInt("minutes");
-
-            if (projetID >= TELETRAVAIL_ID_MIN) {
-                this._minutesTeleTravail += minutes;
-            } else {
-                this._minutesWeekendBureau += minutes;
-            }
-
+            this._minutesTeleTravail += jour.getMinutesTeletravail();
         }
     }
-    
-    private JSONArray AnalyserFeuilleTemps()
-    {
-        JSONArray jsonErreurs = new JSONArray();
-        
-        if((this._minutesJoursOuvrableBureau + this._minutesTeleTravail + this._minutesWeekendBureau) > MAX_MINUTES_BUREAU)
-        {
-            jsonErreurs.add("L'employé n'a pas travaillé le nombre d'heures minimal.");
-            System.out.println("L'employé n'a pas travaillé le nombre d'heures minimal.");
+
+    public void analyserFeuilleTemps() {
+
+        if ((this._minutesJoursOuvrableBureau + this._minutesTeleTravail + this._minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
+            ErreurLog.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
         }
-        
-        if (this._numeroEmployer < 1000) {
-            //Analyser employé administration.
-            
-            this.AnalyserFeuilleTempsAdministration(jsonErreurs);
-            
+
+        if (this._numeroEmployer < EMPLOYER_ADMINISTRATION_ID) {
+            this.analyserFeuilleTempsAdministration();
+
         } else {
-            //Analyser employé normal.
-            this.AnalyserFeuilleTempsNormal(jsonErreurs);
-            
+            this.analyserFeuilleTempsNormal();
         }
-        
-        return jsonErreurs;
     }
-    
-    private JSONArray AnalyserFeuilleTempsNormal(JSONArray aJSONErreur)
-    {
-     
-         if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
-            aJSONErreur.add("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau.");
-            System.out.println("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau.");
+
+    private void analyserFeuilleTempsNormal() {
+
+        if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
+            ErreurLog.Instance().ajoutErreur("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
 
         if (this._minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
-            aJSONErreur.add("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
-            System.out.println("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+            ErreurLog.Instance().ajoutErreur("L'employé normal n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
         }
-        
-        
-        return aJSONErreur;
+
     }
-    
-    private JSONArray AnalyserFeuilleTempsAdministration(JSONArray aJSONErreur)
-    {
-         if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
-            aJSONErreur.add("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
-            System.out.println("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
+
+    private void analyserFeuilleTempsAdministration() {
+        if ((this._minutesWeekendBureau + this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
+            ErreurLog.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
 
         if ((this._minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN_OUVRABLE) {
-            aJSONErreur.add("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
-            System.out.println("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+            ErreurLog.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
         }
 
         if (this._minutesTeleTravail > MAX_MINUTES_TELETRAV_ADMIN) {
-            aJSONErreur.add("L'employé administration a dépassé le nombre d'heures de télétravail.");
-            System.out.println("L'employé administration a dépassé le nombre d'heures de télétravail.");
+            ErreurLog.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures de télétravail.");
         }
-        
-        
-        return aJSONErreur;
+    }
+
+    private static Jour obternirJour(String aNomJour, JSONArray jsonProjets) {
+        JSONObject jsonProjet;
+        Iterator<JSONObject> it = jsonProjets.iterator();
+
+        Jour jour = Jour.CreerJour(aNomJour);
+
+
+        while (it.hasNext()) {
+            jsonProjet = it.next();
+
+            jour.ajoutProjet(new Projet(jsonProjet.getInt("projet"), jsonProjet.getInt("minutes")));
+        }
+
+        return jour;
     }
 }

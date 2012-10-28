@@ -84,9 +84,9 @@ public class JSONUtil {
      * @throws IOException 
      */
     public static void writeJSONOject(JSONObject jsObject, String aFichierChemin) throws IOException {
-        String jsonTexte = jsObject.toString(5);
-
         //toString(5) => 5 espaces pour chaque indentation.
+        String jsonTexte = jsObject.toString(5);
+        
         JSONUtil.writeString(jsonTexte, aFichierChemin);
     }
 
@@ -97,9 +97,9 @@ public class JSONUtil {
      * @throws IOException 
      */
     public static void writeJSONArray(JSONArray jsArray, String aFichierChemin) throws IOException {
+        //toString(5) => 5 espaces pour chaque indentation.
         String jsonTexte = jsArray.toString(5);
 
-        //toString(5) => 5 espaces pour chaque indentation.
         JSONUtil.writeString(jsonTexte, aFichierChemin);
     }
 
