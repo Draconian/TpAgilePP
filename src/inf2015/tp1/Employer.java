@@ -41,7 +41,7 @@ public class Employer {
         JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(aCheminFichierInput);
 
         this._numeroEmployer = jsonEmployer.getInt("numero_employe");
-
+           //Very nice commit
         for (int i = 0; i < JOUR_SEMAINES.length; i++) {
             if (jsonEmployer.containsKey(JOUR_SEMAINES[i])) {
                 Jour jour = this.obternirJour(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
