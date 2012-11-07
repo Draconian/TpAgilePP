@@ -15,12 +15,6 @@ import net.sf.json.JSONObject;
  * @author fdufault
  */
 public class Employer {
-
-    private int _numeroEmployer = 0;
-    private int _minutesTeleTravail = 0;
-    private int _minutesJoursOuvrableBureau = 0;
-    private int _minutesWeekendBureau = 0;
-    private ArrayList<Jour> _semaines = new ArrayList<>();
     private static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3", "jour4", "jour5", "weekend1", "weekend2"};
     private static final int MAX_MINUTES_BUREAU = 43 * 60;
     private static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
@@ -29,6 +23,13 @@ public class Employer {
     private static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
     private static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
     private static final int EMPLOYER_ADMINISTRATION_ID = 1000;
+    
+    private int _numeroEmployer = 0;
+    private int _minutesTeleTravail = 0;
+    private int _minutesJoursOuvrableBureau = 0;
+    private int _minutesWeekendBureau = 0;
+    private ArrayList<Jour> _semaines = new ArrayList<>();
+
 
     /**
      * Analyser feuille de temps JSON.
