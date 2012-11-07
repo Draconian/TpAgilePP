@@ -4,7 +4,7 @@ Nous utilisons le "beautifier" par défaut de Netbeans 7 pour les espacements,
 dispositions des accolades, des parenthèses, etc.
 
 Packages:
-    - Les packages de notre projet est 
+    - Les packages de notre projet est inf2015.tp
 
 Variables:
     - Utilisation de la langue francaise pour les noms de variables.
