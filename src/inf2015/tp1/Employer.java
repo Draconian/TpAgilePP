@@ -30,14 +30,6 @@ public class Employer {
     private int _minutesWeekendBureau = 0;
     private ArrayList<Jour> _semaines = new ArrayList<>();
 
-
-    /**
-     * Analyser feuille de temps JSON.
-     *
-     * @param aCheminFichierInput
-     * @param aCheminFichierOutput
-     * @throws IOException
-     */
     public void chargerFeuillerTemps(String aCheminFichierInput) throws IOException {
         JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(aCheminFichierInput);
 
@@ -45,7 +37,7 @@ public class Employer {
            //Very nice commit
         for (int i = 0; i < JOUR_SEMAINES.length; i++) {
             if (jsonEmployer.containsKey(JOUR_SEMAINES[i])) {
-                Jour jour = this.obternirJour(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
+                Jour jour = this.obternirJourAPartirJSONArray(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
                 jour.analyserJour();
                 this._semaines.add(jour);
             } else {
@@ -109,7 +101,7 @@ public class Employer {
         }
     }
 
-    private static Jour obternirJour(String aNomJour, JSONArray jsonProjets) {
+    private static Jour obternirJourAPartirJSONArray(String aNomJour, JSONArray jsonProjets) {
         JSONObject jsonProjet;
         Iterator<JSONObject> it = jsonProjets.iterator();
 
