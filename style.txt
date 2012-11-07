@@ -1,0 +1,116 @@
+Le style de programmation:
+
+Nous utilisons le "beautifier" par défaut de Netbeans 7 pour les espacements, 
+dispositions des accolades, des parenthèses, etc.
+
+Packages:
+    - Les packages de notre projet est 
+
+Variables:
+    - Utilisation de la langue francaise pour les noms de variables.
+    - Utilisation du "camel case". 
+    - Les variables statiques sont en majuscules et les mots séparés par un _
+    - Toutes les variables d'instances sont appelées avec "this."
+
+Méthodes:
+    - Utilisation de la langue française pour les noms de méthodes.
+    - Utilisation du "camel case".
+    - Les méthodes accesseurs ont le préfix "get".
+    - Les méthodes mutateurs ont le préfix "set".
+    - Toutes les méthodes d'instances sont appelées avec "this."
+
+Classes:
+    - Utilisation de la langue française pour les noms de classes.
+    - Utilisation du "pascal case"
+    - Aucune variables statiques ou d'instances publiques, elles sont toutes privées ou protégées.
+    - Une signature commune aux classes: 
+        <Nom classe> - INF2015 - TP Agile - EQUIPE 17
+
+        @author Francois Dufault
+        @author Lyes Tamazouzt
+        @author Abdessamad Essakhi
+    - Ordre d'apparition des éléments membres de la classe:
+        1) Variables statiques privées.
+        2) Variables d'instances protégées.
+        3) Variables d'instances privées.
+        4) Constructeur par défaut.
+        5) Constructeurs avec paramètres.
+        6) Méthodes d'accessibilités des variales privées (get/set).
+        7) Méthodes d'instances publiques.
+        8) Méthodes d'instances protégées.
+        9) Méthodes d'instances privées.
+        10) Méthodes statiques publiques.
+        11) Méthodes statiques privées.
+
+Exemple de classe selon notre style:
+
+/**
+ * Template - INF2015 - TP Agile - EQUIPE 17
+ *
+ * @author Francois Dufault
+ * @author Lyes Tamazouzt
+ * @author Abdessamad Essakhi
+ */
+public class Template {
+
+    private static String NOM_VARIABLE = "";
+    protected int varProtegee = 0;
+    private String nomVariable = "";
+
+    public Template() {
+        this.nomVariable = "";
+    }
+
+    public Template(String parametre) {
+        this.nomVariable = parametre;
+
+    }
+
+    public String getVariable() {
+        return this.nomVariable;
+    }
+
+    public void setVariable(String parametre) {
+        this.nomVariable = parametre;
+    }
+
+    public void faireQuelqueChose(int valeur) {
+        if (valeur > 0) {
+            this.nomVariable = "> 0";
+        } else if (valeur < 0) {
+            this.nomVariable = "< 0";
+        } else {
+            this.nomVariable = "0";
+        }
+    }
+
+    protected String nomVariableModifier() {
+        int index = 0;
+
+        while (index <= 100) {
+            this.nomVariable += ".";
+        }
+
+        return this.nomVariable;
+    }
+
+    private boolean estValide() {
+        return (this.nomVariable.equals("0"));
+    }
+
+    public static Template creerTemplate(String parametre) {
+        Template t;
+
+        t = new Template(parametre);
+
+        return t;
+    }
+
+    private static boolean nomVariableEstNull() {
+        boolean estNulle;
+
+        estNulle = (NOM_VARIABLE == null);
+
+        return estNulle;
+    }
+}
