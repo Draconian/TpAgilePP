@@ -20,7 +20,7 @@ public class TpAgile {
             employer.chargerFeuillerTemps(args[0]);
             employer.calculerFeuilleTemps();
             employer.analyserFeuilleTemps();
-            ErreurLog.Instance().ecrireErreur(args[1]);
+            ErreurLog.Instance().ecrireErreurDansFichier(args[1]);
         } catch (IOException ex) {
             Logger.getLogger(TpAgile.class.getName()).log(Level.SEVERE, null, ex);
         }

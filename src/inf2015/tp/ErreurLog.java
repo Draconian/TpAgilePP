@@ -20,7 +20,7 @@ public class ErreurLog {
         System.out.println(aErreurMessage);
     }
 
-    public void ecrireErreur(String cheminFichier) throws IOException {
+    public void ecrireErreurDansFichier(String cheminFichier) throws IOException {
         JsonUtil.ecrireJsonArrayDansFichier(this.erreurs, cheminFichier);
     }
 
