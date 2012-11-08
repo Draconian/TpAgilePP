@@ -30,7 +30,7 @@ public class Employe {
     private ArrayList<Jour> semaines = new ArrayList<>();
 
     public void chargerFeuillerTemps(String cheminFichierInput) throws IOException {
-        JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(cheminFichierInput);
+        JSONObject jsonEmployer = JsonUtil.chargerJsonObjetDuFichier(cheminFichierInput);
 
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
         //Very nice commit

@@ -21,7 +21,7 @@ public class ErreurLog {
     }
 
     public void ecrireErreur(String cheminFichier) throws IOException {
-        JSONUtil.writeJSONArray(this.erreurs, cheminFichier);
+        JsonUtil.ecrireJsonArrayDansFichier(this.erreurs, cheminFichier);
     }
 
     @Override

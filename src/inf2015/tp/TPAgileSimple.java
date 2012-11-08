@@ -18,7 +18,7 @@ public class TPAgileSimple {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Employer employer = new Employer();
+        Employe employer = new Employe();
         
         try {
             employer.chargerFeuillerTemps(args[0]);
