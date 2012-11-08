@@ -1,58 +1,59 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Projet - INF2015 - TP Agile - EQUIPE 17
+ *
+ * @author Francois Dufault
+ * @author Lyes Tamazouzt
+ * @author Abdessamad Essakhi
  */
 package inf2015.tp;
 
-/**
- *
- * @author fdufault
- */
 public class Projet {
     private static final int PROJET_ID_CONGE_FERIE = 998;
     private static final int PROJET_ID_CONGE = 999;
     private static final int PROJET_ID_TELETRAVAIL = 900;
     
-    private int _minutes = 0;
-    private int _projetID = 0;
+    private int minutes = 0;
+    private int projetID = 0;
     
-    public Projet(int aProjetID, int aMinutes)
+    public Projet(int projetID, int minutes)
     {
-        this._minutes = aMinutes;
-        this._projetID = aProjetID;
+        this.minutes = minutes;
+        this.projetID = projetID;
     }
     
     
     public int getMinutes()
     {
-        return this._minutes;
+        return this.minutes;
     }
     
     public int getProjetID()
     {
-        return this._projetID;
+        return this.projetID;
     }
     
     public boolean estTeleTravail()
     {
-        return (this._projetID >= PROJET_ID_TELETRAVAIL && 
-                this._projetID != PROJET_ID_CONGE &&
-                this._projetID != PROJET_ID_CONGE_FERIE);
+        return (this.projetID >= PROJET_ID_TELETRAVAIL && 
+                this.projetID != PROJET_ID_CONGE &&
+                this.projetID != PROJET_ID_CONGE_FERIE);
     }
     
     public boolean estCongeFerie()
     {
-        return (this._projetID == PROJET_ID_CONGE_FERIE);
+        return (this.projetID == PROJET_ID_CONGE_FERIE);
     }
     
     public boolean estTravailBureau()
     {
-        return (this._projetID < PROJET_ID_TELETRAVAIL);
+        return (this.projetID < PROJET_ID_TELETRAVAIL);
     }
     
     @Override
     public String toString()
     {
-        return String.format("ProjetID: %d Minutes: %d Heures: %f", this._projetID,this._minutes, ((float)this._minutes/60.0));
+        return String.format("ProjetID: %d Minutes: %d Heures: %f", 
+                this.projetID,this.minutes, 
+                ((float)this.minutes/60.0));
     }
 }
