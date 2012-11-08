@@ -33,14 +33,13 @@ public class Employe {
         JSONObject jsonEmployer = JsonUtil.chargerJsonObjetDuFichier(cheminFichierInput);
 
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
-        //Very nice commit
+
         for (int i = 0; i < JOUR_SEMAINES.length; i++) {
             if (jsonEmployer.containsKey(JOUR_SEMAINES[i])) {
                 Jour jour = Employe.obternirJourAPartirJSONArray(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
                 jour.analyserJour();
                 this.semaines.add(jour);
             } else {
-                System.out.println("Jour manquant: " + JOUR_SEMAINES[i]);
                 ErreurLog.Instance().effacerTout();
                 i = JOUR_SEMAINES.length; // break;
             }
