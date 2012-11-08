@@ -29,8 +29,8 @@ public class Employe {
     private int minutesWeekendBureau = 0;
     private ArrayList<Jour> semaines = new ArrayList<>();
 
-    public void chargerFeuillerTemps(String aCheminFichierInput) throws IOException {
-        JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(aCheminFichierInput);
+    public void chargerFeuillerTemps(String cheminFichierInput) throws IOException {
+        JSONObject jsonEmployer = JSONUtil.loadJSONObjectFichier(cheminFichierInput);
 
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
         //Very nice commit
@@ -100,11 +100,11 @@ public class Employe {
         }
     }
 
-    private static Jour obternirJourAPartirJSONArray(String aNomJour, JSONArray jsonProjets) {
+    private static Jour obternirJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) {
         JSONObject jsonProjet;
         Iterator<JSONObject> it = jsonProjets.iterator();
 
-        Jour jour = Jour.CreerJour(aNomJour);
+        Jour jour = Jour.CreerJour(nomJour);
 
 
         while (it.hasNext()) {
