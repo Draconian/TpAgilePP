@@ -20,8 +20,8 @@ public class ErreurLog {
         System.out.println(aErreurMessage);
     }
 
-    public void ecrireErreur(String CheminFichier) throws IOException {
-        JSONUtil.writeJSONArray(this.erreurs, CheminFichier);
+    public void ecrireErreur(String cheminFichier) throws IOException {
+        JSONUtil.writeJSONArray(this.erreurs, cheminFichier);
     }
 
     @Override
