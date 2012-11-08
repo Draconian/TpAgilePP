@@ -35,7 +35,7 @@ Classes:
         3) Variables d'instances privées.
         4) Constructeur par défaut.
         5) Constructeurs avec paramètres.
-        6) Méthodes d'accessibilités des variales privées (get/set).
+        6) Méthodes d'accessibilité des variables privées (get/set).
         7) Méthodes d'instances publiques.
         8) Méthodes d'instances protégées.
         9) Méthodes d'instances privées.
