@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class Jour {
 
     private static final int MINUTES_JOURNEE_FERIEE = 420;
+    private static final int MINUTES_JOURNEE_MALADIE = 420;
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
@@ -21,48 +22,23 @@ public class Jour {
         this.nomJour = nomJour;
     }
 
-    public boolean estJourneeFerie() {
-        boolean estFerie = false;
-
-        for (Projet projet : this.projetsJournee) {
-            if (projet.estCongeFerie()) {
-                estFerie = true;
-            }
-        }
-
-        return estFerie;
-    }
-
-    public boolean contientTeleTravail() {
-        boolean estTeleTravail = false;
-
-        for (Projet projet : this.projetsJournee) {
-            if (projet.estTeleTravail()) {
-                estTeleTravail = true;
-            }
-        }
-
-        return estTeleTravail;
-    }
-
-    public boolean contientTravailBureau() {
-        boolean estTravailBureau = false;
-
-        for (Projet projet : this.projetsJournee) {
-            if (projet.estTravailBureau()) {
-                estTravailBureau = true;
-            }
-        }
-
-        return estTravailBureau;
-
-    }
-
     public int getMinutesJourneeFeriee() {
         int minutes = 0;
 
         for (Projet projet : this.projetsJournee) {
             if (projet.estCongeFerie()) {
+                minutes += projet.getMinutes();
+            }
+        }
+
+        return minutes;
+    }
+
+    public int getMinutesJourneeMaladie() {
+        int minutes = 0;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeMaladie()) {
                 minutes += projet.getMinutes();
             }
         }
@@ -94,6 +70,54 @@ public class Jour {
         return minutes;
     }
 
+     public boolean estJourneeFerie() {
+        boolean estFerie = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeFerie()) {
+                estFerie = true;
+            }
+        }
+
+        return estFerie;
+    }
+
+    public boolean estJourMaladie() {
+        boolean estMaladie = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeMaladie()) {
+                estMaladie = true;
+            }
+        }
+
+        return estMaladie;
+    }
+
+    public boolean contientTeleTravail() {
+        boolean estTeleTravail = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estTeleTravail()) {
+                estTeleTravail = true;
+            }
+        }
+
+        return estTeleTravail;
+    }
+
+    public boolean contientTravailBureau() {
+        boolean estTravailBureau = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estTravailBureau()) {
+                estTravailBureau = true;
+            }
+        }
+
+        return estTravailBureau;
+    }
+    
     public void ajoutProjet(Projet nouveauProjet) {
         this.projetsJournee.add(nouveauProjet);
     }
@@ -101,8 +125,8 @@ public class Jour {
     public void analyserJour() {
         if (this.estJourneeFerie()) {
             this.analyserJourFerie();
-        } else {
-            // AJOUTER AUTRE JOUR SPECIAUX
+        } else if (this.estJourMaladie()) {
+            this.analyserJourMaladie();
         }
     }
 
@@ -116,25 +140,50 @@ public class Jour {
     }
 
     public enum TypeJour {
-
         OUVRABLE,
         WEEKEND
     }
 
     private void analyserJourFerie() {
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurLog.Instance().ajoutErreur("Le jour " + this.nomJour + " qui est fériée, ne doit pas être le weekend.");
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas être le weekend.");
         }
 
         if (this.contientTravailBureau()) {
-            ErreurLog.Instance().ajoutErreur("Le jour " + this.nomJour + " qui est fériée, ne doit pas contenir de temps au bureau.");
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps au bureau.");
+        }
+
+        if (this.estJourMaladie()) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps maladies.");
         }
 
         if (this.getMinutesJourneeFeriee() != MINUTES_JOURNEE_FERIEE) {
             ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, doit contenir " + MINUTES_JOURNEE_FERIEE + " minutes. (Il contient " + this.getMinutesJourneeFeriee() + " minutes.)");
         }
     }
-    
+
+    private void analyserJourMaladie() {
+        if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas être le weekend.");
+        }
+
+        if (this.contientTeleTravail()) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps télétravail.");
+        }
+
+        if (this.contientTravailBureau()) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps au bureau.");
+        }
+
+        if (this.getMinutesJourneeMaladie() != MINUTES_JOURNEE_MALADIE) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, doit contenir " + MINUTES_JOURNEE_MALADIE + " minutes. (Il contient " + this.getMinutesJourneeMaladie() + " minutes.)");
+        }
+
+        if (this.estJourneeFerie()) {
+            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps fériés");
+        }
+    }
+
     public static Jour CreerJour(String nomJour) {
         Jour jour;
 
