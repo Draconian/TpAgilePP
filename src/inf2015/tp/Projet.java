@@ -8,7 +8,6 @@
 package inf2015.tp;
 
 public class Projet {
-
     private static final int PROJET_ID_CONGE_FERIE = 998;
     private static final int PROJET_ID_CONGE_MALADIE = 999;
     private static final int PROJET_ID_TELETRAVAIL = 900;
