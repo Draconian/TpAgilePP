@@ -143,7 +143,7 @@ public class Jour {
         this.analyserJourSpecial("férié");
 
         if (this.estJourMaladie()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est férié, ne doit pas contenir de temps maladies.");
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est férié, ne doit pas contenir de temps maladies.", this.nomJour));
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "férié", this.getMinutesJourneeFeriee(), MINUTES_JOURNEE_FERIEE);
@@ -153,13 +153,13 @@ public class Jour {
         this.analyserJourSpecial("maladie");
 
         if (this.contientTeleTravail()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps télétravail.");
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est maladie, ne doit pas contenir de temps télétravail.", this.nomJour));
         }
 
         if (this.estJourneeFerie()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps fériés");
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est maladie, ne doit pas contenir de temps fériés", this.nomJour));
         }
-        
+
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
     }
 
@@ -175,6 +175,7 @@ public class Jour {
     }
 
     public enum TypeJour {
+
         OUVRABLE,
         WEEKEND
     }
