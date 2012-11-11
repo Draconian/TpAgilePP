@@ -104,19 +104,6 @@ public class Employe {
 
     }
 
-    private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
-
-        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
-            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau.");
-        }
-
-
-        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
-        }
-
-    }
-
     private void analyserFeuilleTempsAdministration() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
             ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
@@ -137,6 +124,18 @@ public class Employe {
 
     private void analyserFeuilleTempsExploitation() {
         analyserFeuilleTempsProductionEtExploitation("exploitation");
+    }
+
+    private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
+
+        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
+            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau.");
+        }
+
+        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
+            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+        }
+
     }
 
     private boolean estFeuilleTempsValide() {
@@ -160,7 +159,7 @@ public class Employe {
 
     private static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
         JSONObject jsonProjet;
-        
+
         Jour jour = Jour.CreerJour(nomJour);
 
         Iterator<JSONObject> it = jsonProjets.iterator();
@@ -171,5 +170,4 @@ public class Employe {
 
         return jour;
     }
-    
 }
