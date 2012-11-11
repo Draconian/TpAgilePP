@@ -146,41 +146,41 @@ public class Jour {
 
     private void analyserJourFerie() {
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas être le weekend.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas être le weekend.");
         }
 
         if (this.contientTravailBureau()) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps au bureau.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps au bureau.");
         }
 
         if (this.estJourMaladie()) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps maladies.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps maladies.");
         }
 
         if (this.getMinutesJourneeFeriee() != MINUTES_JOURNEE_FERIEE) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, doit contenir " + MINUTES_JOURNEE_FERIEE + " minutes. (Il contient " + this.getMinutesJourneeFeriee() + " minutes.)");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, doit contenir " + MINUTES_JOURNEE_FERIEE + " minutes. (Il contient " + this.getMinutesJourneeFeriee() + " minutes.)");
         }
     }
 
     private void analyserJourMaladie() {
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas être le weekend.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas être le weekend.");
         }
 
         if (this.contientTeleTravail()) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps télétravail.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps télétravail.");
         }
 
         if (this.contientTravailBureau()) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps au bureau.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps au bureau.");
         }
 
         if (this.getMinutesJourneeMaladie() != MINUTES_JOURNEE_MALADIE) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, doit contenir " + MINUTES_JOURNEE_MALADIE + " minutes. (Il contient " + this.getMinutesJourneeMaladie() + " minutes.)");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, doit contenir " + MINUTES_JOURNEE_MALADIE + " minutes. (Il contient " + this.getMinutesJourneeMaladie() + " minutes.)");
         }
 
         if (this.estJourneeFerie()) {
-            ErreurLog.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps fériés");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps fériés");
         }
     }
 

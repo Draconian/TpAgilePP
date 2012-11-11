@@ -7,37 +7,14 @@
  */
 package inf2015.tp;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-
 public class TpAgile {
 
     public static void main(String[] args) {
-        Employe employer = new Employe();
-
         try {
-            employer.chargerFeuillerTemps(args[0]);
-            employer.calculerFeuilleTemps();
-            employer.analyserFeuilleTemps();
-
-            ErreurLog.Instance().ecrireErreurDansFichier(args[1]);
-        } catch (IOException | JSONException ex) {
-            ecrireErreurDansFichier(args[1], ex);
-        }
-    }
-
-    private static void ecrireErreurDansFichier(String cheminFichier, Exception exception) {
-        
-        System.out.println("Exception message:" + exception.getMessage());
-        
-        try {
-            ErreurLog.Instance().effacerTout();
-            ErreurLog.Instance().ecrireErreurDansFichier(cheminFichier);
-        } catch (IOException ex) {
-            Logger.getLogger(TpAgile.class.getName()).log(Level.SEVERE, null, ex);
+            Employe employer = new Employe(args[0], args[1]);
+            employer.approuverFeuilleDeTemps();
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Erreur dans les arguments passés au programme: TpAgile [chemin feuille temps] [chemin erreur sortie]");
         }
     }
 }

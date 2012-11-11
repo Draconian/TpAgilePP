@@ -10,9 +10,9 @@ package inf2015.tp;
 import java.io.IOException;
 import net.sf.json.JSONArray;
 
-public class ErreurLog {
+public class ErreurJournal {
 
-    private static ErreurLog ERREUR_LOG_INSTANCE = new ErreurLog();
+    private static ErreurJournal ERREUR_JOURNAL_INSTANCE = new ErreurJournal();
     private JSONArray erreurs = new JSONArray();
 
     public void ajoutErreur(String aErreurMessage) {
@@ -34,7 +34,11 @@ public class ErreurLog {
         this.erreurs.clear();
     }
 
-    public static ErreurLog Instance() {
-        return ERREUR_LOG_INSTANCE;
+    public boolean contientErreur() {
+        return (erreurs.size() > 0);
+    }
+
+    public static ErreurJournal Instance() {
+        return ERREUR_JOURNAL_INSTANCE;
     }
 }
