@@ -42,7 +42,7 @@ public class Employe {
         this.cheminFichierErreur = cheminFichierErreur;
     }
 
-    public boolean approuverFeuilleDeTemps() {
+    public boolean validerFeuilleDeTemps() {
         try {
             this.chargerFeuillerTemps();
             this.calculerFeuilleTemps();
