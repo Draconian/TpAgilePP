@@ -137,7 +137,7 @@ public class Employe {
     }
 
     private boolean estFeuilleTempsValide() {
-        boolean estValide = ErreurJournal.Instance().contientErreur();
+        boolean estValide = !ErreurJournal.Instance().contientErreur();
 
         if (!estValide) {
             this.ecritureDesErreurs();

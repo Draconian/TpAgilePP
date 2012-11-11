@@ -18,7 +18,7 @@ public class TpAgile {
         }   
         
         Employe employer = new Employe(args[0], args[1]);
-        employer.approuverFeuilleDeTemps();
+        boolean feuilleTempsEstValide = employer.approuverFeuilleDeTemps();
+        System.out.printf("Feuille de temps valide: %s\n", feuilleTempsEstValide);
     }
-    
 }
