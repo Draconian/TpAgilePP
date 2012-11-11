@@ -70,7 +70,7 @@ public class Jour {
         return minutes;
     }
 
-     public boolean estJourneeFerie() {
+    public boolean estJourneeFerie() {
         boolean estFerie = false;
 
         for (Projet projet : this.projetsJournee) {
@@ -117,7 +117,7 @@ public class Jour {
 
         return estTravailBureau;
     }
-    
+
     public void ajoutProjet(Projet nouveauProjet) {
         this.projetsJournee.add(nouveauProjet);
     }
@@ -139,49 +139,44 @@ public class Jour {
         return String.format("%s | Type: %s", this.nomJour, this.typeJournee);
     }
 
-    public enum TypeJour {
-        OUVRABLE,
-        WEEKEND
-    }
-
     private void analyserJourFerie() {
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas être le weekend.");
-        }
-
-        if (this.contientTravailBureau()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps au bureau.");
-        }
+        this.analyserJourSpecial("férié");
 
         if (this.estJourMaladie()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, ne doit pas contenir de temps maladies.");
+            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est férié, ne doit pas contenir de temps maladies.");
         }
 
-        if (this.getMinutesJourneeFeriee() != MINUTES_JOURNEE_FERIEE) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est fériée, doit contenir " + MINUTES_JOURNEE_FERIEE + " minutes. (Il contient " + this.getMinutesJourneeFeriee() + " minutes.)");
-        }
+        comparerJourSpecialEtMinutesRequis(this.nomJour, "férié", this.getMinutesJourneeFeriee(), MINUTES_JOURNEE_FERIEE);
     }
 
     private void analyserJourMaladie() {
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas être le weekend.");
-        }
+        this.analyserJourSpecial("maladie");
 
         if (this.contientTeleTravail()) {
             ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps télétravail.");
         }
 
-        if (this.contientTravailBureau()) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps au bureau.");
-        }
-
-        if (this.getMinutesJourneeMaladie() != MINUTES_JOURNEE_MALADIE) {
-            ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, doit contenir " + MINUTES_JOURNEE_MALADIE + " minutes. (Il contient " + this.getMinutesJourneeMaladie() + " minutes.)");
-        }
-
         if (this.estJourneeFerie()) {
             ErreurJournal.Instance().ajoutErreur("Le jour \"" + this.nomJour + "\" qui est maladie, ne doit pas contenir de temps fériés");
         }
+        
+        comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
+    }
+
+    private void analyserJourSpecial(String typeJourSpecial) {
+
+        if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, typeJourSpecial));
+        }
+
+        if (this.contientTravailBureau()) {
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, ne doit pas contenir de temps au bureau.", this.nomJour, typeJourSpecial));
+        }
+    }
+
+    public enum TypeJour {
+        OUVRABLE,
+        WEEKEND
     }
 
     public static Jour CreerJour(String nomJour) {
@@ -194,5 +189,13 @@ public class Jour {
         }
 
         return jour;
+    }
+
+    private static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
+
+        if (jourMinutes != jourMinutesRequis) {
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
+                    nomJour, typeJourSpecial, jourMinutesRequis, jourMinutes));
+        }
     }
 }

@@ -82,7 +82,6 @@ public class Employe {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
             } else {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
-
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
         }
@@ -101,7 +100,6 @@ public class Employe {
         } else if (this.numeroEmployer >= EMPLOYER_EXPLOITATION_ID) {
             this.analyserFeuilleTempsExploitation();
         }
-
     }
 
     private void analyserFeuilleTempsAdministration() {
