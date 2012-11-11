@@ -127,11 +127,11 @@ public class Employe {
     private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
 
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
-            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau.");
+            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau.", typeEmployer));
         }
 
         if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur("L'employé " + typeEmployer + " n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
+            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).", typeEmployer));
         }
 
     }
