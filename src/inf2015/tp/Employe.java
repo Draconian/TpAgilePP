@@ -64,6 +64,18 @@ public class Employe {
         }
     }
 
+    private void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
+        Jour jour;
+
+        if (jsonEmployer.containsKey(nomJour)) {
+            jour = Employe.chargerJourAPartirJSONArray(nomJour, jsonEmployer.getJSONArray(nomJour));
+            jour.analyserJour();
+            this.semaines.add(jour);
+        } else {
+            throw new JSONException("Erreur, il manque un jour dans votre fichier d'entrée.");
+        }
+    }
+
     private void calculerFeuilleTemps() {
         for (Jour jour : this.semaines) {
             if (jour.estJourOuvrable()) {
@@ -72,7 +84,6 @@ public class Employe {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
 
             }
-
             this.minutesTeleTravail += jour.getMinutesTeletravail();
         }
     }
@@ -83,8 +94,6 @@ public class Employe {
             ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
         }
 
-
-
         if (this.numeroEmployer < EMPLOYER_ADMINISTRATION_ID) {
             this.analyserFeuilleTempsAdministration();
         } else if (this.numeroEmployer < EMPLOYER_PRODUCTION_ID) {
@@ -93,18 +102,6 @@ public class Employe {
             this.analyserFeuilleTempsExploitation();
         }
 
-    }
-
-    private void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
-        Jour jour;
-
-        if (jsonEmployer.containsKey(nomJour)) {
-            jour = Employe.obternirJourAPartirJSONArray(nomJour, jsonEmployer.getJSONArray(nomJour));
-            jour.analyserJour();
-            this.semaines.add(jour);
-        } else {
-            throw new JSONException("Erreur, il manque un jour dans votre fichier d'entrée.");
-        }
     }
 
     private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
@@ -161,19 +158,18 @@ public class Employe {
         }
     }
 
-    private static Jour obternirJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
+    private static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
         JSONObject jsonProjet;
-        Iterator<JSONObject> it = jsonProjets.iterator();
-
+        
         Jour jour = Jour.CreerJour(nomJour);
 
-
+        Iterator<JSONObject> it = jsonProjets.iterator();
         while (it.hasNext()) {
             jsonProjet = it.next();
-
             jour.ajoutProjet(new Projet(jsonProjet.getInt("projet"), jsonProjet.getInt("minutes")));
         }
 
         return jour;
     }
+    
 }
