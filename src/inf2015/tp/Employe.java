@@ -33,32 +33,13 @@ public class Employe {
     private int minutesWeekendBureau = 0;
     private ArrayList<Jour> semaines = new ArrayList<>();
 
-    public boolean chargerFeuillerTemps(String cheminFichierInput) throws IOException {
+    public void chargerFeuillerTemps(String cheminFichierInput) throws IOException, JSONException {
         JSONObject jsonEmployer = JsonUtil.chargerJsonObjetDuFichier(cheminFichierInput);
-        boolean fichierValide=true;
-        
-        try{
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
-        
-        }catch(JSONException e){
-                fichierValide=false;
-            
+
+        for (int i = 0; i < JOUR_SEMAINES.length; i++) {
+            this.chargerJourFeuilleTemps(JOUR_SEMAINES[i], jsonEmployer);
         }
-       
-        for (int i = 0; i < JOUR_SEMAINES.length && fichierValide; i++) {
-            if (jsonEmployer.containsKey(JOUR_SEMAINES[i])) {
-                Jour jour = Employe.obternirJourAPartirJSONArray(JOUR_SEMAINES[i], jsonEmployer.getJSONArray(JOUR_SEMAINES[i]));
-                jour.analyserJour();
-                this.semaines.add(jour);
-                fichierValide=true;
-            } else {
-                System.out.println("Erreur, il manque un jour dans votre fichier d'entrée.");
-              
-                i = JOUR_SEMAINES.length; // break;<
-                fichierValide=false;
-            }
-        }
-        return fichierValide;
     }
 
     public void calculerFeuilleTemps() {
@@ -90,6 +71,18 @@ public class Employe {
             this.analyserFeuilleTempsExploitation();
         }
 
+    }
+
+    private void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
+        Jour jour;
+
+        if (jsonEmployer.containsKey(nomJour)) {
+            jour = Employe.obternirJourAPartirJSONArray(nomJour, jsonEmployer.getJSONArray(nomJour));
+            jour.analyserJour();
+            this.semaines.add(jour);
+        } else {
+            throw new JSONException("Erreur, il manque un jour dans votre fichier d'entrée.");
+        }
     }
 
     private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
