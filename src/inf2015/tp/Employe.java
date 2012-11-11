@@ -39,6 +39,7 @@ public class Employe {
         
         try{
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
+        
         }catch(JSONException e){
                 fichierValide=false;
             
