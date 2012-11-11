@@ -39,9 +39,10 @@ public class JsonUtil {
 
         String jsonString = JsonUtil.chargerContenuDuFichier(fichierChemin);
         jsonArray = JSONArray.fromObject(jsonString);
-
+        
         return jsonArray;
     }
+
 
     public static void ecrireJsonObjetDansFichier(JSONObject jsObject, String fichierChemin) throws IOException {
         //toString(5) => 5 espaces pour chaque indentation.
