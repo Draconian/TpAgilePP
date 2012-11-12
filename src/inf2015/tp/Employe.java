@@ -89,9 +89,7 @@ public class Employe {
 
     private void analyserFeuilleTemps() {
 
-        if ((this.minutesJoursOuvrableBureau + this.minutesTeleTravail + this.minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
-            ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
-        }
+       
 
         if (this.numeroEmployer < EMPLOYER_ADMINISTRATION_ID) {
             this.analyserFeuilleTempsAdministration();
@@ -99,6 +97,9 @@ public class Employe {
             this.analyserFeuilleTempsProduction();
         } else if (this.numeroEmployer >= EMPLOYER_EXPLOITATION_ID) {
             this.analyserFeuilleTempsExploitation();
+        }
+         if ((this.minutesJoursOuvrableBureau + this.minutesTeleTravail + this.minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
+            ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
         }
     }
 
@@ -123,6 +124,7 @@ public class Employe {
     private void analyserFeuilleTempsExploitation() {
         analyserFeuilleTempsProductionEtExploitation("exploitation");
     }
+    
 
     private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
 
@@ -155,6 +157,7 @@ public class Employe {
         }
     }
 
+    
     private static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
         JSONObject jsonProjet;
 
