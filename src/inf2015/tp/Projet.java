@@ -8,14 +8,14 @@
 package inf2015.tp;
 
 public class Projet {
-    private static final int PROJET_ID_CONGE_FERIE = 998;
-    private static final int PROJET_ID_CONGE_MALADIE = 999;
-    private static final int PROJET_ID_CONGE_VACANCE=997;
-    private static final int PROJET_ID_TELETRAVAIL = 900;
-    private static final int PROJET_ID_CONGE_PARENTAL = 996;
+    protected static final int PROJET_ID_CONGE_FERIE = 998;
+    protected static final int PROJET_ID_CONGE_MALADIE = 999;
+    protected static final int PROJET_ID_CONGE_VACANCE=997;
+    protected static final int PROJET_ID_TELETRAVAIL = 900;
+    protected static final int PROJET_ID_CONGE_PARENTAL = 996;
     
-    private int minutes = 0;
-    private int projetID = 0;
+    protected int minutes = 0;
+    protected int projetID = 0;
 
     public Projet(int projetID, int minutes) {
         this.minutes = minutes;
