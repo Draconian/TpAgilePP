@@ -22,6 +22,7 @@ public class Employe {
         "jour4", "jour5", "weekend1", "weekend2"};
     private static final int MAX_MINUTES_BUREAU = 43 * 60;
     private static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
+       private static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
     private static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
     private static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
     private static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
@@ -29,6 +30,7 @@ public class Employe {
     private static final int EMPLOYER_ADMINISTRATION_ID = 1000;
     private static final int EMPLOYER_PRODUCTION_ID = 2000;
     private static final int EMPLOYER_EXPLOITATION_ID = 2000;
+     private static final int EMPLOYER_DIRECTION_ID = 5000;
     private int numeroEmployer = 0;
     private int minutesTeleTravail = 0;
     private int minutesJoursOuvrableBureau = 0;
@@ -97,6 +99,9 @@ public class Employe {
             this.analyserFeuilleTempsProduction();
         } else if (this.numeroEmployer >= EMPLOYER_EXPLOITATION_ID) {
             this.analyserFeuilleTempsExploitation();
+        }else if (this.numeroEmployer >=EMPLOYER_DIRECTION_ID){
+            this.analyserFeuilleTempsDirection();
+       
         }
          if ((this.minutesJoursOuvrableBureau + this.minutesTeleTravail + this.minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
             ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
@@ -137,6 +142,12 @@ public class Employe {
         }
 
     }
+    
+     private void analyserFeuilleTempsDirection() {
+             if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
+            ErreurJournal.Instance().ajoutErreur("Le directeur  n'a pas travaillé le nombre d'heures minimal au bureau.");
+        }
+     }
 
     private boolean estFeuilleTempsValide() {
         boolean estValide = !ErreurJournal.Instance().contientErreur();
