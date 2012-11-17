@@ -13,6 +13,7 @@ public class Jour {
 
     private static final int MINUTES_JOURNEE_FERIEE = 480;
     private static final int MINUTES_JOURNEE_MALADIE = 480;
+    private static final int MINUTES_JOURNEES_CONGE = 480;
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
@@ -27,6 +28,17 @@ public class Jour {
 
         for (Projet projet : this.projetsJournee) {
             if (projet.estCongeFerie()) {
+                minutes += projet.getMinutes();
+            }
+        }
+
+        return minutes;
+    }
+        public int getMinutesJourneeVacance() {
+        int minutes = 0;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeVacance()) {
                 minutes += projet.getMinutes();
             }
         }
@@ -68,6 +80,16 @@ public class Jour {
         }
 
         return minutes;
+    }
+      public boolean estJourneeVacances() {
+        boolean estVacances = false;
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeVacance()) {
+                estVacances = true;
+            }
+        }
+
+        return estVacances;
     }
 
     public boolean estJourneeFerie() {
@@ -127,7 +149,10 @@ public class Jour {
             this.analyserJourFerie();
         } else if (this.estJourMaladie()) {
             this.analyserJourMaladie();
+        }else if(this.estJourneeVacances()){
+            this.analyserJourVacances();
         }
+    
     }
 
     public boolean estJourOuvrable() {
@@ -161,6 +186,18 @@ public class Jour {
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
+    }
+    
+       private void analyserJourVacances() {
+        this.analyserJourSpecial("vacance");
+
+     
+
+        if (!this.estJourOuvrable()) {
+            ErreurJournal.Instance().ajoutErreur(String.format("On ne peut pas utiliser un tel congé durant la fin de semaine", this.nomJour));
+        }
+
+        comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), MINUTES_JOURNEES_CONGE);
     }
  
             
