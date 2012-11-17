@@ -11,8 +11,8 @@ import java.util.ArrayList;
 
 public class Jour {
 
-    private static final int MINUTES_JOURNEE_FERIEE = 420;
-    private static final int MINUTES_JOURNEE_MALADIE = 420;
+    private static final int MINUTES_JOURNEE_FERIEE = 480;
+    private static final int MINUTES_JOURNEE_MALADIE = 480;
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
@@ -162,6 +162,8 @@ public class Jour {
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
     }
+ 
+            
 
     private void analyserJourSpecial(String typeJourSpecial) {
 
