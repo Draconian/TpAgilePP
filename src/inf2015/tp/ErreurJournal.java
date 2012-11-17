@@ -13,7 +13,7 @@ import net.sf.json.JSONArray;
 public class ErreurJournal {
 
     private static ErreurJournal ERREUR_JOURNAL_INSTANCE = new ErreurJournal();
-    private JSONArray erreurs = new JSONArray();
+    protected JSONArray erreurs = new JSONArray();
 
     public void ajoutErreur(String aErreurMessage) {
         this.erreurs.add(aErreurMessage);
