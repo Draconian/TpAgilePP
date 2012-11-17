@@ -18,27 +18,27 @@ import net.sf.json.JSONObject;
 
 public class Employe {
 
-    private static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3",
+    protected static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3",
         "jour4", "jour5", "weekend1", "weekend2"};
-    private static final int MAX_MINUTES_PAR_JOUR = 24 * 60;
-    private static final int MAX_MINUTES_BUREAU = 43 * 60;
-    private static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
-    private static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
-    private static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
-    private static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
-    private static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
-    private static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
-    private static final int EMPLOYER_ADMINISTRATION_ID = 1000;
-    private static final int EMPLOYER_PRODUCTION_ID = 2000;
-    private static final int EMPLOYER_EXPLOITATION_ID = 2000;
-    private static final int EMPLOYER_DIRECTION_ID = 5000;
-    private int numeroEmployer = 0;
-    private int minutesTeleTravail = 0;
-    private int minutesJoursOuvrableBureau = 0;
-    private int minutesWeekendBureau = 0;
-    private ArrayList<Jour> semaines = new ArrayList<>();
-    private String cheminFichierFeuilleTemps;
-    private String cheminFichierErreur;
+    protected static final int MAX_MINUTES_PAR_JOUR = 24 * 60;
+    protected static final int MAX_MINUTES_BUREAU = 43 * 60;
+    protected static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
+    protected static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
+    protected static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
+    protected static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
+    protected static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
+    protected static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
+    protected static final int EMPLOYER_ADMINISTRATION_ID = 1000;
+    protected static final int EMPLOYER_PRODUCTION_ID = 2000;
+    protected static final int EMPLOYER_EXPLOITATION_ID = 2000;
+    protected static final int EMPLOYER_DIRECTION_ID = 5000;
+    protected int numeroEmployer = 0;
+    protected int minutesTeleTravail = 0;
+    protected int minutesJoursOuvrableBureau = 0;
+    protected int minutesWeekendBureau = 0;
+    protected ArrayList<Jour> semaines = new ArrayList<>();
+    protected String cheminFichierFeuilleTemps;
+    protected String cheminFichierErreur;
 
     public Employe(String cheminFichierFeuilleTemps, String cheminFichierErreur) {
         this.cheminFichierFeuilleTemps = cheminFichierFeuilleTemps;
@@ -58,7 +58,7 @@ public class Employe {
         return this.estFeuilleTempsValide();
     }
 
-    private void chargerFeuillerTemps() throws IOException, JSONException {
+    protected void chargerFeuillerTemps() throws IOException, JSONException {
         JSONObject jsonEmployer = JsonUtil.chargerJsonObjetDuFichier(this.cheminFichierFeuilleTemps);
         this.numeroEmployer = jsonEmployer.getInt("numero_employe");
 
@@ -67,7 +67,7 @@ public class Employe {
         }
     }
 
-    private void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
+    protected void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
         Jour jour;
 
         if (jsonEmployer.containsKey(nomJour)) {
@@ -79,8 +79,8 @@ public class Employe {
         }
     }
 
-    private void calculerFeuilleTemps() {
-  
+    protected void calculerFeuilleTemps() {
+
         for (Jour jour : this.semaines) {
             if (jour.estJourOuvrable()) {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
@@ -88,12 +88,12 @@ public class Employe {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
-     
+
             analyserJourMaxMinutesParJour();
         }
     }
 
-    private void analyserJourMaxMinutesParJour() {
+    protected void analyserJourMaxMinutesParJour() {
 
         if (this.minutesJoursOuvrableBureau + this.minutesWeekendBureau
                 + this.minutesTeleTravail > MAX_MINUTES_PAR_JOUR) {
@@ -101,10 +101,7 @@ public class Employe {
         }
     }
 
-    private void analyserFeuilleTemps() {
-
-
-
+    protected void analyserFeuilleTemps() {
         if (this.numeroEmployer < EMPLOYER_ADMINISTRATION_ID) {
             this.analyserFeuilleTempsAdministration();
         } else if (this.numeroEmployer < EMPLOYER_PRODUCTION_ID) {
@@ -120,7 +117,7 @@ public class Employe {
         }
     }
 
-    private void analyserFeuilleTempsAdministration() {
+    protected void analyserFeuilleTempsAdministration() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
             ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
@@ -134,15 +131,15 @@ public class Employe {
         }
     }
 
-    private void analyserFeuilleTempsProduction() {
+    protected void analyserFeuilleTempsProduction() {
         analyserFeuilleTempsProductionEtExploitation("production");
     }
 
-    private void analyserFeuilleTempsExploitation() {
+    protected void analyserFeuilleTempsExploitation() {
         analyserFeuilleTempsProductionEtExploitation("exploitation");
     }
 
-    private void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
+    protected void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
 
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
             ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau.", typeEmployer));
@@ -154,13 +151,13 @@ public class Employe {
 
     }
 
-    private void analyserFeuilleTempsDirection() {
+    protected void analyserFeuilleTempsDirection() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
             ErreurJournal.Instance().ajoutErreur("Le directeur  n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
     }
 
-    private boolean estFeuilleTempsValide() {
+    protected boolean estFeuilleTempsValide() {
         boolean estValide = !ErreurJournal.Instance().contientErreur();
 
         if (!estValide) {
@@ -170,7 +167,7 @@ public class Employe {
         return estValide;
     }
 
-    private void ecritureDesErreurs() {
+    protected void ecritureDesErreurs() {
         try {
             ErreurJournal.Instance().ecrireErreurDansFichier(this.cheminFichierErreur);
         } catch (IOException ex) {
@@ -179,7 +176,7 @@ public class Employe {
         }
     }
 
-    private static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
+    protected static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
         JSONObject jsonProjet;
 
         Jour jour = Jour.CreerJour(nomJour);
