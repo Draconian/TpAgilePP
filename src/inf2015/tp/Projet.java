@@ -12,6 +12,8 @@ public class Projet {
     private static final int PROJET_ID_CONGE_MALADIE = 999;
     private static final int PROJET_ID_CONGE_VACANCE=997;
     private static final int PROJET_ID_TELETRAVAIL = 900;
+    private static final int PROJET_ID_CONGE_PARENTAL = 996;
+    
     private int minutes = 0;
     private int projetID = 0;
 
