@@ -18,7 +18,7 @@ public class Jour {
     private TypeJour typeJournee;
     private String nomJour;
 
-    private Jour(String nomJour, TypeJour typeJournee) {
+    protected Jour(String nomJour, TypeJour typeJournee) {
         this.typeJournee = typeJournee;
         this.nomJour = nomJour;
     }
@@ -164,7 +164,7 @@ public class Jour {
         return String.format("%s | Type: %s", this.nomJour, this.typeJournee);
     }
 
-    private void analyserJourFerie() {
+    protected void analyserJourFerie() {
         this.analyserJourSpecial("férié");
 
         if (this.estJourMaladie()) {
@@ -174,7 +174,7 @@ public class Jour {
         comparerJourSpecialEtMinutesRequis(this.nomJour, "férié", this.getMinutesJourneeFeriee(), MINUTES_JOURNEE_FERIEE);
     }
 
-    private void analyserJourMaladie() {
+    protected void analyserJourMaladie() {
         this.analyserJourSpecial("maladie");
 
         if (this.contientTeleTravail()) {
@@ -188,7 +188,7 @@ public class Jour {
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
     }
     
-       private void analyserJourVacances() {
+       protected void analyserJourVacances() {
         this.analyserJourSpecial("vacance");
 
      
@@ -202,7 +202,7 @@ public class Jour {
  
             
 
-    private void analyserJourSpecial(String typeJourSpecial) {
+    protected void analyserJourSpecial(String typeJourSpecial) {
 
         if (this.typeJournee == TypeJour.WEEKEND) {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, typeJourSpecial));
@@ -231,7 +231,7 @@ public class Jour {
         return jour;
     }
 
-    private static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
+    protected static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
 
         if (jourMinutes != jourMinutesRequis) {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
