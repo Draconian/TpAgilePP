@@ -10,6 +10,7 @@ package inf2015.tp;
 public class Projet {
     private static final int PROJET_ID_CONGE_FERIE = 998;
     private static final int PROJET_ID_CONGE_MALADIE = 999;
+    private static final int PROJET_ID_CONGE_VACANCE=997;
     private static final int PROJET_ID_TELETRAVAIL = 900;
     private int minutes = 0;
     private int projetID = 0;
@@ -42,6 +43,9 @@ public class Projet {
     public boolean estCongeFerie()
     {
         return (this.projetID == PROJET_ID_CONGE_FERIE);
+    }
+        public boolean estCongeVacance(){
+        return (this.projetID ==  PROJET_ID_CONGE_VACANCE);
     }
 
     public boolean estTravailBureau() {
