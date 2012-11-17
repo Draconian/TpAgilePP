@@ -1,5 +1,5 @@
 /**
- * ErreurLog - INF2015 - TP Agile - EQUIPE 17
+ * ErreurJournal - INF2015 - TP Agile - EQUIPE 17
  *
  * @author Francois Dufault
  * @author Lyes Tamazouzt
