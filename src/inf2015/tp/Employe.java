@@ -110,8 +110,10 @@ public class Employe {
             this.analyserFeuilleTempsExploitation();
         } else if (this.numeroEmployer >= EMPLOYER_DIRECTION_ID) {
             this.analyserFeuilleTempsDirection();
-
         }
+
+        this.verifierCongeParental();
+        
         if ((this.minutesJoursOuvrableBureau + this.minutesTeleTravail + this.minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
             ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
         }
@@ -167,6 +169,18 @@ public class Employe {
         return estValide;
     }
 
+    protected void verifierCongeParental() {
+        boolean estCongeParental = false;
+
+        for (Jour jour : this.semaines) {
+            if (estCongeParental && jour.estJourneeCongeParental()) {
+                ErreurJournal.Instance().ajoutErreur("Une semaine ne peut contenir plus qu'un congé parental.");
+            } else if (jour.estJourneeCongeParental()) {
+                estCongeParental = true;
+            }
+        }
+    }
+    
     protected void ecritureDesErreurs() {
         try {
             ErreurJournal.Instance().ecrireErreurDansFichier(this.cheminFichierErreur);
@@ -189,4 +203,6 @@ public class Employe {
 
         return jour;
     }
+
+    
 }

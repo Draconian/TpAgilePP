@@ -8,12 +8,12 @@
 package inf2015.tp;
 
 public class Projet {
+
     protected static final int PROJET_ID_CONGE_FERIE = 998;
     protected static final int PROJET_ID_CONGE_MALADIE = 999;
-    protected static final int PROJET_ID_CONGE_VACANCE=997;
+    protected static final int PROJET_ID_CONGE_VACANCE = 997;
     protected static final int PROJET_ID_TELETRAVAIL = 900;
     protected static final int PROJET_ID_CONGE_PARENTAL = 996;
-    
     protected int minutes = 0;
     protected int projetID = 0;
 
@@ -29,25 +29,28 @@ public class Projet {
     public int getProjetID() {
         return this.projetID;
     }
-    
-    public boolean estTeleTravail()
-    {
-        return (this.projetID >= PROJET_ID_TELETRAVAIL && 
-                this.projetID != PROJET_ID_CONGE_MALADIE &&
-                this.projetID != PROJET_ID_CONGE_FERIE);
+
+    public boolean estTeleTravail() {
+        return (this.projetID >= PROJET_ID_TELETRAVAIL
+                && this.projetID != PROJET_ID_CONGE_MALADIE
+                && this.projetID != PROJET_ID_CONGE_FERIE
+                && this.projetID != PROJET_ID_CONGE_PARENTAL);
     }
-    
-    public boolean estCongeMaladie()
-    {
+
+    public boolean estCongeMaladie() {
         return (this.projetID == PROJET_ID_CONGE_MALADIE);
     }
-    
-    public boolean estCongeFerie()
-    {
+
+    public boolean estCongeFerie() {
         return (this.projetID == PROJET_ID_CONGE_FERIE);
     }
-        public boolean estCongeVacance(){
-        return (this.projetID ==  PROJET_ID_CONGE_VACANCE);
+
+    public boolean estCongeVacance() {
+        return (this.projetID == PROJET_ID_CONGE_VACANCE);
+    }
+
+    public boolean estCongeParental() {
+        return (this.projetID == PROJET_ID_CONGE_PARENTAL);
     }
 
     public boolean estTravailBureau() {

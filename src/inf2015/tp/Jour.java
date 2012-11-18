@@ -14,6 +14,7 @@ public class Jour {
     private static final int MINUTES_JOURNEE_FERIEE = 480;
     private static final int MINUTES_JOURNEE_MALADIE = 480;
     private static final int MINUTES_JOURNEES_CONGE = 480;
+    private static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
@@ -34,7 +35,8 @@ public class Jour {
 
         return minutes;
     }
-        public int getMinutesJourneeVacance() {
+
+    public int getMinutesJourneeVacance() {
         int minutes = 0;
 
         for (Projet projet : this.projetsJournee) {
@@ -81,7 +83,20 @@ public class Jour {
 
         return minutes;
     }
-      public boolean estJourneeVacances() {
+
+    public int getMinutesJourneeCongeParental() {
+        int minutes = 0;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeParental()) {
+                minutes = minutes + projet.getMinutes();
+            }
+        }
+
+        return minutes;
+    }
+
+    public boolean estJourneeVacances() {
         boolean estVacances = false;
         for (Projet projet : this.projetsJournee) {
             if (projet.estCongeVacance()) {
@@ -116,6 +131,18 @@ public class Jour {
         return estMaladie;
     }
 
+    public boolean estJourneeCongeParental() {
+        boolean estCongeParental = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.estCongeParental()) {
+                estCongeParental = true;
+            }
+        }
+
+        return estCongeParental;
+    }
+
     public boolean contientTeleTravail() {
         boolean estTeleTravail = false;
 
@@ -140,6 +167,18 @@ public class Jour {
         return estTravailBureau;
     }
 
+    public boolean contientAutresProjetsQue(int projetID) {
+        boolean contientAutreProjet = false;
+
+        for (Projet projet : this.projetsJournee) {
+            if (projet.getProjetID() != projetID) {
+                contientAutreProjet = true;
+            }
+        }
+
+        return contientAutreProjet;
+    }
+
     public void ajoutProjet(Projet nouveauProjet) {
         this.projetsJournee.add(nouveauProjet);
     }
@@ -149,10 +188,10 @@ public class Jour {
             this.analyserJourFerie();
         } else if (this.estJourMaladie()) {
             this.analyserJourMaladie();
-        }else if(this.estJourneeVacances()){
+        } else if (this.estJourneeVacances()) {
             this.analyserJourVacances();
         }
-    
+
     }
 
     public boolean estJourOuvrable() {
@@ -187,11 +226,9 @@ public class Jour {
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), MINUTES_JOURNEE_MALADIE);
     }
-    
-       protected void analyserJourVacances() {
-        this.analyserJourSpecial("vacance");
 
-     
+    protected void analyserJourVacances() {
+        this.analyserJourSpecial("vacance");
 
         if (!this.estJourOuvrable()) {
             ErreurJournal.Instance().ajoutErreur(String.format("On ne peut pas utiliser un tel congé durant la fin de semaine", this.nomJour));
@@ -199,8 +236,16 @@ public class Jour {
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), MINUTES_JOURNEES_CONGE);
     }
- 
-            
+
+    protected void analyserJourParental() {
+        this.analyserJourSpecial("congé parental");
+
+        if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
+            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
+        }
+
+        comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
+    }
 
     protected void analyserJourSpecial(String typeJourSpecial) {
 
@@ -214,7 +259,6 @@ public class Jour {
     }
 
     public enum TypeJour {
-
         OUVRABLE,
         WEEKEND
     }
