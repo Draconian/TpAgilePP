@@ -14,20 +14,66 @@ import static org.junit.Assert.*;
  */
 public class EmployeTest {
 
+
+
     @Test
     public void testSemaineContientUnSeulCongeParental() {
         Employe employe = new Employe(null, null);
         Jour jour1 = new Jour("jour1", TypeJour.OUVRABLE);
         Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
-
         jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 400));
         jour2.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 300));
-
         employe.semaines.add(jour1);
         employe.semaines.add(jour2);
-
         employe.verifierCongeParental();
-
         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
+    }
+
+    @Test
+    public void testerTempsEmployerDirectionAvecErreur() {
+       Jour jour1 = new Jour("jour1", TypeJour.OUVRABLE);
+       Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+    
+        Employe employe = new Employe(null, null);
+        jour1.ajoutProjet(new Projet(100, 500));
+        jour2.ajoutProjet(new Projet(101, 500));
+        employe.semaines.add(jour1);
+        employe.semaines.add(jour2);
+        employe.calculerFeuilleTemps();
+        employe.analyserFeuilleTempsDirection();
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
+    }
+
+    @Test
+    public void testerTempsEmployerDirectionSansErreur() {
+        Jour jour1 = new Jour("jour1", TypeJour.OUVRABLE);
+        Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+
+        Employe employe = new Employe(null, null);
+        jour1.ajoutProjet(new Projet(100, 1440));
+        jour2.ajoutProjet(new Projet(100, 1440));    
+        employe.semaines.add(jour1);
+        employe.semaines.add(jour2);
+        employe.calculerFeuilleTemps();
+        employe.analyserFeuilleTempsDirection();
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 0);
+  
+    }
+      @Test
+    public void plusDe24HJourneeNormale() {
+        Jour jour1 = new Jour("jour1", TypeJour.OUVRABLE);
+        Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+        Employe employe = new Employe(null, null);
+        jour1.ajoutProjet(new Projet(100, 1450));
+        jour2.ajoutProjet(new Projet(110,1440));
+        employe.semaines.add(jour1);
+        employe.semaines.add(jour2);
+        employe.numeroEmployer=5500;
+        employe.calculerFeuilleTemps();
+        employe.analyserFeuilleTemps();
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
     }
 }
