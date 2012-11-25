@@ -144,7 +144,7 @@ public class Employe {
 
     protected void analyserFeuilleTempsDirection() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
-            ErreurJournal.Instance().ajoutErreur("Le directeur  n'a pas travaillé le nombre d'heures minimal au bureau.");
+            ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
         
         
