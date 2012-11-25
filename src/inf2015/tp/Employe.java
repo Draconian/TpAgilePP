@@ -22,7 +22,8 @@ public class Employe {
         "jour4", "jour5", "weekend1", "weekend2"};
     protected static final int MAX_MINUTES_EXPLOITATION=2370; //39.5h 
     protected static final int MAX_MINUTES_PAR_JOUR = 24 * 60;
-    protected static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
+    protected static final int MIN_MINUTES_BUREAU_ADMIN = 2250; //37.5h
+    protected static final int MAX_MINUTES_BUREAU_ADMIN = 2490; //41.5h
     protected static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
     protected static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
     protected static final int MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE = 38 * 60;
@@ -113,12 +114,12 @@ public class Employe {
     protected void analyserFeuilleTempsAdministration() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
             ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau.");
+        }else if((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) > MAX_MINUTES_BUREAU_ADMIN) {
+             ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures maximum au bureau.");
         }
-
         if ((this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN_OUVRABLE) {
             ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).");
         }
-
         if (this.minutesTeleTravail > MAX_MINUTES_TELETRAV_ADMIN) {
             ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures de télétravail.");
         }
@@ -128,7 +129,7 @@ public class Employe {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE) {
             ErreurJournal.Instance().ajoutErreur("L'employé de dévelopement n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
-
+        
         if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE) {
             ErreurJournal.Instance().ajoutErreur(String.format("L'employé de développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable)."));
         }
