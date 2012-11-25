@@ -7,6 +7,7 @@
  */
 package inf2015.tp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Jour {
@@ -15,9 +16,13 @@ public class Jour {
     private static final int MINUTES_JOURNEE_MALADIE = 480;
     private static final int MINUTES_JOURNEES_CONGE = 480;
     private static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
+    private static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
+    private static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
+    private static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
+    private int totaleMinute;
 
     protected Jour(String nomJour, TypeJour typeJournee) {
         this.typeJournee = typeJournee;
@@ -79,6 +84,7 @@ public class Jour {
             if (projet.estTravailBureau() || projet.estCongeFerie()) {
                 minutes = minutes + projet.getMinutes();
             }
+
         }
 
         return minutes;
@@ -86,7 +92,6 @@ public class Jour {
 
     public int getMinutesJourneeCongeParental() {
         int minutes = 0;
-
         for (Projet projet : this.projetsJournee) {
             if (projet.estCongeParental()) {
                 minutes = minutes + projet.getMinutes();
@@ -183,15 +188,16 @@ public class Jour {
         this.projetsJournee.add(nouveauProjet);
     }
 
-    public void analyserJour() {
-        if (this.estJourneeFerie()) {
+    public void analyserJour() throws IOException  {
+        if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
+            ErreurJournal.Instance().ajoutErreur("Une journée de vacance ne peut être combiné avec aucun autre congé");
+        } else if (this.estJourneeFerie()) {
             this.analyserJourFerie();
         } else if (this.estJourMaladie()) {
             this.analyserJourMaladie();
         } else if (this.estJourneeVacances()) {
             this.analyserJourVacances();
         }
-
     }
 
     public boolean estJourOuvrable() {
@@ -230,8 +236,13 @@ public class Jour {
     protected void analyserJourVacances() {
         this.analyserJourSpecial("vacance");
 
-        if (!this.estJourOuvrable()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("On ne peut pas utiliser un tel congé durant la fin de semaine", this.nomJour));
+        System.out.print("Est journee vacances " + this.estJourneeVacances());
+        System.out.print("Est congee ferie  " + this.estJourneeFerie());
+
+        if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
+
+            ErreurJournal.Instance().ajoutErreur("\nLe jour " + this.nomJour + " qui est une journée de vacances , peut seulement avoir du temps au bureau ou en télétravail");
+
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), MINUTES_JOURNEES_CONGE);
@@ -241,7 +252,7 @@ public class Jour {
         this.analyserJourSpecial("congé parental");
 
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
@@ -250,15 +261,16 @@ public class Jour {
     protected void analyserJourSpecial(String typeJourSpecial) {
 
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, typeJourSpecial));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, typeJourSpecial));
         }
 
         if (this.contientTravailBureau()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, ne doit pas contenir de temps au bureau.", this.nomJour, typeJourSpecial));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s, ne doit pas contenir de temps au bureau.", this.nomJour, typeJourSpecial));
         }
     }
 
     public enum TypeJour {
+
         OUVRABLE,
         WEEKEND
     }
