@@ -20,13 +20,13 @@ public class Employe {
 
     protected static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3",
         "jour4", "jour5", "weekend1", "weekend2"};
+    protected static final int MAX_MINUTES_EXPLOITATION=2370; //39.5h 
     protected static final int MAX_MINUTES_PAR_JOUR = 24 * 60;
-    protected static final int MAX_MINUTES_BUREAU = 43 * 60;
     protected static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
     protected static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
-    protected static final int MIN_MINUTES_BUREAU_NORMAL = 38 * 60;
     protected static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
-    protected static final int MIN_MINUTES_BUREAU_NORMAL_OUVRABLE = 6 * 60;
+    protected static final int MIN_MINUTES_BUREAU_PRODUCTION_OUVRABLE = 38 * 60;
+    protected static final int MIN_MINUTES_BUREAU_PAR_JOUR_PRODUCTION_OUVRABLE = 6* 60;
     protected static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
     protected static final int EMPLOYER_ADMINISTRATION_ID = 1000;
     protected static final int EMPLOYER_PRODUCTION_ID = 2000;
@@ -125,24 +125,23 @@ public class Employe {
     }
 
     protected void analyserFeuilleTempsProduction() {
-        analyserFeuilleTempsProductionEtExploitation("production");
+        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_PRODUCTION_OUVRABLE) {
+            ErreurJournal.Instance().ajoutErreur("L'employé de production n'a pas travaillé le nombre d'heures minimal au bureau.");
+        }
+
+        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_PAR_JOUR_PRODUCTION_OUVRABLE) {
+            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable)."));
+        }
+
     }
+
 
     protected void analyserFeuilleTempsExploitation() {
-        analyserFeuilleTempsProductionEtExploitation("exploitation");
+             if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MAX_MINUTES_EXPLOITATION) {
+                ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas fais fait le nombre d'heure minimum!");
+             }
     }
 
-    protected void analyserFeuilleTempsProductionEtExploitation(String typeEmployer) {
-
-        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_NORMAL) {
-            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau.", typeEmployer));
-        }
-
-        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_NORMAL_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).", typeEmployer));
-        }
-
-    }
 
     protected void analyserFeuilleTempsDirection() {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
