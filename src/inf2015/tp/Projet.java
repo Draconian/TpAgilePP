@@ -34,7 +34,8 @@ public class Projet {
         return (this.projetID >= PROJET_ID_TELETRAVAIL
                 && this.projetID != PROJET_ID_CONGE_MALADIE
                 && this.projetID != PROJET_ID_CONGE_FERIE
-                && this.projetID != PROJET_ID_CONGE_PARENTAL);
+                && this.projetID != PROJET_ID_CONGE_PARENTAL
+                && this.projetID != PROJET_ID_CONGE_VACANCE);
     }
 
     public boolean estCongeMaladie() {
