@@ -46,7 +46,6 @@ public class ErreurJournalTest {
     @Test
     public void testContientPasErreur() {
         ErreurJournal erreurJournal = new ErreurJournal();
-
         assertFalse(erreurJournal.contientErreur());
     }
 }

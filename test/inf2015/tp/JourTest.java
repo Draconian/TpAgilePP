@@ -117,15 +117,11 @@ public class JourTest {
     @Test
     public void testAnalyserCongeVacanceValide() {
         int minutesProjet = 480;
-
         Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
         Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-
         jour.ajoutProjet(p1);
-
         jour.analyserJourVacances();
         int nbErreur = ErreurJournal.Instance().erreurs.size();
-
         assertEquals(nbErreur, 0);
     }
 

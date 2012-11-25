@@ -67,13 +67,110 @@ public class EmployeTest {
         Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
         Employe employe = new Employe(null, null);
         jour1.ajoutProjet(new Projet(100, 1450));
-        jour2.ajoutProjet(new Projet(110,1440));
+        jour2.ajoutProjet(new Projet(110,1439));
         employe.semaines.add(jour1);
         employe.semaines.add(jour2);
-        employe.numeroEmployer=5500;
         employe.calculerFeuilleTemps();
-        employe.analyserFeuilleTemps();
+        employe.analyserFeuilleTempsDirection();
         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
         ErreurJournal.Instance().effacerTout();
     }
+      @Test
+      public void testplusDe24hMoinsDe32HJourneeFerie(){
+          int minutes=480;
+          Employe employe = new Employe(null,null);
+          Jour jour1 = new Jour("jour1",TypeJour.OUVRABLE);
+          jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_FERIE,minutes));
+          jour1.ajoutProjet(new Projet(100,1439));
+          jour1.verifierMinutes(jour1.getMinutesBureau());
+          assertEquals(ErreurJournal.Instance().erreurs.size(), 0);
+          ErreurJournal.Instance().effacerTout();
+      }
+            @Test
+          public void testPlusDe32hJourneeFerie(){
+          int minutes=480;
+          Jour jour1 = new Jour("jour1",TypeJour.OUVRABLE);
+          jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_FERIE,minutes));
+          jour1.ajoutProjet(new Projet(100,1450));
+          jour1.verifierMinutes(jour1.getMinutesBureau());
+          assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+          ErreurJournal.Instance().effacerTout();
+      }
+        @Test
+        public void testExploitationNbHeureMinimum(){
+            Employe employe = new Employe(null,null);
+            Jour jour1 = new Jour("jour1" ,TypeJour.OUVRABLE);
+            Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+            jour1.ajoutProjet(new Projet(10,1200));
+            jour2.ajoutProjet(new Projet(10,1200));
+            employe.semaines.add(jour1);
+            employe.semaines.add(jour2);
+            employe.calculerFeuilleTemps();
+            employe.analyserFeuilleTempsExploitation();
+            assertEquals(ErreurJournal.Instance().erreurs.size(), 0);
+      
+        }
+         
+           @Test
+        public void testExploitationMoinsHeureQueMinimum(){
+            Employe employe = new Employe(null,null);
+            Jour jour1 = new Jour("jour1" ,TypeJour.OUVRABLE);
+            Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+            jour1.ajoutProjet(new Projet(10,1000));
+            jour2.ajoutProjet(new Projet(10,1000));
+            employe.semaines.add(jour1);
+            employe.semaines.add(jour2);
+            employe.calculerFeuilleTemps();
+            employe.analyserFeuilleTempsExploitation();
+            assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+            ErreurJournal.Instance().effacerTout();
+        }
+   
+              
+           @Test
+        public void testAdministrationMoinsHeureQueMinimum(){
+            Employe employe = new Employe(null,null);
+            Jour jour1 = new Jour("jour1" ,TypeJour.OUVRABLE);
+            Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+            jour1.ajoutProjet(new Projet(10,1000));
+            jour2.ajoutProjet(new Projet(10,1000));
+            employe.semaines.add(jour1);
+            employe.semaines.add(jour2);
+            employe.calculerFeuilleTemps();
+            employe.analyserFeuilleTempsAdministration();
+            assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+            ErreurJournal.Instance().effacerTout();
+        }
+           
+          @Test
+        public void testAdministrationPlusHeureQueMaximum(){
+            Employe employe = new Employe(null,null);
+            Jour jour1 = new Jour("jour1" ,TypeJour.OUVRABLE);
+            Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+            jour1.ajoutProjet(new Projet(10,1246));
+            jour2.ajoutProjet(new Projet(10,1245));
+            employe.semaines.add(jour1);
+            employe.semaines.add(jour2);
+            employe.calculerFeuilleTemps();
+            employe.analyserFeuilleTempsAdministration();
+            assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+            ErreurJournal.Instance().effacerTout();
+        }
+                 @Test
+        public void testAdministrationFeuilleValide(){
+            Employe employe = new Employe(null,null);
+            Jour jour1 = new Jour("jour1" ,TypeJour.OUVRABLE);
+            Jour jour2 = new Jour("jour2", TypeJour.OUVRABLE);
+            jour1.ajoutProjet(new Projet(10,1244));
+            jour2.ajoutProjet(new Projet(10,1244));
+            employe.semaines.add(jour1);
+            employe.semaines.add(jour2);
+            employe.calculerFeuilleTemps();
+            employe.analyserFeuilleTempsAdministration();
+            assertEquals(ErreurJournal.Instance().erreurs.size(), 0);
+            ErreurJournal.Instance().effacerTout();
+        }
+   
+            
+   
 }
