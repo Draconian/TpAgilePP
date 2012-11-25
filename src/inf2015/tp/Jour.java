@@ -188,15 +188,14 @@ public class Jour {
         this.projetsJournee.add(nouveauProjet);
     }
 
-    public void analyserJour() throws IOException  {
-        if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
-            ErreurJournal.Instance().ajoutErreur("Une journée de vacance ne peut être combiné avec aucun autre congé");
+    public void analyserJour() throws IOException {
+
+        if (this.estJourneeVacances()) {
+            this.analyserJourVacances();
         } else if (this.estJourneeFerie()) {
             this.analyserJourFerie();
         } else if (this.estJourMaladie()) {
             this.analyserJourMaladie();
-        } else if (this.estJourneeVacances()) {
-            this.analyserJourVacances();
         }
     }
 
@@ -235,15 +234,10 @@ public class Jour {
 
     protected void analyserJourVacances() {
         this.analyserJourSpecial("vacance");
-
-        System.out.print("Est journee vacances " + this.estJourneeVacances());
-        System.out.print("Est congee ferie  " + this.estJourneeFerie());
-
         if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
-
-            ErreurJournal.Instance().ajoutErreur("\nLe jour " + this.nomJour + " qui est une journée de vacances , peut seulement avoir du temps au bureau ou en télétravail");
-
+            ErreurJournal.Instance().ajoutErreur("Une journée de vacance ne peut être combiné avec aucun autre congé");
         }
+
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), MINUTES_JOURNEES_CONGE);
     }
