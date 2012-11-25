@@ -30,7 +30,7 @@ public class Employe {
     protected static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
     protected static final int EMPLOYER_ADMINISTRATION_ID = 1000;
     protected static final int EMPLOYER_PRODUCTION_ID = 2000;
-    protected static final int EMPLOYER_EXPLOITATION_ID = 2000;
+    protected static final int EMPLOYER_EXPLOITATION_ID = 5000;
     protected static final int EMPLOYER_DIRECTION_ID = 5000;
     protected int numeroEmployer = 0;
     protected int minutesTeleTravail = 0;
@@ -67,14 +67,14 @@ public class Employe {
         }
     }
 
-    protected void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException {
+    protected void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException, IOException {
         Jour jour;
 
         if (jsonEmployer.containsKey(nomJour)) {
             jour = Employe.chargerJourAPartirJSONArray(nomJour, jsonEmployer.getJSONArray(nomJour));
             jour.analyserJour();
             this.semaines.add(jour);
-        } else {
+        } else  {
             throw new JSONException("Erreur, il manque un jour dans votre fichier d'entrée.");
         }
     }
@@ -88,16 +88,7 @@ public class Employe {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
-
-            analyserJourMaxMinutesParJour();
-        }
-    }
-
-    protected void analyserJourMaxMinutesParJour() {
-
-        if (this.minutesJoursOuvrableBureau + this.minutesWeekendBureau
-                + this.minutesTeleTravail > MAX_MINUTES_PAR_JOUR) {
-            ErreurJournal.Instance().ajoutErreur("L'employé a fait plus de 24h dans sa journée.");
+         
         }
     }
 
@@ -106,7 +97,7 @@ public class Employe {
             this.analyserFeuilleTempsAdministration();
         } else if (this.numeroEmployer < EMPLOYER_PRODUCTION_ID) {
             this.analyserFeuilleTempsProduction();
-        } else if (this.numeroEmployer >= EMPLOYER_EXPLOITATION_ID) {
+        } else if (this.numeroEmployer < EMPLOYER_EXPLOITATION_ID) {
             this.analyserFeuilleTempsExploitation();
         } else if (this.numeroEmployer >= EMPLOYER_DIRECTION_ID) {
             this.analyserFeuilleTempsDirection();
@@ -114,9 +105,7 @@ public class Employe {
 
         this.verifierCongeParental();
         
-        if ((this.minutesJoursOuvrableBureau + this.minutesTeleTravail + this.minutesWeekendBureau) > MAX_MINUTES_BUREAU) {
-            ErreurJournal.Instance().ajoutErreur("L'employé n'a pas travaillé le nombre d'heures minimal.");
-        }
+
     }
 
     protected void analyserFeuilleTempsAdministration() {
@@ -157,7 +146,9 @@ public class Employe {
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
             ErreurJournal.Instance().ajoutErreur("Le directeur  n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
-    }
+        
+        
+    }  
 
     protected boolean estFeuilleTempsValide() {
         boolean estValide = !ErreurJournal.Instance().contientErreur();
