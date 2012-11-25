@@ -269,7 +269,6 @@ public class Jour {
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
         }
-        System.out.println("Ceci est un jour parental ou pas serieux");
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
     }
