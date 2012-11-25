@@ -83,6 +83,7 @@ public class Employe {
     protected void calculerFeuilleTemps() {
      int minutesJournee;
         for (Jour jour : this.semaines) {
+          
             minutesJournee= jour.getMinutesParJour();
             jour.verifierMinutes(minutesJournee);
             if (jour.estJourOuvrable()) {
@@ -93,6 +94,7 @@ public class Employe {
             this.minutesTeleTravail += jour.getMinutesTeletravail();
          
         }
+     
     }
 
     protected void analyserFeuilleTemps() {
@@ -145,8 +147,9 @@ public class Employe {
 
 
     protected void analyserFeuilleTempsDirection() {
-        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
-            ErreurJournal.Instance().ajoutErreur("Le directeur  n'a pas travaillé le nombre d'heures minimal au bureau.");
+       
+        if ( (this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR ) {
+            ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heure minimum. (" +  MIN_MINUTES_BUREAU_DIRECTEUR + ")");
         }
         
         
