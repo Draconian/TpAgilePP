@@ -21,8 +21,7 @@ public class Jour {
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
-    private int totaleMinute;
-
+    
     protected Jour(String nomJour, TypeJour typeJournee) {
         this.typeJournee = typeJournee;
         this.nomJour = nomJour;
@@ -229,7 +228,9 @@ public class Jour {
     }
 
     protected void analyserJourFerie() {
-        this.analyserJourSpecial("férié");
+        if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "ferie"));
+        }
 
         if (this.estJourMaladie()) {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est férié, ne doit pas contenir de temps maladies.", this.nomJour));
@@ -253,7 +254,10 @@ public class Jour {
     }
 
     protected void analyserJourVacances() {
-        this.analyserJourSpecial("vacance");
+         if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
+        }
+
         if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
             ErreurJournal.Instance().ajoutErreur("Une journée de vacance ne peut être combiné avec aucun autre congé");
         }
