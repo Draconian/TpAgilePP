@@ -208,9 +208,11 @@ public class Jour {
     }
 
     public void analyserJour() throws IOException {
-
+     
         if (this.estJourneeVacances()) {
             this.analyserJourVacances();
+        }else if (this.estJourneeCongeParental()){
+            this.analyserJourParental();
         } else if (this.estJourneeFerie()) {
             this.analyserJourFerie();
         } else if (this.estJourMaladie()) {
@@ -267,6 +269,7 @@ public class Jour {
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
         }
+        System.out.println("Ceci est un jour parental ou pas serieux");
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
     }
@@ -301,7 +304,11 @@ public class Jour {
     }
 
     protected static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
-
+        if(nomJour=="jour1"){
+            System.out.println(jourMinutes);
+            System.out.print(jourMinutesRequis);
+            System.out.println("----------------------");
+        }
         if (jourMinutes != jourMinutesRequis) {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
                     nomJour, typeJourSpecial, jourMinutesRequis, jourMinutes));
