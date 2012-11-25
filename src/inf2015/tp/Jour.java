@@ -41,6 +41,26 @@ public class Jour {
         return minutes;
     }
 
+    public void verifierMinutes(int minutesJournee) {
+        if (this.estJourneeVacances() || this.estJourneeFerie()) {
+            if (minutesJournee > MAX_MINUTES_PAR_JOURS_AVEC_CONGE) {
+                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS_AVEC_CONGE + ")");
+            }
+        } else {
+            if (minutesJournee > MAX_MINUTES_PAR_JOURS) {
+                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS+ ")");
+            }
+        }
+    }
+
+    public int getMinutesParJour() {
+        int minutes = 0;
+        for (Projet projet : this.projetsJournee) {
+            minutes += projet.getMinutes();
+        }
+        return minutes;
+    }
+
     public int getMinutesJourneeVacance() {
         int minutes = 0;
 
@@ -81,12 +101,11 @@ public class Jour {
         int minutes = 0;
 
         for (Projet projet : this.projetsJournee) {
-            if (projet.estTravailBureau() || projet.estCongeFerie()) {
+            if (projet.estTravailBureau() || projet.estCongeFerie() || projet.estCongeVacance()) {
                 minutes = minutes + projet.getMinutes();
             }
 
         }
-
         return minutes;
     }
 
