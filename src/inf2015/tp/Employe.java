@@ -25,11 +25,11 @@ public class Employe {
     protected static final int MIN_MINUTES_BUREAU_ADMIN = 36 * 60;
     protected static final int MIN_MINUTES_BUREAU_DIRECTEUR = 43 * 60;
     protected static final int MAX_MINUTES_TELETRAV_ADMIN = 10 * 60;
-    protected static final int MIN_MINUTES_BUREAU_PRODUCTION_OUVRABLE = 38 * 60;
-    protected static final int MIN_MINUTES_BUREAU_PAR_JOUR_PRODUCTION_OUVRABLE = 6* 60;
+    protected static final int MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE = 38 * 60;
+    protected static final int MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE = 6* 60;
     protected static final int MIN_MINUTES_BUREAU_ADMIN_OUVRABLE = 4 * 60;
     protected static final int EMPLOYER_ADMINISTRATION_ID = 1000;
-    protected static final int EMPLOYER_PRODUCTION_ID = 2000;
+    protected static final int EMPLOYER_DEVELOPPEMENT_ID = 2000;
     protected static final int EMPLOYER_EXPLOITATION_ID = 5000;
     protected static final int EMPLOYER_DIRECTION_ID = 5000;
     protected int numeroEmployer = 0;
@@ -97,8 +97,8 @@ public class Employe {
     protected void analyserFeuilleTemps() {
         if (this.numeroEmployer < EMPLOYER_ADMINISTRATION_ID) {
             this.analyserFeuilleTempsAdministration();
-        } else if (this.numeroEmployer < EMPLOYER_PRODUCTION_ID) {
-            this.analyserFeuilleTempsProduction();
+        } else if (this.numeroEmployer < EMPLOYER_DEVELOPPEMENT_ID) {
+            this.analyserFeuilleTempsDeveloppement();
         } else if (this.numeroEmployer < EMPLOYER_EXPLOITATION_ID) {
             this.analyserFeuilleTempsExploitation();
         } else if (this.numeroEmployer >= EMPLOYER_DIRECTION_ID) {
@@ -124,13 +124,13 @@ public class Employe {
         }
     }
 
-    protected void analyserFeuilleTempsProduction() {
-        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_PRODUCTION_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur("L'employé de production n'a pas travaillé le nombre d'heures minimal au bureau.");
+    protected void analyserFeuilleTempsDeveloppement() {
+        if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE) {
+            ErreurJournal.Instance().ajoutErreur("L'employé de dévelopement n'a pas travaillé le nombre d'heures minimal au bureau.");
         }
 
-        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_PAR_JOUR_PRODUCTION_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur(String.format("L'employé %s n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable)."));
+        if (this.minutesJoursOuvrableBureau < MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE) {
+            ErreurJournal.Instance().ajoutErreur(String.format("L'employé de développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable)."));
         }
 
     }
