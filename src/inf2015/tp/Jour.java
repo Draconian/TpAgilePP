@@ -229,7 +229,7 @@ public class Jour {
 
     protected void analyserJourFerie() {
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "ferie"));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est férié ne doit pas être le weekend.", this.nomJour));
         }
 
         if (this.estJourMaladie()) {
