@@ -14,7 +14,7 @@ public class Projet {
     protected static final int PROJET_ID_CONGE_VACANCE = 997;
     protected static final int PROJET_ID_TELETRAVAIL = 900;
     protected static final int PROJET_ID_CONGE_PARENTAL = 996;
-    protected int minutes = 0;
+    protected int minutes = 0;  
     protected int projetID = 0;
 
     public Projet(int projetID, int minutes) {
