@@ -21,7 +21,7 @@ public class Jour {
     private ArrayList<Projet> projetsJournee = new ArrayList<>();
     private TypeJour typeJournee;
     private String nomJour;
-    
+
     protected Jour(String nomJour, TypeJour typeJournee) {
         this.typeJournee = typeJournee;
         this.nomJour = nomJour;
@@ -46,7 +46,7 @@ public class Jour {
             }
         } else {
             if (minutesJournee > MAX_MINUTES_PAR_JOURS) {
-                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS+ ")");
+                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS + ")");
             }
         }
     }
@@ -156,11 +156,13 @@ public class Jour {
     public boolean estJourneeCongeParental() {
         boolean estCongeParental = false;
 
+
         for (Projet projet : this.projetsJournee) {
             if (projet.estCongeParental()) {
                 estCongeParental = true;
             }
         }
+
 
         return estCongeParental;
     }
@@ -206,10 +208,10 @@ public class Jour {
     }
 
     public void analyserJour() throws IOException {
-     
+
         if (this.estJourneeVacances()) {
             this.analyserJourVacances();
-        }else if (this.estJourneeCongeParental()){
+        } else if (this.estJourneeCongeParental()) {
             this.analyserJourParental();
         } else if (this.estJourneeFerie()) {
             this.analyserJourFerie();
@@ -232,30 +234,25 @@ public class Jour {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est férié ne doit pas être le weekend.", this.nomJour));
         }
 
-        if (this.estJourMaladie()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est férié, ne doit pas contenir de temps maladies.", this.nomJour));
-        }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "férié", this.getMinutesJourneeFeriee(), Jour.MINUTES_JOURNEE_FERIEE);
     }
 
     protected void analyserJourMaladie() {
-        this.analyserJourSpecial("maladie");
 
-        if (this.contientTeleTravail()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est maladie, ne doit pas contenir de temps télétravail.", this.nomJour));
+        if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
         }
-
-        if (this.estJourneeFerie()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est maladie, ne doit pas contenir de temps fériés", this.nomJour));
+        if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_MALADIE)) {
+            System.out.println("\nLe jour " + this.nomJour + " a d'autre code de projet dans la même journée.");
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), Jour.MINUTES_JOURNEE_MALADIE);
     }
 
     protected void analyserJourVacances() {
-    
-         if (this.typeJournee == TypeJour.WEEKEND) {
+
+        if (this.typeJournee == TypeJour.WEEKEND) {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
         }
 
@@ -268,21 +265,10 @@ public class Jour {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "Congé parental"));
         }
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est congé parental ne doit pas avoir d'autre projet dans la même journée.", this.nomJour));
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
-    }
-
-    protected void analyserJourSpecial(String typeJourSpecial) {
-
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, typeJourSpecial));
-        }
-
-        if (this.contientTravailBureau()) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s, ne doit pas contenir de temps au bureau.", this.nomJour, typeJourSpecial));
-        }
     }
 
     public enum TypeJour {
@@ -304,11 +290,11 @@ public class Jour {
     }
 
     protected static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
-    
+
         if (jourMinutes != jourMinutesRequis) {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
                     nomJour, typeJourSpecial, jourMinutesRequis, jourMinutes));
         }
-       
+
     }
 }
