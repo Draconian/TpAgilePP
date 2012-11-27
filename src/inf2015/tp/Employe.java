@@ -41,7 +41,7 @@ public class Employe {
     protected int minutesJoursOuvrableBureau = 0;
     protected int minutesWeekendBureau = 0;
     protected ArrayList<Jour> semaines = new ArrayList<>();
-    protected static int[] minuteParJour = new int[5];
+    protected int[] minuteParJour = new int[5];
     protected String cheminFichierFeuilleTemps;
     protected String cheminFichierErreur;
 
@@ -103,7 +103,7 @@ public class Employe {
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
         }
-        minutesDeChaqueJourOuvrable(); //Tableau static  5 indices 0 lundi 5 vendredi
+        minutesDeChaqueJourOuvrable(); //Tableau  5 indices 0 lundi 5 vendredi
 
 
     }
@@ -124,7 +124,7 @@ public class Employe {
     protected void verifierQuotidiennementDirecteur() {
         for (int i = 0; i < 5; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE + " minutes par jour.");
+                ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le  "  + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE + " minutes par jour.");
             }
 
         }
@@ -133,7 +133,7 @@ public class Employe {
     protected void verifierQuotidiennementAdministration() {
         for (int i = 0; i < 5; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_ADMIN_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_ADMIN_OUVRABLE + " minutes par jour.");
+                ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le "  + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_ADMIN_OUVRABLE + " minutes par jour.");
             }
 
         }
@@ -144,7 +144,7 @@ public class Employe {
         int nbJourOuvrable = 5;
         for (int i = 0; i < nbJourOuvrable; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE + " minutes par jour.");
+                ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal le  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE + " minutes par jour.");
             }
 
 
@@ -154,7 +154,7 @@ public class Employe {
     protected void verifierQuotidiennementExploitation() {
         for (int i = 0; i < 5; i++) {
             if ((minuteParJour[i]) < MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable).L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE + " minutes par jour.");
+                ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE + " minutes par jour.");
             }
         }
     }
@@ -172,7 +172,6 @@ public class Employe {
             ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser " + (double) MAX_MINUTES_TELETRAV_ADMIN / 60 + " heures.");
         }
     }
-
     protected void analyserFeuilleTempsDeveloppement() {
         verifierQuotidiennementDeveloppement();
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE) {
