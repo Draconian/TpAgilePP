@@ -99,7 +99,7 @@ public class Jour {
         int minutes = 0;
 
         for (Projet projet : this.projetsJournee) {
-            if (projet.estTravailBureau() || projet.estCongeFerie() || projet.estCongeVacance()) {
+            if (projet.estTravailBureau() || projet.estCongeFerie() || projet.estCongeVacance() || projet.estCongeParental() || projet.estCongeMaladie()) {
                 minutes = minutes + projet.getMinutes();
             }
 
@@ -254,21 +254,19 @@ public class Jour {
     }
 
     protected void analyserJourVacances() {
+    
          if (this.typeJournee == TypeJour.WEEKEND) {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
         }
-
-        if (this.estJourneeVacances() && (this.estJourMaladie() || this.estJourneeCongeParental() || this.estJourneeFerie())) {
-            ErreurJournal.Instance().ajoutErreur("Une journée de vacance ne peut être combiné avec aucun autre congé");
-        }
-
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), Jour.MINUTES_JOURNEE_CONGE_VACANCES);
     }
 
     protected void analyserJourParental() {
-        this.analyserJourSpecial("congé parental");
 
+        if (this.typeJournee == TypeJour.WEEKEND) {
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "Congé parental"));
+        }
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
             ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas avoir d'autre projet dans la même journée.", this.nomJour, "congé parental"));
         }
@@ -311,5 +309,6 @@ public class Jour {
             ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
                     nomJour, typeJourSpecial, jourMinutesRequis, jourMinutes));
         }
+       
     }
 }
