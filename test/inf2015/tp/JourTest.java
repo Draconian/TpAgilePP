@@ -8,8 +8,8 @@
 package inf2015.tp;
 
 import inf2015.tp.Jour.TypeJour;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class JourTest {
 
@@ -25,7 +25,7 @@ public class JourTest {
 
         assertTrue(estJourneeCongeParental);
     }
-    
+
     @Test
     public void testGetMinutesCongeParental() {
         int minutesProjet = 480;
@@ -79,16 +79,16 @@ public class JourTest {
 
         assertTrue(jourContientAutresProjet);
     }
-    
+
     @Test
-    public void testCongeParentalPendantWeekEnd(){
+    public void testCongeParentalPendantWeekEnd() {
         int minutesProjet = 480;
-        Jour jour = new Jour("Week end",TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL,minutesProjet);
+        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
         jour.ajoutProjet(p1);
         jour.analyserJourParental();
-         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-         ErreurJournal.Instance().effacerTout();   
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
     }
 
     @Test
@@ -167,16 +167,16 @@ public class JourTest {
         assertEquals(nbErreur, 0);
 
     }
-    
-        @Test
-    public void testCongeVacancePendantWeekEnd(){
+
+    @Test
+    public void testCongeVacancePendantWeekEnd() {
         int minutesProjet = 480;
-        Jour jour = new Jour("Week end",TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE,minutesProjet);
+        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
         jour.ajoutProjet(p1);
         jour.analyserJourVacances();
-         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-         ErreurJournal.Instance().effacerTout();   
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
     }
 
     @Test
@@ -259,16 +259,16 @@ public class JourTest {
         assertEquals(nbErreur, 0);
 
     }
-    
-        @Test
-    public void testCongeFeriePendantWeekEnd(){
+
+    @Test
+    public void testCongeFeriePendantWeekEnd() {
         int minutesProjet = 480;
-        Jour jour = new Jour("Week end",TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE,minutesProjet);
+        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
         jour.ajoutProjet(p1);
         jour.analyserJourFerie();
-         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-         ErreurJournal.Instance().effacerTout();   
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
     }
 
     public void testEstJourneeMaladie() {
@@ -303,7 +303,6 @@ public class JourTest {
         assertEquals(nbErreur, 0);
     }
 
-    
     public void testContientPasAutresProjetsQueCongeMaladie() {
         Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
         Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, 0);
@@ -322,14 +321,15 @@ public class JourTest {
         boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL);
         assertTrue(jourContientAutresProjet);
     }
-            @Test
-    public void testCongeMaladiePendantWeekEnd(){
+
+    @Test
+    public void testCongeMaladiePendantWeekEnd() {
         int minutesProjet = 480;
-        Jour jour = new Jour("Week end",TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE,minutesProjet);
+        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, minutesProjet);
         jour.ajoutProjet(p1);
         jour.analyserJourMaladie();
-         assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-         ErreurJournal.Instance().effacerTout();   
-    }    
+        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
+        ErreurJournal.Instance().effacerTout();
+    }
 }
