@@ -7,14 +7,7 @@
  */
 package inf2015.tp;
 
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.*;
 import java.util.Scanner;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -22,7 +15,6 @@ import net.sf.json.JSONObject;
 public class JsonUtil {
 
     private static String SAUT_LIGNE = System.getProperty("line.separator");
-    private static Charset ENCODAGE = StandardCharsets.UTF_8;
 
     public static JSONObject chargerJsonObjetDuFichier(String fichierChemin) throws IOException {
         JSONObject jsonObject;
@@ -58,17 +50,23 @@ public class JsonUtil {
     }
 
     private static String chargerContenuDuFichier(String fichierChemin) throws IOException {
-
-        Path pathFichier = Paths.get(fichierChemin);
         StringBuilder jsonFileBuffer = new StringBuilder();
-
-        Scanner scannerJSON = new Scanner(pathFichier, ENCODAGE.name());
+        
+        fichierChemin = "C:\\Users\\fe991396\\Desktop\\test.txt";
+        
+        File fichier = new File(fichierChemin);
+        boolean b = fichier.exists();   
+      
+        
+        Scanner scannerJSON = new Scanner(fichier, "UTF-8");
 
         while (scannerJSON.hasNext()) {
             String ligne = scannerJSON.nextLine();
             jsonFileBuffer.append(ligne).append(SAUT_LIGNE);
         }
 
+        
+        
         return jsonFileBuffer.toString();
     }
 
