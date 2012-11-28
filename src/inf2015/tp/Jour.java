@@ -241,7 +241,7 @@ public class Jour {
     protected void analyserJourMaladie() {
 
         if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
+            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "maladie"));
         }
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_MALADIE)) {
             System.out.println("\nLe jour " + this.nomJour + " a d'autre code de projet dans la même journée.");

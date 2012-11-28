@@ -1,6 +1,6 @@
 [
      "Le jour \"jour3\" qui est férié, doit contenir 480 minutes. (Il contient 25 minutes.)",
-     "\nLe jour \"weekend1\" qui est vacances ne doit pas être le weekend.",
+     "\nLe jour \"weekend1\" qui est maladie ne doit pas être le weekend.",
      "Le jour \"weekend1\" qui est maladie, doit contenir 480 minutes. (Il contient 45 minutes.)",
      "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour3.L'employé doit travailler au moins 240 minutes par jour.",
      "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour5.L'employé doit travailler au moins 240 minutes par jour.",
