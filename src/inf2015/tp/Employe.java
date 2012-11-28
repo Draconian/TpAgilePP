@@ -217,6 +217,7 @@ public class Employe {
         for (Jour jour : this.semaines) {
             if (estCongeParental && jour.estJourneeCongeParental()) {
                 ErreurJournal.Instance().ajoutErreur("Une semaine ne peut contenir plus qu'un congé parental.");
+                break;
             } else if (jour.estJourneeCongeParental()) {
                 estCongeParental = true;
             }
