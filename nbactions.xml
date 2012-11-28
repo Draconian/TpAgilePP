@@ -7,9 +7,10 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} C:\Temp\test.txt C:\Temp\test_output.txt</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} test.json test2.json</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.classpathScope>runtime</exec.classpathScope>
+                <exec.workingdir>d:\agile\</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -19,10 +20,11 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} C:\Temp\test.txt C:\Temp\test_output.txt</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} test.json test2.json</exec.args>
                 <exec.executable>java</exec.executable>
                 <exec.classpathScope>runtime</exec.classpathScope>
                 <jpda.listen>true</jpda.listen>
+                <exec.workingdir>d:\agile\</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -32,9 +34,10 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2:exec</goal>
             </goals>
             <properties>
-                <exec.args>${profiler.args} -classpath %classpath ${packageClassName} C:\Temp\test.txt C:\Temp\test_output.txt</exec.args>
+                <exec.args>${profiler.args} -classpath %classpath ${packageClassName} test.json test2.json</exec.args>
                 <exec.executable>${profiler.java}</exec.executable>
                 <profiler.action>profile</profiler.action>
+                <exec.workingdir>d:\agile\</exec.workingdir>
             </properties>
         </action>
     </actions>

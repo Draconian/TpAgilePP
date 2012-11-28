@@ -51,13 +51,7 @@ public class JsonUtil {
 
     private static String chargerContenuDuFichier(String fichierChemin) throws IOException {
         StringBuilder jsonFileBuffer = new StringBuilder();
-        
-        fichierChemin = "C:\\Users\\fe991396\\Desktop\\test.txt";
-        
         File fichier = new File(fichierChemin);
-        boolean b = fichier.exists();   
-      
-        
         Scanner scannerJSON = new Scanner(fichier, "UTF-8");
 
         while (scannerJSON.hasNext()) {
@@ -65,8 +59,6 @@ public class JsonUtil {
             jsonFileBuffer.append(ligne).append(SAUT_LIGNE);
         }
 
-        
-        
         return jsonFileBuffer.toString();
     }
 
