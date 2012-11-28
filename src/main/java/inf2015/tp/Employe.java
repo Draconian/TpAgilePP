@@ -40,7 +40,7 @@ public class Employe {
     protected int minutesTeleTravail = 0;
     protected int minutesJoursOuvrableBureau = 0;
     protected int minutesWeekendBureau = 0;
-    protected ArrayList<Jour> semaines = new ArrayList<>();
+    protected ArrayList<Jour> semaines = new ArrayList<Jour>();
     protected int[] minuteParJour = new int[5];
     protected String cheminFichierFeuilleTemps;
     protected String cheminFichierErreur;
@@ -55,7 +55,7 @@ public class Employe {
             this.chargerFeuillerTemps();
             this.calculerFeuilleTemps();
             this.analyserFeuilleTemps();
-        } catch (JSONException | IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Lecture du fichier JSON a échoué: " + ex.getMessage());
             this.priseEnChargeJsonMalForme();
             return false;

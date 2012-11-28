@@ -18,7 +18,7 @@ public class Jour {
     private static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
     private static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
     private static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
-    private ArrayList<Projet> projetsJournee = new ArrayList<>();
+    private ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
     private TypeJour typeJournee;
     private String nomJour;
 
