@@ -26,7 +26,7 @@ public class JourOuvrable extends Jour {
 
     protected void analyserJourMaladie() {
         if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_MALADIE)) {
-            System.out.println("\nLe jour " + this.nomJour + " a d'autre code de projet dans la même journée.");
+           ErreurJournal.Instance().ajoutErreur("\nLe jour " + this.nomJour + " a d'autre code de projet dans la même journée.");
         }
 
         comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), Jour.MINUTES_JOURNEE_MALADIE);
