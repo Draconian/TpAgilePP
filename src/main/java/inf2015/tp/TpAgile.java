@@ -16,7 +16,7 @@ public class TpAgile {
             System.exit(-1);
         }
 
-        Employe employer = new Employe(args[0], args[1]);
+        Employe employer = new Employe(0);
         if (employer.validerFeuilleDeTemps()) {
             System.out.println("Feuille de temps est valide.");
         } else {

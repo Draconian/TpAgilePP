@@ -9,11 +9,11 @@ package inf2015.tp;
 
 public class Projet {
 
-    protected static final int PROJET_ID_CONGE_FERIE = 998;
-    protected static final int PROJET_ID_CONGE_MALADIE = 999;
-    protected static final int PROJET_ID_CONGE_VACANCE = 997;
-    protected static final int PROJET_ID_TELETRAVAIL = 900;
-    protected static final int PROJET_ID_CONGE_PARENTAL = 996;
+    public static final int PROJET_ID_CONGE_FERIE = 998;
+    public static final int PROJET_ID_CONGE_MALADIE = 999;
+    public static final int PROJET_ID_CONGE_VACANCE = 997;
+    public static final int PROJET_ID_TELETRAVAIL = 900;
+    public static final int PROJET_ID_CONGE_PARENTAL = 996;
     protected int minutes = 0;
     protected int projetID = 0;
 

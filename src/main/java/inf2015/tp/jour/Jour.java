@@ -5,26 +5,37 @@
  * @author Lyes Tamazouzt
  * @author Abdessamad Essakhi
  */
-package inf2015.tp;
+package inf2015.tp.jour;
 
+import inf2015.tp.ErreurJournal;
+import inf2015.tp.Projet;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class Jour {
+public abstract class Jour {
 
-    private static final int MINUTES_JOURNEE_FERIEE = 480;
-    private static final int MINUTES_JOURNEE_MALADIE = 480;
-    private static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
-    private static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
-    private static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
-    private static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
-    private ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
-    private TypeJour typeJournee;
-    private String nomJour;
+    protected static final int MINUTES_JOURNEE_FERIEE = 480;
+    protected static final int MINUTES_JOURNEE_MALADIE = 480;
+    protected static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
+    protected static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
+    protected static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
+    protected static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
+    protected ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
+    protected String nomJour;
 
-    protected Jour(String nomJour, TypeJour typeJournee) {
-        this.typeJournee = typeJournee;
+    protected Jour(String nomJour) {
         this.nomJour = nomJour;
+    }
+
+    public String getNomJour() {
+        return this.nomJour;
+    }
+
+    public List<Projet> getProjetsJournee() {
+        return Collections.unmodifiableList(projetsJournee);
+
     }
 
     public int getMinutesJourneeFeriee() {
@@ -220,74 +231,20 @@ public class Jour {
         }
     }
 
-    public boolean estJourOuvrable() {
-        return (this.typeJournee == TypeJour.OUVRABLE);
-    }
-
     @Override
     public String toString() {
-        return String.format("%s | Type: %s", this.nomJour, this.typeJournee);
+        return String.format("%s", this.nomJour);
     }
+    
+    public abstract boolean estJourOuvable();
+    
+    protected abstract void analyserJourFerie();
 
-    protected void analyserJourFerie() {
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est férié ne doit pas être le weekend.", this.nomJour));
-        }
+    protected abstract void analyserJourMaladie();
 
+    protected abstract void analyserJourVacances();
 
-        comparerJourSpecialEtMinutesRequis(this.nomJour, "férié", this.getMinutesJourneeFeriee(), Jour.MINUTES_JOURNEE_FERIEE);
-    }
-
-    protected void analyserJourMaladie() {
-
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "maladie"));
-        }
-        if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_MALADIE)) {
-            System.out.println("\nLe jour " + this.nomJour + " a d'autre code de projet dans la même journée.");
-        }
-
-        comparerJourSpecialEtMinutesRequis(this.nomJour, "maladie", this.getMinutesJourneeMaladie(), Jour.MINUTES_JOURNEE_MALADIE);
-    }
-
-    protected void analyserJourVacances() {
-
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
-        }
-
-        comparerJourSpecialEtMinutesRequis(this.nomJour, "vacance", this.getMinutesJourneeVacance(), Jour.MINUTES_JOURNEE_CONGE_VACANCES);
-    }
-
-    protected void analyserJourParental() {
-
-        if (this.typeJournee == TypeJour.WEEKEND) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "Congé parental"));
-        }
-        if (this.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL)) {
-            ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est congé parental ne doit pas avoir d'autre projet dans la même journée.", this.nomJour));
-        }
-
-        comparerJourSpecialEtMinutesRequis(this.nomJour, "congé parental", this.getMinutesJourneeCongeParental(), Jour.MINUTES_JOURNEE_CONGE_PARENTAL);
-    }
-
-    public enum TypeJour {
-
-        OUVRABLE,
-        WEEKEND
-    }
-
-    public static Jour CreerJour(String nomJour) {
-        Jour jour;
-
-        if (nomJour.startsWith("jour")) {
-            jour = new Jour(nomJour, TypeJour.OUVRABLE);
-        } else {
-            jour = new Jour(nomJour, TypeJour.WEEKEND);
-        }
-
-        return jour;
-    }
+    protected abstract void analyserJourParental();
 
     protected static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
 

@@ -7,6 +7,7 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.jour.Jour;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -45,14 +46,14 @@ public class Employe {
     protected String cheminFichierFeuilleTemps;
     protected String cheminFichierErreur;
 
-    public Employe(String cheminFichierFeuilleTemps, String cheminFichierErreur) {
-        this.cheminFichierFeuilleTemps = cheminFichierFeuilleTemps;
-        this.cheminFichierErreur = cheminFichierErreur;
+    public Employe(int numeroEmployer) {
+        this.numeroEmployer = numeroEmployer;
+        
     }
 
     public boolean validerFeuilleDeTemps() {
         try {
-            this.chargerFeuillerTemps();
+            
             this.calculerFeuilleTemps();
             this.analyserFeuilleTemps();
         } catch (Exception ex) {
@@ -64,25 +65,9 @@ public class Employe {
         return this.estFeuilleTempsValide();
     }
 
-    protected void chargerFeuillerTemps() throws IOException, JSONException {
-        JSONObject jsonEmployer = JsonUtil.chargerJsonObjetDuFichier(this.cheminFichierFeuilleTemps);
-        this.numeroEmployer = jsonEmployer.getInt("numero_employe");
-        for (int i = 0; i < JOUR_SEMAINES.length; i++) {
-            this.chargerJourFeuilleTemps(JOUR_SEMAINES[i], jsonEmployer);
-        }
-    }
+    
 
-    protected void chargerJourFeuilleTemps(String nomJour, JSONObject jsonEmployer) throws JSONException, IOException {
-        Jour jour;
-
-        if (jsonEmployer.containsKey(nomJour)) {
-            jour = Employe.chargerJourAPartirJSONArray(nomJour, jsonEmployer.getJSONArray(nomJour));
-            jour.analyserJour();
-            this.semaines.add(jour);
-        } else {
-            throw new JSONException("Erreur, il manque un jour dans votre fichier d'entrée.");
-        }
-    }
+    
 
     protected void minutesDeChaqueJourOuvrable() {
         int i = 0;
@@ -97,7 +82,7 @@ public class Employe {
     protected void calculerFeuilleTemps() {
         for (Jour jour : this.semaines) {
             jour.verifierMinutes(jour.getMinutesParJour());
-            if (jour.estJourOuvrable()) {
+            if (jour.estJourOuvable()) {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
             } else {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
@@ -240,19 +225,5 @@ public class Employe {
     protected void priseEnChargeJsonMalForme() {
         ErreurJournal.Instance().effacerTout();
         this.ecritureDesErreurs();
-    }
-
-    protected static Jour chargerJourAPartirJSONArray(String nomJour, JSONArray jsonProjets) throws JSONException {
-        JSONObject jsonProjet;
-
-        Jour jour = Jour.CreerJour(nomJour);
-
-        Iterator<JSONObject> it = jsonProjets.iterator();
-        while (it.hasNext()) {
-            jsonProjet = it.next();
-            jour.ajoutProjet(new Projet(jsonProjet.getInt("projet"), jsonProjet.getInt("minutes")));
-        }
-
-        return jour;
     }
 }
