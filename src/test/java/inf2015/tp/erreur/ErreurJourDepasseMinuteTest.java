@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ErreurJourDepasseMinuteTest {
-    
+
     public ErreurJourDepasseMinuteTest() {
     }
 
@@ -22,15 +22,15 @@ public class ErreurJourDepasseMinuteTest {
     public void testAfficherErreur() {
         int maxMinutes = 60;
         Jour jour = new JourOuvrable("jour1", null);
-        Projet projet = new Projet(500,500);
+        Projet projet = new Projet(500, 500);
         jour.ajoutProjet(projet);
-        
+
         String erreurMsgExpecter = "Le jour jour1 contient 500 minutes,il dépasse "
                 + "le maximum de minutes authorisés qui est 60 minutes";
-        
-        Erreur erreur = new ErreurJourDepasseMinute(jour,maxMinutes);
+
+        Erreur erreur = new ErreurJourDepasseMinute(jour, maxMinutes);
         String erreurMsgRecu = erreur.afficherErreur();
-        
+
         assertEquals(erreurMsgExpecter, erreurMsgRecu);
     }
 }
