@@ -7,15 +7,12 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 
 public class Employe {
 
@@ -45,15 +42,21 @@ public class Employe {
     protected int[] minuteParJour = new int[5];
     protected String cheminFichierFeuilleTemps;
     protected String cheminFichierErreur;
+    protected ErreurJournal erreurJournal;
 
-    public Employe(int numeroEmployer) {
+    public Employe(int numeroEmployer, ErreurJournal erreurJournal) {
         this.numeroEmployer = numeroEmployer;
-        
+        this.erreurJournal = erreurJournal;
+
+    }
+
+    public String getTypeEmploye() {
+        return "employé";
     }
 
     public boolean validerFeuilleDeTemps() {
         try {
-            
+
             this.calculerFeuilleTemps();
             this.analyserFeuilleTemps();
         } catch (Exception ex) {
@@ -65,15 +68,11 @@ public class Employe {
         return this.estFeuilleTempsValide();
     }
 
-    
-
-    
-
     protected void minutesDeChaqueJourOuvrable() {
         int i = 0;
         for (Jour jour : this.semaines) {
             if (i < 5) {
-                minuteParJour[i] = jour.getMinutesParJour();
+                minuteParJour[i] = jour.getTotalMinutesJournee();
                 i++;
             }
         }
@@ -81,7 +80,7 @@ public class Employe {
 
     protected void calculerFeuilleTemps() {
         for (Jour jour : this.semaines) {
-            jour.verifierMinutes(jour.getMinutesParJour());
+            jour.verifierMaxMinutesJour();
             if (jour.estJourOuvable()) {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
             } else {
@@ -111,7 +110,7 @@ public class Employe {
     protected void verifierQuotidiennementDirecteur() {
         for (int i = 0; i < 5; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le  " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE + " minutes par jour.");
+                //TODO ErreurJournal.Instance().ajoutErreur("L'employé de la direction n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le  " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_DIRECTEUR_OUVRABLE + " minutes par jour.");
             }
 
         }
@@ -121,7 +120,7 @@ public class Employe {
     protected void verifierQuotidiennementAdministration() {
         for (int i = 0; i < 5; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_ADMIN_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_ADMIN_OUVRABLE + " minutes par jour.");
+                //TODO ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_ADMIN_OUVRABLE + " minutes par jour.");
             }
 
         }
@@ -132,7 +131,7 @@ public class Employe {
         int nbJourOuvrable = 5;
         for (int i = 0; i < nbJourOuvrable; i++) {
             if (minuteParJour[i] < MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal le  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE + " minutes par jour.");
+                //TODO ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal le  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_DEVELOPEMENT_OUVRABLE + " minutes par jour.");
             }
 
 
@@ -142,7 +141,7 @@ public class Employe {
     protected void verifierQuotidiennementExploitation() {
         for (int i = 0; i < 5; i++) {
             if ((minuteParJour[i]) < MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE) {
-                ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE + " minutes par jour.");
+                //TODO ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau  pendant le " + JOUR_SEMAINES[i] + ".L'employé doit travailler au moins " + MIN_MINUTES_BUREAU_PAR_JOUR_EXPLOITATION_OUVRABLE + " minutes par jour.");
             }
         }
     }
@@ -151,22 +150,22 @@ public class Employe {
 
         verifierQuotidiennementAdministration();
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_ADMIN) {
-            ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau. Il doit travailler " + (double) MIN_MINUTES_BUREAU_ADMIN / 60 + " heures.");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau. Il doit travailler " + (double) MIN_MINUTES_BUREAU_ADMIN / 60 + " heures.");
         } else if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) > MAX_MINUTES_BUREAU_ADMIN) {
-            ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser : " + (double) MAX_MINUTES_BUREAU_ADMIN / 60 + " heures.");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser : " + (double) MAX_MINUTES_BUREAU_ADMIN / 60 + " heures.");
         }
 
         if (this.minutesTeleTravail > MAX_MINUTES_TELETRAV_ADMIN) {
-            ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser " + (double) MAX_MINUTES_TELETRAV_ADMIN / 60 + " heures.");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser " + (double) MAX_MINUTES_TELETRAV_ADMIN / 60 + " heures.");
         }
     }
 
     protected void analyserFeuilleTempsDeveloppement() {
         verifierQuotidiennementDeveloppement();
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE) {
-            ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal au bureau. Il doit faire " + (double) MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE / 60 + " heures.");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé de développement n'a pas travaillé le nombre d'heures minimal au bureau. Il doit faire " + (double) MIN_MINUTES_BUREAU_DEVELOPPEMENT_OUVRABLE / 60 + " heures.");
         } else if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) > MAX_HEURE_BUREAU) {
-            ErreurJournal.Instance().ajoutErreur("L'employé de développement a dépassé le nombre d'heures maximum au bureau.Il ne peut pas dépasser " + (double) MAX_HEURE_BUREAU / 60 + " .");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé de développement a dépassé le nombre d'heures maximum au bureau.Il ne peut pas dépasser " + (double) MAX_HEURE_BUREAU / 60 + " .");
         }
 
     }
@@ -174,9 +173,9 @@ public class Employe {
     protected void analyserFeuilleTempsExploitation() {
         verifierQuotidiennementExploitation();
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_EXPLOITATION) {
-            ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau. Il doit faire au moins " + (double) MIN_MINUTES_EXPLOITATION / 60 + " heures");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau. Il doit faire au moins " + (double) MIN_MINUTES_EXPLOITATION / 60 + " heures");
         } else if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) > MAX_HEURE_BUREAU) {
-            ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation a dépassé le nombre d'heures maximum au bureau. Il ne peut pas dépasser " + MAX_HEURE_BUREAU + " .");
+            //TODO ErreurJournal.Instance().ajoutErreur("L'employé d'exploitation a dépassé le nombre d'heures maximum au bureau. Il ne peut pas dépasser " + MAX_HEURE_BUREAU + " .");
         }
 
     }
@@ -184,20 +183,20 @@ public class Employe {
     protected void analyserFeuilleTempsDirection() {
         verifierQuotidiennementDirecteur();
         if ((this.minutesWeekendBureau + this.minutesJoursOuvrableBureau) < MIN_MINUTES_BUREAU_DIRECTEUR) {
-            ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heure minimum. (" + (double) MIN_MINUTES_BUREAU_DIRECTEUR / 60 + ")");
+            //TODO ErreurJournal.Instance().ajoutErreur("Le directeur n'a pas travaillé le nombre d'heure minimum. (" + (double) MIN_MINUTES_BUREAU_DIRECTEUR / 60 + ")");
         }
 
 
     }
 
     protected boolean estFeuilleTempsValide() {
-        boolean estValide = !ErreurJournal.Instance().contientErreur();
+        
 
-        if (!estValide) {
+        if (!this.erreurJournal.estVide()) {
             this.ecritureDesErreurs();
         }
 
-        return estValide;
+        return this.erreurJournal.estVide();
     }
 
     protected void verifierCongeParental() {
@@ -205,7 +204,8 @@ public class Employe {
 
         for (Jour jour : this.semaines) {
             if (estCongeParental && jour.estJourneeCongeParental()) {
-                ErreurJournal.Instance().ajoutErreur("Une semaine ne peut contenir plus qu'un congé parental.");
+                
+                //TODO ErreurJournal.Instance().ajoutErreur("Une semaine ne peut contenir plus qu'un congé parental.");
                 break;
             } else if (jour.estJourneeCongeParental()) {
                 estCongeParental = true;
@@ -215,7 +215,7 @@ public class Employe {
 
     protected void ecritureDesErreurs() {
         try {
-            ErreurJournal.Instance().ecrireErreurDansFichier(this.cheminFichierErreur);
+            this.erreurJournal.ecrireErreurDansFichier(this.cheminFichierErreur);
         } catch (IOException ex) {
             System.out.println("Impossible d'écrire le fichier d'erreur: " + ex.getMessage());
             Logger.getLogger(Employe.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,7 +223,7 @@ public class Employe {
     }
 
     protected void priseEnChargeJsonMalForme() {
-        ErreurJournal.Instance().effacerTout();
+        this.erreurJournal.effacerTout();
         this.ecritureDesErreurs();
     }
 }

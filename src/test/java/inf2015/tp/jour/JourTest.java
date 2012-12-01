@@ -7,331 +7,289 @@
  */
 package inf2015.tp.jour;
 
-import inf2015.tp.ErreurJournal;
 import inf2015.tp.Projet;
-import inf2015.tp.jour.Jour;
+import inf2015.tp.erreur.ErreurJournal;
+import java.util.List;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class JourTest {
-/*
+
+    @Test
+    public void testGetNomJour() {
+        String nomJour = "jour1";
+
+        Jour jour = new JourOuvrable(nomJour, null);
+
+        assertEquals(nomJour, jour.getNomJour());
+    }
+
+    @Test
+    public void testGetProjetsJournee() {
+        Jour jour = new JourOuvrable("jour1", null);
+
+        Projet p1 = new Projet(500, 500);
+        Projet p2 = new Projet(501, 501);
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        List<Projet> listProjets = jour.getProjetsJournee();
+
+        assertSame(p1, listProjets.get(0));
+        assertSame(p2, listProjets.get(1));
+    }
+
+    @Test
+    public void testGetMinutesJourneeFeriee1Projet() {
+        int minutesProjet = 500;
+        Jour jour = new JourOuvrable("jour1", null);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
+        jour.ajoutProjet(p1);
+
+        assertEquals(minutesProjet, jour.getMinutesJourneeFeriee());
+    }
+
+    @Test
+    public void testGetMinutesJourneeFerieePlusieursProjets() {
+        int minutesProjet = 500;
+        Jour jour = new JourOuvrable("jour1", null);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
+        jour.ajoutProjet(p1);
+
+        p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
+        jour.ajoutProjet(p1);
+
+        assertEquals(minutesProjet * 2, jour.getMinutesJourneeFeriee());
+    }
+
+    @Test
+    public void testGetTotalMinutesJournee() {
+        int totalMinutes = 1000;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(100, 500);
+        Projet p2 = new Projet(904, 500);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes, jour.getTotalMinutesJournee());
+    }
+
+    @Test
+    public void testGetMinutesJourneeVacance() {
+        int totalMinutes = 500;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, totalMinutes);
+        Projet p2 = new Projet(904, 500);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes, jour.getMinutesJourneeVacance());
+    }
+
+    @Test
+    public void testGetMinutesJourneeMaladie() {
+        int totalMinutes = 750;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, totalMinutes);
+        Projet p2 = new Projet(904, 500);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes, jour.getMinutesJourneeMaladie());
+    }
+
+    @Test
+    public void testGetMinutesTeletravail() {
+        int totalMinutes = 250;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_TELETRAVAIL + 1, totalMinutes);
+        Projet p2 = new Projet(500, 500);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes, jour.getMinutesTeletravail());
+    }
+
+    @Test
+    public void testGetMinutesBureau() {
+        int totalMinutes = 250;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, totalMinutes);
+        Projet p2 = new Projet(500, totalMinutes);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes * 2, jour.getMinutesBureau());
+    }
+
+    @Test
+    public void testGetMinutesJourneeCongeParental() {
+        int totalMinutes = 250;
+
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, totalMinutes);
+        Projet p2 = new Projet(500, 400);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertEquals(totalMinutes, jour.getMinutesJourneeCongeParental());
+    }
+
+    @Test
+    public void testEstJourneeVacances() {
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, 0);
+        Projet p2 = new Projet(500, 0);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertTrue(jour.estJourneeVacances());
+    }
+
+    @Test
+    public void testEstJourneeFerie() {
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, 0);
+        Projet p2 = new Projet(500, 0);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertTrue(jour.estJourneeFerie());
+    }
+
+    @Test
+    public void testEstJourMaladie() {
+        Jour jour = new JourOuvrable(null, null);
+
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, 0);
+        Projet p2 = new Projet(500, 0);
+
+        jour.ajoutProjet(p1);
+        jour.ajoutProjet(p2);
+
+        assertTrue(jour.estJourMaladie());
+    }
+
     @Test
     public void testEstJourneeCongeParental() {
-        boolean estJourneeCongeParental;
+        Jour jour = new JourOuvrable(null, null);
 
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
         Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 0);
-        jour.ajoutProjet(p1);
-
-        estJourneeCongeParental = jour.estJourneeCongeParental();
-
-        assertTrue(estJourneeCongeParental);
-    }
-
-    @Test
-    public void testGetMinutesCongeParental() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
-        jour.ajoutProjet(p1);
-
-        int minutesRecu = jour.getMinutesJourneeCongeParental();
-
-        assertEquals(minutesProjet, minutesRecu);
-    }
-
-    @Test
-    public void testAnalyserCongeParental() {
-
-        int minutesProjet = 480;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
-
-        jour.ajoutProjet(p1);
-
-        jour.analyserJourParental();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 0);
-    }
-
-    @Test
-    public void testContientPasAutresProjetsQueCongeParental() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 0);
-
-        jour.ajoutProjet(p1);
-
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL);
-
-        assertFalse(jourContientAutresProjet);
-    }
-
-    @Test
-    public void testContientAutresProjetsQueCongeParental() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 0);
-        Projet p2 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, 0);
+        Projet p2 = new Projet(500, 0);
 
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
 
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL);
-
-        assertTrue(jourContientAutresProjet);
+        assertTrue(jour.estJourneeCongeParental());
     }
 
     @Test
-    public void testCongeParentalPendantWeekEnd() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourParental();
-        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-        ErreurJournal.Instance().effacerTout();
-    }
+    public void testContientTeleTravail() {
+        Jour jour = new JourOuvrable(null, null);
 
-    @Test
-    public void testEstJourneeCongeVacance() {
-        boolean estCongeVacance;
+        Projet p1 = new Projet(Projet.PROJET_ID_TELETRAVAIL + 1, 0);
+        Projet p2 = new Projet(500, 0);
 
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, 0);
-        jour.ajoutProjet(p1);
-
-        estCongeVacance = jour.estJourneeVacances();
-
-        assertTrue(estCongeVacance);
-    }
-
-    @Test//iCI
-    public void testGetMinutesCongeVacance() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        jour.ajoutProjet(p1);
-        int minutesRecu = jour.getMinutesJourneeVacance();
-        assertEquals(minutesProjet, minutesRecu);
-    }
-
-    @Test
-    public void testAnalyserCongeVacanceValide() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourVacances();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-        assertEquals(nbErreur, 0);
-    }
-
-    @Test
-    public void testAnalyserCongeVacanceInvalide() {
-        int minutesProjet = 480;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        Projet p2 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
 
-        jour.analyserJourVacances();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 1);
-        ErreurJournal.Instance().effacerTout();
+        assertTrue(jour.contientTeleTravail());
     }
 
     @Test
-    public void testContientPasAutresProjetsQueCongeVacance() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, 0);
-        jour.ajoutProjet(p1);
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_VACANCE);
-        assertFalse(jourContientAutresProjet);
-    }
+    public void testContientTravailBureau() {
+        Jour jour = new JourOuvrable(null, null);
 
-    @Test
-    public void testAnalyserCongeVacanceAvecTravail() {
-        int minutesProjet = 480;
+        Projet p1 = new Projet(Projet.PROJET_ID_TELETRAVAIL - 1, 0);
+        Projet p2 = new Projet(500, 0);
 
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        Projet p2 = new Projet(100, 400);
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
 
-        jour.analyserJourVacances();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 0);
-
+        assertTrue(jour.contientTravailBureau());
     }
 
     @Test
-    public void testCongeVacancePendantWeekEnd() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourVacances();
-        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-        ErreurJournal.Instance().effacerTout();
-    }
+    public void testContientAutresProjetsQueValide() {
+        Jour jour = new JourOuvrable(null, null);
+        int projetID = 500;
 
-    @Test
-    public void testEstJourneeCongeFerie() {
-        boolean estJourneeFerie;
+        Projet p1 = new Projet(Projet.PROJET_ID_TELETRAVAIL, 0);
+        Projet p2 = new Projet(projetID, 0);
 
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, 0);
-        jour.ajoutProjet(p1);
-
-        estJourneeFerie = jour.estJourneeFerie();
-
-        assertTrue(estJourneeFerie);
-    }
-
-    @Test//iCI
-    public void testGetMinutesCongeFerie() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        jour.ajoutProjet(p1);
-        int minutesRecu = jour.getMinutesJourneeVacance();
-        assertEquals(minutesProjet, minutesRecu);
-    }
-
-    @Test
-    public void testAnalyserCongeFerieValide() {
-        int minutesProjet = 480;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
-
-        jour.ajoutProjet(p1);
-
-        jour.analyserJourFerie();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 0);
-    }
-
-    @Test
-    public void testAnalyserCongeFerieInvalide() {
-        int minutesProjet = 480;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, minutesProjet);
-        Projet p2 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
 
-        jour.analyserJourVacances();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 1);
-        ErreurJournal.Instance().effacerTout();
+        assertTrue(jour.contientAutresProjetsQue(projetID));
     }
 
     @Test
-    public void testContientPasAutresProjetsQueCongeFerie() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, 0);
-        jour.ajoutProjet(p1);
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_FERIE);
-        assertFalse(jourContientAutresProjet);
-    }
+    public void testContientAutresProjetsQueInvalide() {
+        Jour jour = new JourOuvrable(null, null);
+        int projetID = 500;
+        Projet p1 = new Projet(projetID, 0);
+        Projet p2 = new Projet(projetID, 0);
 
-    @Test
-    public void testAnalyserCongeFerieAvecTravail() {
-        int minutesProjet = 480;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
-        Projet p2 = new Projet(100, 400);
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
 
-        jour.analyserJourFerie();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-
-        assertEquals(nbErreur, 0);
-
+        assertFalse(jour.contientAutresProjetsQue(projetID));
     }
 
     @Test
-    public void testCongeFeriePendantWeekEnd() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourFerie();
-        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-        ErreurJournal.Instance().effacerTout();
-    }
+    public void testAjoutProjet() {
+        Projet projet = new Projet(0, 0);
+        Jour jour = new JourOuvrable(null, null);
+        jour.ajoutProjet(projet);
 
-    public void testEstJourneeMaladie() {
-        boolean estJourneeMaladie;
-
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, 0);
-        jour.ajoutProjet(p1);
-        estJourneeMaladie = jour.estJourneeCongeParental();
-
-        assertTrue(estJourneeMaladie);
+        assertSame(projet, jour.getProjetsJournee().get(0));
     }
 
     @Test
-    public void testGetMinutesCongeMaladie() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, minutesProjet);
-        jour.ajoutProjet(p1);
-        int minutesRecu = jour.getMinutesJourneeMaladie();
-        assertEquals(minutesProjet, minutesRecu);
+    public void testToString() {
+        String nomJour = "jour";
+        Jour jour = new JourOuvrable(nomJour, null);
+
+        assertEquals(nomJour, jour.toString());
     }
 
     @Test
-    public void testAnalyserCongeMaladie() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourParental();
-        int nbErreur = ErreurJournal.Instance().erreurs.size();
-        assertEquals(nbErreur, 0);
-    }
+    public void testAnalyserJour() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Jour jour = new JourOuvrable(null, erreurJournal);
+        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_FERIE, Jour.MINUTES_JOURNEE_FERIEE + 1);
+        Projet p2 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, Jour.MINUTES_JOURNEE_MALADIE + 1);
+        Projet p3 = new Projet(Projet.PROJET_ID_CONGE_PARENTAL, Jour.MINUTES_JOURNEE_CONGE_PARENTAL + 1);
+        Projet p4 = new Projet(Projet.PROJET_ID_CONGE_VACANCE, Jour.MINUTES_JOURNEE_CONGE_VACANCES + 1);
 
-    public void testContientPasAutresProjetsQueCongeMaladie() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, 0);
-        jour.ajoutProjet(p1);
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_MALADIE);
-        assertFalse(jourContientAutresProjet);
-    }
-
-    @Test
-    public void testContientAutresProjetsQueCongeMaladie() {
-        Jour jour = new Jour("Jour1", TypeJour.OUVRABLE);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, 0);
-        Projet p2 = new Projet(Projet.PROJET_ID_CONGE_FERIE, 0);
         jour.ajoutProjet(p1);
         jour.ajoutProjet(p2);
-        boolean jourContientAutresProjet = jour.contientAutresProjetsQue(Projet.PROJET_ID_CONGE_PARENTAL);
-        assertTrue(jourContientAutresProjet);
-    }
+        jour.ajoutProjet(p3);
+        jour.ajoutProjet(p4);
 
-    @Test
-    public void testCongeMaladiePendantWeekEnd() {
-        int minutesProjet = 480;
-        Jour jour = new Jour("Week end", TypeJour.WEEKEND);
-        Projet p1 = new Projet(Projet.PROJET_ID_CONGE_MALADIE, minutesProjet);
-        jour.ajoutProjet(p1);
-        jour.analyserJourMaladie();
-        assertEquals(ErreurJournal.Instance().erreurs.size(), 1);
-        ErreurJournal.Instance().effacerTout();
-    }*/
+        jour.analyserJour();
+
+        assertEquals(6, erreurJournal.getNombresErreurs());
+    }
 }

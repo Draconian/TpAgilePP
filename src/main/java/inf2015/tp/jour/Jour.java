@@ -7,8 +7,9 @@
  */
 package inf2015.tp.jour;
 
-import inf2015.tp.ErreurJournal;
+import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.Projet;
+import inf2015.tp.erreur.ErreurJourDepasseMinute;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,17 +17,19 @@ import java.util.List;
 
 public abstract class Jour {
 
-    protected static final int MINUTES_JOURNEE_FERIEE = 480;
-    protected static final int MINUTES_JOURNEE_MALADIE = 480;
-    protected static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
-    protected static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
-    protected static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
-    protected static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
+    public static final int MINUTES_JOURNEE_FERIEE = 480;
+    public static final int MINUTES_JOURNEE_MALADIE = 480;
+    public static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
+    public static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
+    public static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
+    public static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
     protected ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
     protected String nomJour;
+    protected ErreurJournal erreurJournal;
 
-    protected Jour(String nomJour) {
+    protected Jour(String nomJour, ErreurJournal erreurJournal) {
         this.nomJour = nomJour;
+        this.erreurJournal = erreurJournal;
     }
 
     public String getNomJour() {
@@ -50,19 +53,7 @@ public abstract class Jour {
         return minutes;
     }
 
-    public void verifierMinutes(int minutesJournee) {
-        if (this.estJourneeVacances() || this.estJourneeFerie()) {
-            if (minutesJournee > MAX_MINUTES_PAR_JOURS_AVEC_CONGE) {
-                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS_AVEC_CONGE + ")");
-            }
-        } else {
-            if (minutesJournee > MAX_MINUTES_PAR_JOURS) {
-                ErreurJournal.Instance().ajoutErreur("Erreur : " + minutesJournee + " dépasse le maximum autorisé (" + MAX_MINUTES_PAR_JOURS + ")");
-            }
-        }
-    }
-
-    public int getMinutesParJour() {
+    public int getTotalMinutesJournee() {
         int minutes = 0;
         for (Projet projet : this.projetsJournee) {
             minutes += projet.getMinutes();
@@ -218,15 +209,20 @@ public abstract class Jour {
         this.projetsJournee.add(nouveauProjet);
     }
 
-    public void analyserJour() throws IOException {
-
+    public void analyserJour() {
         if (this.estJourneeVacances()) {
             this.analyserJourVacances();
-        } else if (this.estJourneeCongeParental()) {
+        }
+        
+        if (this.estJourneeCongeParental()) {
             this.analyserJourParental();
-        } else if (this.estJourneeFerie()) {
+        }
+
+        if (this.estJourneeFerie()) {
             this.analyserJourFerie();
-        } else if (this.estJourMaladie()) {
+        }
+
+        if (this.estJourMaladie()) {
             this.analyserJourMaladie();
         }
     }
@@ -235,9 +231,9 @@ public abstract class Jour {
     public String toString() {
         return String.format("%s", this.nomJour);
     }
-    
+
     public abstract boolean estJourOuvable();
-    
+
     protected abstract void analyserJourFerie();
 
     protected abstract void analyserJourMaladie();
@@ -246,12 +242,5 @@ public abstract class Jour {
 
     protected abstract void analyserJourParental();
 
-    protected static void comparerJourSpecialEtMinutesRequis(String nomJour, String typeJourSpecial, int jourMinutes, int jourMinutesRequis) {
-
-        if (jourMinutes != jourMinutesRequis) {
-            ErreurJournal.Instance().ajoutErreur(String.format("Le jour \"%s\" qui est %s, doit contenir %d minutes. (Il contient %d minutes.)",
-                    nomJour, typeJourSpecial, jourMinutesRequis, jourMinutes));
-        }
-
-    }
+    public abstract void verifierMaxMinutesJour();
 }

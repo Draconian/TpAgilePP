@@ -7,13 +7,15 @@
  */
 package inf2015.tp.jour;
 
-import inf2015.tp.ErreurJournal;
+import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.Projet;
+import inf2015.tp.erreur.ErreurJourCongeWeekend;
+import inf2015.tp.erreur.ErreurJourDepasseMinute;
 
 public class JourWeekend extends Jour {
 
-    public JourWeekend(String nomJour) {
-        super(nomJour);
+    public JourWeekend(String nomJour, ErreurJournal erreurJournal) {
+        super(nomJour, erreurJournal);
     }
 
     @Override
@@ -22,22 +24,33 @@ public class JourWeekend extends Jour {
     }
 
     @Override
+    public void verifierMaxMinutesJour() {
+        int minutesJournee = this.getTotalMinutesJournee();
+        
+        if (minutesJournee > MAX_MINUTES_PAR_JOURS) {
+            erreurJournal.ajoutErreur(new ErreurJourDepasseMinute(this, MAX_MINUTES_PAR_JOURS));
+        }
+    }
+
+    @Override
     protected void analyserJourFerie() {
-        ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est férié ne doit pas être le weekend.", this.nomJour));
+        erreurJournal.ajoutErreur(new ErreurJourCongeWeekend(this, "férié"));
     }
 
     @Override
     protected void analyserJourMaladie() {
-        ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "maladie"));
+        erreurJournal.ajoutErreur(new ErreurJourCongeWeekend(this, "maladie"));
     }
 
     @Override
     protected void analyserJourVacances() {
-        ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "vacances"));
+        erreurJournal.ajoutErreur(new ErreurJourCongeWeekend(this, "vacances"));
+
     }
 
     @Override
     protected void analyserJourParental() {
-        ErreurJournal.Instance().ajoutErreur(String.format("\nLe jour \"%s\" qui est %s ne doit pas être le weekend.", this.nomJour, "Congé parental"));
+        erreurJournal.ajoutErreur(new ErreurJourCongeWeekend(this, "parental"));
+
     }
 }

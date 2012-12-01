@@ -7,16 +7,19 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.erreur.ErreurJournal;
+
 public class TpAgile {
 
     public static void main(String[] args) {
 
+        ErreurJournal erreurJournal = new ErreurJournal();
         if (args.length != 2) {
             System.out.println("Erreur dans les arguments passés au programme: TpAgile [chemin feuille temps] [chemin erreur sortie]");
             System.exit(-1);
         }
 
-        Employe employer = new Employe(0);
+        Employe employer = new Employe(0, erreurJournal);
         if (employer.validerFeuilleDeTemps()) {
             System.out.println("Feuille de temps est valide.");
         } else {
