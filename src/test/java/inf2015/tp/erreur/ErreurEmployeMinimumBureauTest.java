@@ -1,5 +1,5 @@
 /**
- * ErreurEmployeMinimalUnJourOuvrableBureauTest - INF2015 - TP Agile - EQUIPE 17
+ * ErreurEmployeMinimumBureauTest - INF2015 - TP Agile - EQUIPE 17
  *
  * @author Francois Dufault
  * @author Lyes Tamazouzt
@@ -11,10 +11,10 @@ import inf2015.tp.employe.Employe;
 import inf2015.tp.employe.EmployeAdministration;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
-import static org.junit.Assert.*;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class ErreurEmployeMinimalUnJourOuvrableBureauTest {
+public class ErreurEmployeMinimumBureauTest {
 
     @Test
     public void testAfficherErreur() {

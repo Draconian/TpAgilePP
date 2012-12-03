@@ -1,5 +1,5 @@
 /**
- * ErreurEmployeMaximumBureau - INF2015 - TP Agile - EQUIPE 17
+ * ErreurEmployeMinimumBureau - INF2015 - TP Agile - EQUIPE 17
  *
  * @author Francois Dufault
  * @author Lyes Tamazouzt
@@ -9,14 +9,14 @@ package inf2015.tp.erreur;
 
 import inf2015.tp.employe.Employe;
 
-public class ErreurEmployeMaximumBureau extends Erreur {
+public class ErreurEmployeMinimumBureau extends Erreur {
 
     protected static final String ERREUR_MESSAGE = "L'employé %s a dépassé le "
-            + "nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser"
+            + "nombre d'heures minimum au bureau. Celui-ci ne peut pas dépasser"
             + ": %.1f heures.";
     private int maxMinutes;
 
-    public ErreurEmployeMaximumBureau(Employe employeErreur, int maxMinutes) {
+    public ErreurEmployeMinimumBureau(Employe employeErreur, int maxMinutes) {
         super(ERREUR_MESSAGE, employeErreur);
         this.maxMinutes = maxMinutes;
     }

@@ -7,6 +7,11 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.employe.Employe;
+import inf2015.tp.employe.EmployeAdministration;
+import inf2015.tp.employe.EmployeDeveloppement;
+import inf2015.tp.employe.EmployeExploitation;
+import inf2015.tp.employe.EmployeDirection;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
@@ -20,18 +25,35 @@ public class JsonFabriqueObj {
     protected static final String[] JOUR_SEMAINES = {"jour1", "jour2", "jour3",
         "jour4", "jour5", "weekend1", "weekend2"};
     protected ErreurJournal erreurJournal;
-    
-    public JsonFabriqueObj(ErreurJournal erreurJournal){
-        
+
+    public JsonFabriqueObj(ErreurJournal erreurJournal) {
     }
-    
-    
-    protected Employe fabriquerEmploye(JSONObject jsonFeuilleTemps) {
+
+    protected Employe fabriquerEmploye(JSONObject jsonFeuilleTemps) throws Exception {
         int numeroEmploye = jsonFeuilleTemps.getInt("numero_employe");
 
-        Employe employe = new Employe(numeroEmploye, erreurJournal);
+        Employe employe = this.fabriquerEmployeSelonNumero(numeroEmploye);
 
         return employe;
+    }
+
+    protected Employe fabriquerEmployeSelonNumero(int numeroEmploye) throws Exception {
+
+        if (EmployeAdministration.estEmploye(numeroEmploye)) {
+            return new EmployeAdministration(numeroEmploye, this.erreurJournal);
+
+        } else if (EmployeDeveloppement.estEmploye(numeroEmploye)) {
+            return new EmployeDeveloppement(numeroEmploye, erreurJournal);
+
+        } else if (EmployeExploitation.estEmploye(numeroEmploye)) {
+            return new EmployeExploitation(numeroEmploye, erreurJournal);
+
+        } else if (EmployeDirection.estEmploye(numeroEmploye)) {
+            return new EmployeDirection(numeroEmploye, erreurJournal);
+
+        }
+
+        throw new Exception("Numéro d'employé inconnu");
     }
 
     protected JourOuvrable fabriquerJourOuvrable(String nomJour) {
@@ -70,7 +92,7 @@ public class JsonFabriqueObj {
         return projet;
     }
 
-    protected Employe fabriquerFeuilleTemps(String fichierJsonContenu) {
+    protected Employe fabriquerFeuilleTemps(String fichierJsonContenu) throws Exception {
         JSONObject jsonFeuilleTemps = JSONObject.fromObject(fichierJsonContenu);
 
         Employe employe = this.fabriquerEmploye(jsonFeuilleTemps);
@@ -79,7 +101,7 @@ public class JsonFabriqueObj {
             JSONArray jsonJourArray = jsonFeuilleTemps.getJSONArray(nomJour);
 
             Jour jourCreer = this.fabriquerProjetsPourJsonJour(nomJour, jsonJourArray);
-            employe.semaines.add(jourCreer);
+            employe.getSemaine().add(jourCreer);
         }
 
         return employe;
@@ -88,7 +110,7 @@ public class JsonFabriqueObj {
     private Jour fabriquerProjetsPourJsonJour(String nomJour, JSONArray jsonJourArray) {
         Jour jourCreer = this.fabriquerJour(nomJour);
         Iterator<JSONObject> iteratorProjet = jsonJourArray.iterator();
-        
+
         while (iteratorProjet.hasNext()) {
             JSONObject jsonProjet = iteratorProjet.next();
             Projet projetCreer = this.fabriquerProjet(jsonProjet);

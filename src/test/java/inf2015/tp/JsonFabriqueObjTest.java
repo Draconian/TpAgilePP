@@ -7,6 +7,8 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.employe.Employe;
+import inf2015.tp.employe.EmployeAdministration;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import inf2015.tp.jour.JourWeekend;
@@ -21,15 +23,14 @@ public class JsonFabriqueObjTest {
     }
 
     @Test
-    public void testFabriquerEmploye() {
+    public void testFabriquerEmploye() throws Exception {
+        int numeroEmploye = 500;
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": []}";
         JSONObject jsonEmploye = JSONObject.fromObject(fichierJsonContenu);
         Employe employe = fabrique.fabriquerEmploye(jsonEmploye);
 
-        Employe employerExpecte = new Employe(500, null);
-
-        assertEquals(employerExpecte.numeroEmployer, employe.numeroEmployer);
+        assertEquals(numeroEmploye, employe.getNumeroEmploye());
     }
 
     @Test
@@ -84,35 +85,35 @@ JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
     }
     
     @Test
-    public void testFabriquerFeuilleTemps1Jour1Projet() {
+    public void testFabriquerFeuilleTemps1Jour1Projet() throws Exception {
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": [ {\"projet\": 800,\"minutes\": 840}], \"jour2\": [], \"jour3\": [], \"jour4\": [], "
                 + "\"jour5\": [], \"weekend1\":[], \"weekend2\": [] }";
         Employe employeCreer = fabrique.fabriquerFeuilleTemps(fichierJsonContenu);
         
-        assertEquals("jour1", employeCreer.semaines.get(0).getNomJour());
-        assertEquals(500, employeCreer.numeroEmployer);
-        assertEquals(840, employeCreer.semaines.get(0).getProjetsJournee().get(0).minutes);
-        assertEquals(800, employeCreer.semaines.get(0).getProjetsJournee().get(0).projetID);
+        assertEquals("jour1", employeCreer.getSemaine().get(0).getNomJour());
+        assertEquals(500, employeCreer.getNumeroEmploye());
+        assertEquals(840, employeCreer.getSemaine().get(0).getProjetsJournee().get(0).minutes);
+        assertEquals(800, employeCreer.getSemaine().get(0).getProjetsJournee().get(0).projetID);
     }
     
     @Test
-    public void testFabriquerFeuilleTempsMultiple(){
+    public void testFabriquerFeuilleTempsMultiple() throws Exception{
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": [ {\"projet\": 800,\"minutes\": 840}], \"jour2\": [], \"jour3\": [], \"jour4\": [], "
                 + "\"jour5\": [], \"weekend1\":[{\"projet\": 800,\"minutes\": 840}, {\"projet\": 500,\"minutes\": 1200}], \"weekend2\": [] }";
         Employe employeCreer = fabrique.fabriquerFeuilleTemps(fichierJsonContenu);
         
-        assertEquals("jour1", employeCreer.semaines.get(0).getNomJour());
-        assertEquals(500, employeCreer.numeroEmployer);
-        assertEquals(840, employeCreer.semaines.get(0).getProjetsJournee().get(0).minutes);
-        assertEquals(800, employeCreer.semaines.get(0).getProjetsJournee().get(0).projetID);
-        assertEquals(employeCreer.semaines.get(0).getClass(), JourOuvrable.class);
+        assertEquals("jour1", employeCreer.getSemaine().get(0).getNomJour());
+        assertEquals(500, employeCreer.getNumeroEmploye());
+        assertEquals(840, employeCreer.getSemaine().get(0).getProjetsJournee().get(0).minutes);
+        assertEquals(800, employeCreer.getSemaine().get(0).getProjetsJournee().get(0).projetID);
+        assertEquals(employeCreer.getSemaine().get(0).getClass(), JourOuvrable.class);
         
         
-        assertEquals("weekend1", employeCreer.semaines.get(5).getNomJour());
-        assertEquals(1200, employeCreer.semaines.get(5).getProjetsJournee().get(1).minutes);
-        assertEquals(500, employeCreer.semaines.get(5).getProjetsJournee().get(1).projetID);
-        assertEquals(employeCreer.semaines.get(5).getClass(), JourWeekend.class);
+        assertEquals("weekend1", employeCreer.getSemaine().get(5).getNomJour());
+        assertEquals(1200, employeCreer.getSemaine().get(5).getProjetsJournee().get(1).minutes);
+        assertEquals(500, employeCreer.getSemaine().get(5).getProjetsJournee().get(1).projetID);
+        assertEquals(employeCreer.getSemaine().get(5).getClass(), JourWeekend.class);
     }
 }

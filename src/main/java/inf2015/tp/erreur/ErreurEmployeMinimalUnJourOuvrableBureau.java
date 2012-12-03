@@ -7,7 +7,7 @@
  */
 package inf2015.tp.erreur;
 
-import inf2015.tp.Employe;
+import inf2015.tp.employe.Employe;
 import inf2015.tp.jour.Jour;
 
 public class ErreurEmployeMinimalUnJourOuvrableBureau extends Erreur {

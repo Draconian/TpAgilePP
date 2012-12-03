@@ -7,6 +7,7 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.employe.Employe;
 import inf2015.tp.erreur.ErreurJournal;
 
 public class TpAgile {
@@ -19,12 +20,6 @@ public class TpAgile {
             System.exit(-1);
         }
 
-        Employe employer = new Employe(0, erreurJournal);
-        if (employer.validerFeuilleDeTemps()) {
-            System.out.println("Feuille de temps est valide.");
-        } else {
-            System.out.println("Feuille de temps n'est PAS valide.");
-        }
 
     }
 }

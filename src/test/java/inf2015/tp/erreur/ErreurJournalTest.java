@@ -7,7 +7,8 @@
  */
 package inf2015.tp.erreur;
 
-import inf2015.tp.Employe;
+import inf2015.tp.employe.Employe;
+import inf2015.tp.employe.EmployeAdministration;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -30,7 +31,7 @@ public class ErreurJournalTest {
         Erreur erreur1 = new ErreurEmployeCongeParentalMultiple();
         erreurJournal.ajoutErreur(erreur1);
 
-        Employe employe = new Employe(500, null);
+        Employe employe = new EmployeAdministration(500, null);
         int maxMinutes = 60;
         Erreur erreur2 = new ErreurEmployeMaximumBureau(employe, maxMinutes);
         erreurJournal.ajoutErreur(erreur2);
@@ -57,7 +58,7 @@ public class ErreurJournalTest {
         Erreur erreur1 = new ErreurEmployeCongeParentalMultiple();
         erreurJournal.ajoutErreur(erreur1);
 
-        Employe employe = new Employe(500, null);
+        Employe employe = new EmployeAdministration(500, null);
         int maxMinutes = 60;
         Erreur erreur2 = new ErreurEmployeMaximumBureau(employe, maxMinutes);
         erreurJournal.ajoutErreur(erreur2);
@@ -89,14 +90,14 @@ public class ErreurJournalTest {
         Erreur erreur = new ErreurEmployeCongeParentalMultiple();
         erreurJournal.ajoutErreur(erreur);
 
-        Employe employe = new Employe(500, null);
+        Employe employe = new EmployeAdministration(500, null);
         int maxMinutes = 60;
         erreur = new ErreurEmployeMaximumBureau(employe, maxMinutes);
 
         erreurJournal.ajoutErreur(erreur);
 
         String jsonExpected = "[\"Une semaine ne peut contenir"
-                + " plus qu'un congé parental.\",\"L'employé employé a dépassé le nombre d'heures maximum au "
+                + " plus qu'un congé parental.\",\"L'employé Administration a dépassé le nombre d'heures maximum au "
                 + "bureau. Celui-ci ne peut pas dépasser: 1,0 heures.\"]";
         String jsonrecu = erreurJournal.convertirEnJsonArray().toString();
 
