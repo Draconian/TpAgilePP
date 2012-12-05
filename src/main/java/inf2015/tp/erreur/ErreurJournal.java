@@ -15,8 +15,6 @@ import java.util.logging.Logger;
 import net.sf.json.JSONArray;
 
 public class ErreurJournal {
-
-    private static ErreurJournal ERREUR_JOURNAL_INSTANCE = new ErreurJournal();
     protected ArrayList<Erreur> erreurs = new ArrayList<Erreur>();
 
     public void ajoutErreur(Erreur nouvelleErreur) {
