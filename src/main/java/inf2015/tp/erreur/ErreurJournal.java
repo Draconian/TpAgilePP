@@ -34,7 +34,9 @@ public class ErreurJournal {
 
     public void ecrireErreurDansFichier(String cheminFichier) {
         try {
-            JsonUtil.ecrireJsonArrayDansFichier(this.convertirEnJsonArray(), cheminFichier);
+            if (!this.estVide()) {
+                JsonUtil.ecrireJsonArrayDansFichier(this.convertirEnJsonArray(), cheminFichier);
+            }
         } catch (IOException ex) {
             Logger.getLogger(ErreurJournal.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -44,7 +46,7 @@ public class ErreurJournal {
         this.erreurs.clear();
     }
 
-    public boolean estVide(){
+    public boolean estVide() {
         return erreurs.isEmpty();
     }
 

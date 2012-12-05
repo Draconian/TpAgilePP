@@ -18,33 +18,29 @@ public class TpAgile {
             System.exit(-1);
         }
 
-        TpAgile.validerFeuilleTempsEmploye(args[0], args[1]);
+        if (TpAgile.validerFeuilleTempsEmploye(args[0], args[1])) {
+            System.out.println("Feuille de temps est valide.");
+        } else {
+            System.out.println("Feuille de temps est PAS valide.");
 
-
+        }
     }
 
-    private static void validerFeuilleTempsEmploye(String fichierEntre, String fichierSortie) {
+    private static boolean validerFeuilleTempsEmploye(String fichierEntre, String fichierSortie) {
         boolean estFeuilleTempsValide = false;
         ErreurJournal erreurJournal = new ErreurJournal();
 
         try {
-
             JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
             Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(fichierEntre);
-
             estFeuilleTempsValide = employe.validerFeuilleDeTemps();
-
         } catch (Exception e) {
             System.out.println("MAIN: " + e.getLocalizedMessage());
             erreurJournal.effacerTout();
         }
 
-        if (estFeuilleTempsValide) {
-            System.out.println("Feuille de temps est valide.");
-        } else {
-            System.out.println("Feuille de temps est PAS valide.");
-        }
-
         erreurJournal.ecrireErreurDansFichier(fichierSortie);
+
+        return estFeuilleTempsValide;
     }
 }
