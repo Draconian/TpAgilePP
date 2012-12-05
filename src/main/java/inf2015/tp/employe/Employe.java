@@ -42,8 +42,9 @@ public abstract class Employe {
     }
 
     public abstract String getTypeEmploye();
+
     public abstract void analyserFeuilleTemps();
-    
+
     public int getNumeroEmploye() {
         return this.numeroEmployer;
     }
