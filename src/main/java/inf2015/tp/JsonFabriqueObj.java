@@ -27,6 +27,7 @@ public class JsonFabriqueObj {
     protected ErreurJournal erreurJournal;
 
     public JsonFabriqueObj(ErreurJournal erreurJournal) {
+        this.erreurJournal = erreurJournal;
     }
 
     protected Employe fabriquerEmploye(JSONObject jsonFeuilleTemps) throws Exception {
