@@ -160,6 +160,6 @@ public class JsonFabriqueObjTest {
     public void testFabriquerEmployeSelonNumeroInvalide() throws Exception {
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         
-        Employe employe = fabrique.fabriquerEmployeSelonNumero(0);
+        fabrique.fabriquerEmployeSelonNumero(0);
     }
 }
