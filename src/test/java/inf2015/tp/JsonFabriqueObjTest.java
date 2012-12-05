@@ -89,7 +89,7 @@ JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": [ {\"projet\": 800,\"minutes\": 840}], \"jour2\": [], \"jour3\": [], \"jour4\": [], "
                 + "\"jour5\": [], \"weekend1\":[], \"weekend2\": [] }";
-        Employe employeCreer = fabrique.fabriquerFeuilleTemps(fichierJsonContenu);
+        Employe employeCreer = fabrique.fabriquerFeuilleTempsDuTexteJson(fichierJsonContenu);
         
         assertEquals("jour1", employeCreer.getSemaine().get(0).getNomJour());
         assertEquals(500, employeCreer.getNumeroEmploye());
@@ -102,7 +102,7 @@ JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": [ {\"projet\": 800,\"minutes\": 840}], \"jour2\": [], \"jour3\": [], \"jour4\": [], "
                 + "\"jour5\": [], \"weekend1\":[{\"projet\": 800,\"minutes\": 840}, {\"projet\": 500,\"minutes\": 1200}], \"weekend2\": [] }";
-        Employe employeCreer = fabrique.fabriquerFeuilleTemps(fichierJsonContenu);
+        Employe employeCreer = fabrique.fabriquerFeuilleTempsDuTexteJson(fichierJsonContenu);
         
         assertEquals("jour1", employeCreer.getSemaine().get(0).getNomJour());
         assertEquals(500, employeCreer.getNumeroEmploye());

@@ -19,6 +19,7 @@ import inf2015.tp.jour.JourWeekend;
 import java.util.Iterator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 public class JsonFabriqueObj {
 
@@ -93,9 +94,19 @@ public class JsonFabriqueObj {
         return projet;
     }
 
-    protected Employe fabriquerFeuilleTemps(String fichierJsonContenu) throws Exception {
-        JSONObject jsonFeuilleTemps = JSONObject.fromObject(fichierJsonContenu);
-
+    public Employe fabriquerFeuilleTempsDuFichierJson(String cheminFichierJSON) throws Exception{
+        JSONObject jsonFeuilleTemps = JsonUtil.chargerJsonObjetDuFichier(cheminFichierJSON);
+        
+        return this.fabriquerFeuilleTemps(jsonFeuilleTemps);
+    }
+    
+    public Employe fabriquerFeuilleTempsDuTexteJson(String texteJSON) throws Exception {
+        JSONObject jsonFeuilleTemps = JSONObject.fromObject(texteJSON);
+        
+        return this.fabriquerFeuilleTemps(jsonFeuilleTemps);
+    }
+    
+    protected Employe fabriquerFeuilleTemps(JSONObject jsonFeuilleTemps) throws Exception {
         Employe employe = this.fabriquerEmploye(jsonFeuilleTemps);
 
         for (String nomJour : JOUR_SEMAINES) {
