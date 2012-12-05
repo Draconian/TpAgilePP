@@ -39,7 +39,7 @@ public class EmployeAdministration extends Employe {
     }
 
     @Override
-    public void analyserFeuilleTemps() {
+    protected void analyserFeuilleTemps() {
         super.analyserFeuilleTempsGeneral();
         
         this.verifierTeleTravail();

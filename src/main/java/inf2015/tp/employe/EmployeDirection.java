@@ -37,7 +37,7 @@ public class EmployeDirection extends Employe {
     }
 
     @Override
-    public void analyserFeuilleTemps() {
+    protected void analyserFeuilleTemps() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

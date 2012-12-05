@@ -13,10 +13,7 @@ import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public abstract class Employe {
 
@@ -41,7 +38,7 @@ public abstract class Employe {
 
     public abstract String getTypeEmploye();
 
-    public abstract void analyserFeuilleTemps();
+    protected abstract void analyserFeuilleTemps();
 
     public int getNumeroEmploye() {
         return this.numeroEmployer;
@@ -56,10 +53,12 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-       this.calculerFeuilleTemps();
-       this.analyserFeuilleTemps();
-       
-       return this.erreurJournal.estVide();
+        this.calculerFeuilleTemps();
+        this.analyserFeuilleTemps();
+        this.verifierMinimumMinutesQuotidiennes();
+        this.verifierCongeParental();
+        
+        return this.erreurJournal.estVide();
     }
 
     protected void calculerFeuilleTemps() {
