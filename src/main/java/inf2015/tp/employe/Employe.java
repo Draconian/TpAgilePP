@@ -27,8 +27,6 @@ public abstract class Employe {
     protected int minutesJoursOuvrableBureau = 0;
     protected int minutesWeekendBureau = 0;
     protected ArrayList<Jour> semaines = new ArrayList<Jour>();
-    protected String cheminFichierFeuilleTemps;
-    protected String cheminFichierErreur;
     protected ErreurJournal erreurJournal;
     protected int minimumMinutesParJourOuvrable = 0;
     protected int minimumMinutesBureau = 0;
@@ -58,16 +56,7 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-        try {
-
-            this.calculerFeuilleTemps();
-        } catch (Exception ex) {
-            System.out.println("Lecture du fichier JSON a échoué: " + ex.getMessage());
-            this.priseEnChargeJsonMalForme();
-            return false;
-        }
-
-        return this.estFeuilleTempsValide();
+       throw new UnsupportedOperationException("Not supported yet.");
     }
 
     protected void calculerFeuilleTemps() {
@@ -101,14 +90,6 @@ public abstract class Employe {
         }
     }
 
-    protected boolean estFeuilleTempsValide() {
-        if (!this.erreurJournal.estVide()) {
-            this.ecritureDesErreurs();
-        }
-
-        return this.erreurJournal.estVide();
-    }
-
     protected void verifierCongeParental() {
         boolean estCongeParental = false;
 
@@ -120,19 +101,5 @@ public abstract class Employe {
                 estCongeParental = true;
             }
         }
-    }
-
-    protected void ecritureDesErreurs() {
-        try {
-            this.erreurJournal.ecrireErreurDansFichier(this.cheminFichierErreur);
-        } catch (IOException ex) {
-            System.out.println("Impossible d'écrire le fichier d'erreur: " + ex.getMessage());
-            Logger.getLogger(Employe.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    protected void priseEnChargeJsonMalForme() {
-        this.erreurJournal.effacerTout();
-        this.ecritureDesErreurs();
     }
 }

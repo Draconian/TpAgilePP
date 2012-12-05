@@ -9,6 +9,7 @@ package inf2015.tp.employe;
 
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
+import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
@@ -89,5 +90,44 @@ public class EmployeTest {
         assertEquals(minutesOuvrableBureau, employe.minutesJoursOuvrableBureau);
         assertEquals(minutesTeleTravail, employe.minutesTeleTravail);
         assertEquals(minutesWeekendBureau, employe.minutesWeekendBureau);
+    }
+
+    @Test
+    public void testVerifierCongeParentalValide() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employer = new EmployeAdministration(0, erreurJournal);
+        Jour jour1 = new JourOuvrable("jour1", null);
+        Jour jour2 = new JourOuvrable("jour1", null);
+
+        jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 100));
+        jour2.ajoutProjet(new Projet(100, 100));
+
+        employer.ajoutJour(jour1);
+        employer.ajoutJour(jour2);
+
+        employer.verifierCongeParental();
+
+        assertTrue(erreurJournal.estVide());
+    }
+
+    @Test
+    public void testVerifierCongeParentalInvalide() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employer = new EmployeAdministration(0, erreurJournal);
+        Jour jour1 = new JourOuvrable("jour1", null);
+        Jour jour2 = new JourOuvrable("jour2", null);
+
+        jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 100));
+        jour2.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 100));
+
+        employer.ajoutJour(jour1);
+        employer.ajoutJour(jour2);
+
+        employer.verifierCongeParental();
+
+        assertEquals(1, erreurJournal.getNombresErreurs());
+
+        Erreur erreur = erreurJournal.getErreurAIndex(0);
+        assertEquals(ErreurEmployeCongeParentalMultiple.class, erreur.getClass());
     }
 }
