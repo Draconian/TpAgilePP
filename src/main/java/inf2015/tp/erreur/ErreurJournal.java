@@ -10,6 +10,8 @@ package inf2015.tp.erreur;
 import inf2015.tp.JsonUtil;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.json.JSONArray;
 
 public class ErreurJournal {
@@ -30,8 +32,12 @@ public class ErreurJournal {
         return erreurs.size();
     }
 
-    public void ecrireErreurDansFichier(String cheminFichier) throws IOException {
-        JsonUtil.ecrireJsonArrayDansFichier(this.convertirEnJsonArray(), cheminFichier);
+    public void ecrireErreurDansFichier(String cheminFichier) {
+        try {
+            JsonUtil.ecrireJsonArrayDansFichier(this.convertirEnJsonArray(), cheminFichier);
+        } catch (IOException ex) {
+            Logger.getLogger(ErreurJournal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void effacerTout() {

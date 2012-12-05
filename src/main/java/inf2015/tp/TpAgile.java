@@ -17,14 +17,34 @@ public class TpAgile {
             System.out.println("Erreur dans les arguments passés au programme: TpAgile [chemin feuille temps] [chemin erreur sortie]");
             System.exit(-1);
         }
+
+        TpAgile.validerFeuilleTempsEmploye(args[0], args[1]);
+
+
+    }
+
+    private static void validerFeuilleTempsEmploye(String fichierEntre, String fichierSortie) {
+        boolean estFeuilleTempsValide = false;
+        ErreurJournal erreurJournal = new ErreurJournal();
+
         try {
-            ErreurJournal erreurJournal = new ErreurJournal();
+
             JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
-            Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(args[0]);
+            Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(fichierEntre);
+
+            estFeuilleTempsValide = employe.validerFeuilleDeTemps();
+
         } catch (Exception e) {
             System.out.println("MAIN: " + e.getLocalizedMessage());
+            erreurJournal.effacerTout();
         }
 
+        if (estFeuilleTempsValide) {
+            System.out.println("Feuille de temps est valide.");
+        } else {
+            System.out.println("Feuille de temps est PAS valide.");
+        }
 
+        erreurJournal.ecrireErreurDansFichier(fichierSortie);
     }
 }

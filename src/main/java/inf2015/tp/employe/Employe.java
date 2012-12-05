@@ -56,7 +56,10 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-       throw new UnsupportedOperationException("Not supported yet.");
+       this.calculerFeuilleTemps();
+       this.analyserFeuilleTemps();
+       
+       return this.erreurJournal.estVide();
     }
 
     protected void calculerFeuilleTemps() {
