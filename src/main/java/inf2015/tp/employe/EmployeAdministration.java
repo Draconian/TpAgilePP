@@ -16,13 +16,14 @@ public class EmployeAdministration extends Employe {
     protected static final int EMPLOYE_ID_DEBUT = 1;
     protected static final int EMPLOYE_ID_FIN = 1000;
     protected static final int MINIMUM_MINUTES_BUREAU = 2250; //37.5h
-    protected static final int MININUM_MINUTES_BUREAU_OUVRABLE = 240; //4h
+    protected static final int MINIMUM_MINUTES_BUREAU_OUVRABLE = 240; //4h
     protected static final int MAXIMUM_MINUTES_TELETRAVAIL = 600; //10h
     protected static final int MAXIMUM_MINUTES_BUREAU = 2490; //41.5h
 
     public EmployeAdministration(int numeroEmploye, ErreurJournal erreurJournal) {
         super(numeroEmploye, erreurJournal);
 
+        this.minimumMinutesParJourOuvrable = MINIMUM_MINUTES_BUREAU_OUVRABLE;
         this.maximumMinutesBureau = MAXIMUM_MINUTES_BUREAU;
         this.minimumMinutesBureau = MINIMUM_MINUTES_BUREAU;
         this.maximumMinutesTeletravail = MAXIMUM_MINUTES_TELETRAVAIL;
