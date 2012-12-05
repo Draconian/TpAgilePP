@@ -39,8 +39,14 @@ public class EmployeAdministration extends Employe {
 
     @Override
     public void analyserFeuilleTemps() {
-
-        if (super.minutesTeleTravail > this.maximumMinutesTeletravail) {
+        super.analyserFeuilleTempsGeneral();
+        
+        this.verifierTeleTravail();
+       
+    }
+    
+    protected void verifierTeleTravail() {
+         if (super.minutesTeleTravail > this.maximumMinutesTeletravail) {
             super.erreurJournal.ajoutErreur(new ErreurEmployeTeletravailMaximum(this, this.maximumMinutesTeletravail));
         }
     }
