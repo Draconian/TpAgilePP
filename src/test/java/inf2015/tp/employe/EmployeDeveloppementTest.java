@@ -87,16 +87,27 @@ public class EmployeDeveloppementTest {
         jour.ajoutProjet(projet);
         Employe employe = new EmployeDeveloppement(0, erreurJournal);
         employe.ajoutJour(jour);
-
         employe.verifierMinimumMinutesQuotidiennes();
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurEmployeMinimalUnJourOuvrableBureau.class, erreur.getClass());
     }
-   
-
-
-    
-    
-
+        @Test
+    public void contientTransport(){
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeDeveloppement(1500,erreurJournal);
+        employe.minutesJoursOuvrableBureau = 2100;
+        employe.minutesWeekendBureau = 200;
+        Jour jour = new JourOuvrable("jour", erreurJournal);
+        Projet projet = new Projet(777, 100);
+        jour.ajoutProjet(projet);
+        employe.ajoutJour(jour);
+        employe.validerTypeEmployerContientTransport();
+        employe.minutesJoursOuvrableBureau = 2200;
+        employe.minutesWeekendBureau = 200;  
+        Erreur erreur = erreurJournal.getErreurAIndex(0);
+        assertEquals(ErreurEmployeDeveloppementExploitationContientTransport.class,erreur.getClass());
+    }
+  
+  
  
 }
