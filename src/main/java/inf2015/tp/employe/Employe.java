@@ -142,7 +142,7 @@ public abstract class Employe {
     protected void ajusterLesMinutes(int minutesTransport){
         //Ajuste les minutes selons le poste
             if(EmployePresident.estEmploye(numeroEmployer)){
-                minutesTeleTravail+=minutesTransport; 
+                minutesJoursOuvrableBureau+=minutesTransport; 
             }
              else if (EmployeAdministration.estEmploye(numeroEmployer)) {
                 if (validerMinutesTransport(minutesTransport)) {
