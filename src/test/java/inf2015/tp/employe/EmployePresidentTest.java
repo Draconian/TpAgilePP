@@ -69,7 +69,7 @@ public class EmployePresidentTest {
         Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2600;
         employe.minutesWeekendBureau = 200;
-        employe.analyserFeuilleTemps();        
+        employe.analyserFeuilleTempsDirection();        
         assertTrue(erreurJournal.estVide());
     }
     @Test
