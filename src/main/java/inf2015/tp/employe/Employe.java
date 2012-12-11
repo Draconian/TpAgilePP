@@ -57,11 +57,11 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
+        this.validerTypeEmployerContientTransport();
         this.calculerFeuilleTemps();
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
-        this.verifierCongeTransport();
 
         return this.erreurJournal.estVide();
     }
@@ -152,12 +152,9 @@ public abstract class Employe {
             }
     }
     protected void verifierCongeTransport() {
-        int minutesTransport = 0;
-        boolean contientTransport = verifierSiSemaineContientTransport();
-        if (contientTransport) {
+            int minutesTransport=0;
             minutesTransport = getMinutesSemainesTransport();
             ajusterLesMinutes(minutesTransport);
-        }
     }
     protected void validerTypeEmployerContientTransport(){
         if(verifierSiSemaineContientTransport()){
