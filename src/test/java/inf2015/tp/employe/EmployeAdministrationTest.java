@@ -51,9 +51,7 @@ public class EmployeAdministrationTest {
         jour.ajoutProjet(projet);
         Employe employe = new EmployeAdministration(0, erreurJournal);
         employe.ajoutJour(jour);
-
         employe.verifierMinimumMinutesQuotidiennes();
-
         assertTrue(erreurJournal.estVide());
     }
 
