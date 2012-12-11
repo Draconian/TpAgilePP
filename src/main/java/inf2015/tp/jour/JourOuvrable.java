@@ -20,7 +20,7 @@ public class JourOuvrable extends Jour {
     }
 
     @Override
-    public boolean estJourOuvable() {
+    public boolean estJourOuvrable() {
         return true;
     }
 

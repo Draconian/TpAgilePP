@@ -19,7 +19,7 @@ public class JourWeekend extends Jour {
     }
 
     @Override
-    public boolean estJourOuvable() {
+    public boolean estJourOuvrable() {
         return false;
     }
 
