@@ -23,10 +23,10 @@ public class EmployeAdministration extends Employe {
     public EmployeAdministration(int numeroEmploye, ErreurJournal erreurJournal) {
         super(numeroEmploye, erreurJournal);
 
-        this.minimumMinutesParJourOuvrable = MINIMUM_MINUTES_BUREAU_OUVRABLE;
-        this.maximumMinutesBureau = MAXIMUM_MINUTES_BUREAU;
-        this.minimumMinutesBureau = MINIMUM_MINUTES_BUREAU;
-        this.maximumMinutesTeletravail = MAXIMUM_MINUTES_TELETRAVAIL;
+        super.minimumMinutesParJourOuvrable = MINIMUM_MINUTES_BUREAU_OUVRABLE;
+        super.maximumMinutesBureau = MAXIMUM_MINUTES_BUREAU;
+        super.minimumMinutesBureau = MINIMUM_MINUTES_BUREAU;
+        super.maximumMinutesTeletravail = MAXIMUM_MINUTES_TELETRAVAIL;
     }
 
     @Override
@@ -41,7 +41,6 @@ public class EmployeAdministration extends Employe {
     @Override
     protected void analyserFeuilleTemps() {
         super.analyserFeuilleTempsGeneral();
-        
         this.verifierTeleTravail();
        
     }

@@ -38,6 +38,6 @@ public class EmployeDeveloppement extends Employe {
 
     @Override
     protected void analyserFeuilleTemps() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        super.analyserFeuilleTempsGeneral();
     }
 }
