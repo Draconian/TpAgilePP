@@ -8,10 +8,12 @@
 package inf2015.tp.employe;
 
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
+import inf2015.tp.erreur.ErreurEmployeDeveloppementExploitationContientTransport;
 import inf2015.tp.erreur.ErreurEmployeMaximumBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
 import inf2015.tp.erreur.ErreurJournal;
+import inf2015.tp.erreur.ErreurTempsMaximaleTransport;
 import inf2015.tp.jour.Jour;
 import java.util.ArrayList;
 
@@ -29,6 +31,8 @@ public abstract class Employe {
     protected int minimumMinutesBureau = 0;
     protected int maximumMinutesBureau = 0;
     protected int maximumMinutesTeletravail = 0;
+    protected final int MAXIMUM_TEMPS_TRANSPORT = 300;
+    protected final int MAX_MINUTE_TRANSPORT = 300;
 
     public Employe(int numeroEmployer, ErreurJournal erreurJournal) {
 
@@ -57,19 +61,21 @@ public abstract class Employe {
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
-        
+        this.verifierCongeTransport();
+
         return this.erreurJournal.estVide();
     }
 
     protected void calculerFeuilleTemps() {
         for (Jour jour : this.semaines) {
             jour.verifierMaxMinutesJour();
-            if (jour.estJourOuvable()) {
+            if (jour.estJourOuvrable()) {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
             } else {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
+
         }
     }
 
@@ -83,10 +89,16 @@ public abstract class Employe {
         }
 
     }
+    protected void analyserFeuilleTempsDirection(){
+        int minutesBureauTotal = this.minutesWeekendBureau+this.minutesJoursOuvrableBureau;
+           if (minutesBureauTotal < this.minimumMinutesBureau) {
+            this.erreurJournal.ajoutErreur(new ErreurEmployeMinimumBureau(this, this.minimumMinutesBureau));
+        }
+    }
 
     protected void verifierMinimumMinutesQuotidiennes() {
         for (Jour jour : this.semaines) {
-            if (jour.estJourOuvable() && jour.getMinutesBureau() < this.minimumMinutesParJourOuvrable) {
+            if (jour.estJourOuvrable() && jour.getMinutesBureau() < this.minimumMinutesParJourOuvrable) {
                 this.erreurJournal.ajoutErreur(new ErreurEmployeMinimalUnJourOuvrableBureau(this, jour, this.minimumMinutesParJourOuvrable));
             }
         }
@@ -103,5 +115,67 @@ public abstract class Employe {
                 estCongeParental = true;
             }
         }
+    }
+
+    protected boolean verifierSiSemaineContientTransport() {
+        boolean contientTransport = false;
+    
+        for (Jour jour : this.semaines) {
+            if (jour.contientTransport()){
+                contientTransport = true;
+            }
+        }
+
+        return contientTransport;
+    }
+    
+    
+    protected int getMinutesSemainesTransport() {
+        int minutes = 0;
+        for (Jour jour : this.semaines) {
+            minutes += jour.getMinutesTransport();
+        }
+        return minutes;
+    }
+    protected void ajusterLesMinutes(int minutesTransport){
+            if(EmployePresident.estEmploye(numeroEmployer)){
+                minutesTeleTravail+=minutesTransport;
+            }
+             else if (EmployeAdministration.estEmploye(numeroEmployer)) {
+                if (validerMinutesTransport(minutesTransport)) {
+                    minutesJoursOuvrableBureau += minutesTransport;
+                }
+            } else if (EmployeDirection.estEmploye(numeroEmployer)) {
+                if (validerMinutesTransport(minutesTransport)) {
+                    minutesTeleTravail += minutesTransport;
+                }
+            }
+    }
+    protected void verifierCongeTransport() {
+        int minutesTransport = 0;
+        boolean contientTransport = verifierSiSemaineContientTransport();
+        if (contientTransport) {
+            minutesTransport = getMinutesSemainesTransport();
+            ajusterLesMinutes(minutesTransport);
+        }
+    }
+    protected void validerTypeEmployerContientTransport(){
+        if(verifierSiSemaineContientTransport()){
+            if(EmployeDeveloppement.estEmploye(numeroEmployer)|| EmployeExploitation.estEmploye(numeroEmployer)){
+               erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
+            }else{
+                verifierCongeTransport();
+            }
+            
+        }
+    }
+
+    protected boolean validerMinutesTransport(int minutesTransport) {
+        boolean valide = true;
+        if (minutesTransport > MAX_MINUTE_TRANSPORT) {
+            valide = false;
+            erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, MAX_MINUTE_TRANSPORT));
+        }
+        return valide;
     }
 }
