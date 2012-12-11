@@ -13,14 +13,14 @@ public class EmployePresident extends Employe {
 
     protected static final String TYPE_EMPLOYE = "President";
     protected static final int EMPLOYE_ID=6000;
-    protected static final int MAXIMUM_HEURE_BUREAU = 2580; //43h
     protected static final int MIN_MINUTES_BUREAU_OUVRABLE = 240; //4h
-    protected static final int MINIMUM_MINUTES_BUREAU = 0; // 0h
-    
+    protected static final int MINIMUM_MINUTES_BUREAU = 2580; //43h
+
     public EmployePresident(int numeroEmploye, ErreurJournal erreurJournal) {
         super(numeroEmploye, erreurJournal);
         super.minimumMinutesParJourOuvrable = MIN_MINUTES_BUREAU_OUVRABLE;
         super.minimumMinutesBureau = MINIMUM_MINUTES_BUREAU;
+ 
     }
 
     @Override
