@@ -134,9 +134,7 @@ public class EmployeAdministrationTest {
         Employe employe = new EmployeAdministration(0, erreurJournal);
         employe.minutesJoursOuvrableBureau = 100;
         employe.minutesWeekendBureau = 2500;
-        
         employe.analyserFeuilleTemps();
-        
         assertEquals(1, erreurJournal.getNombresErreurs());
         
         Erreur erreur = erreurJournal.getErreurAIndex(0);
