@@ -117,7 +117,7 @@ public abstract class Employe {
         }
     }
 
-    protected void verifierSiSemaineContientTransport() {
+    protected boolean verifierSiSemaineContientTransport() {
         boolean contientTransport = false;
     
         for (Jour jour : this.semaines) {
@@ -128,6 +128,7 @@ public abstract class Employe {
         if(contientTransport==true){
             validerTypeEmployerContientTransport();
         }
+        return contientTransport;
 
     }
     
