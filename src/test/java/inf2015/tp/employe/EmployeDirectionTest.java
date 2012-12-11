@@ -52,7 +52,27 @@ public class EmployeDirectionTest {
         employe.verifierMinimumMinutesQuotidiennes();
         assertTrue(erreurJournal.estVide());
     }
-
+    @Test
+    public void TestAnalyserFeuilleTempsValide()
+    {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeDirection(5200, erreurJournal);
+        employe.minutesJoursOuvrableBureau = 2600;
+        employe.minutesWeekendBureau = 200;
+        employe.analyserFeuilleTemps();        
+        assertTrue(erreurJournal.estVide());
+    }
+    @Test
+     public void TestAnalyserFeuilleTempsInvalide()
+    {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeDirection(5200, erreurJournal);
+        employe.minutesJoursOuvrableBureau = 2000;
+        employe.minutesWeekendBureau = 200;
+        employe.analyserFeuilleTemps();        
+        assertFalse(erreurJournal.estVide());
+    }
+            
     @Test
     public void testVerifierMinimumMinutesQuotidienneInvalide() {
         ErreurJournal erreurJournal = new ErreurJournal();
@@ -87,7 +107,7 @@ public class EmployeDirectionTest {
         int minuteInvalide = 200;
         
         employe.validerMinutesTransport(minuteInvalide);
-        
+     
         assertEquals(erreurJournal.getNombresErreurs(), 0);
     }
      @Test
