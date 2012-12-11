@@ -32,7 +32,7 @@ public abstract class Employe {
     protected int maximumMinutesBureau = 0;
     protected int maximumMinutesTeletravail = 0;
     protected final int MAXIMUM_TEMPS_TRANSPORT = 300;
-    protected final int MAX_MINUTE_TRANSPORT = 300;
+    public final int MAX_MINUTE_TRANSPORT = 300;
 
     public Employe(int numeroEmployer, ErreurJournal erreurJournal) {
 
@@ -57,7 +57,7 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-        this.validerTypeEmployerContientTransport();
+        this.verifierSiSemaineContientTransport();
         this.calculerFeuilleTemps();
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
@@ -117,7 +117,7 @@ public abstract class Employe {
         }
     }
 
-    protected boolean verifierSiSemaineContientTransport() {
+    protected void verifierSiSemaineContientTransport() {
         boolean contientTransport = false;
     
         for (Jour jour : this.semaines) {
@@ -125,8 +125,10 @@ public abstract class Employe {
                 contientTransport = true;
             }
         }
+        if(contientTransport==true){
+            validerTypeEmployerContientTransport();
+        }
 
-        return contientTransport;
     }
     
     
@@ -138,8 +140,9 @@ public abstract class Employe {
         return minutes;
     }
     protected void ajusterLesMinutes(int minutesTransport){
+        //Ajuste les minutes selons le poste
             if(EmployePresident.estEmploye(numeroEmployer)){
-                minutesTeleTravail+=minutesTransport;
+                minutesTeleTravail+=minutesTransport; 
             }
              else if (EmployeAdministration.estEmploye(numeroEmployer)) {
                 if (validerMinutesTransport(minutesTransport)) {
@@ -156,23 +159,25 @@ public abstract class Employe {
             minutesTransport = getMinutesSemainesTransport();
             ajusterLesMinutes(minutesTransport);
     }
+  
     protected void validerTypeEmployerContientTransport(){
-        if(verifierSiSemaineContientTransport()){
+ 
             if(EmployeDeveloppement.estEmploye(numeroEmployer)|| EmployeExploitation.estEmploye(numeroEmployer)){
                erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
             }else{
                 verifierCongeTransport();
             }
             
-        }
+        
     }
-
     protected boolean validerMinutesTransport(int minutesTransport) {
         boolean valide = true;
+ 
         if (minutesTransport > MAX_MINUTE_TRANSPORT) {
             valide = false;
-            erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, MAX_MINUTE_TRANSPORT));
+            erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, minutesTransport));
         }
         return valide;
     }
+   
 }
