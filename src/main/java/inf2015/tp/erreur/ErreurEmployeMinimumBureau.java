@@ -11,8 +11,8 @@ import inf2015.tp.employe.Employe;
 
 public class ErreurEmployeMinimumBureau extends Erreur {
 
-    protected static final String ERREUR_MESSAGE = "L'employé %s a dépassé le "
-            + "nombre d'heures minimum au bureau. Celui-ci ne peut pas dépasser"
+    protected static final String ERREUR_MESSAGE = "L'employé %s n'a pas fait le  "
+            + "nombre d'heures minimum au bureau. Celui-ci doit faire au moins"
             + ": %.1f heures.";
     private int maxMinutes;
 
