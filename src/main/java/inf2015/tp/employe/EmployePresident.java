@@ -29,7 +29,7 @@ public class EmployePresident extends Employe {
     }
 
      public static boolean estEmploye(int id) {
-        return (EMPLOYE_ID==id);
+        return (id==EMPLOYE_ID);
     }
 
     @Override
