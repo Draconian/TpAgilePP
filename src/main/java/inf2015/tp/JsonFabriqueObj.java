@@ -12,6 +12,7 @@ import inf2015.tp.employe.EmployeAdministration;
 import inf2015.tp.employe.EmployeDeveloppement;
 import inf2015.tp.employe.EmployeExploitation;
 import inf2015.tp.employe.EmployeDirection;
+import inf2015.tp.employe.EmployePresident;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
@@ -53,7 +54,10 @@ public class JsonFabriqueObj {
         } else if (EmployeDirection.estEmploye(numeroEmploye)) {
             return new EmployeDirection(numeroEmploye, erreurJournal);
 
+        }else if(EmployePresident.estEmploye(numeroEmploye)){
+            return new EmployePresident(numeroEmploye, erreurJournal);
         }
+            
 
         throw new Exception("Numéro d'employé inconnu");
     }
