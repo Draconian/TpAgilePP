@@ -203,7 +203,22 @@ public class EmployeTest {
     }
 
     @Test(expected = FeuilleTempsException.class)
-    public void testValiderFeuilleDeTempsException() throws FeuilleTempsException {
+    public void testValiderFeuilleDeTempsException1() throws FeuilleTempsException {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
+        String jsonTexte = "{\"numero_employe\": 400,"
+                + "\"jour1\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour2\": [{\"projet\": 500,\"minutes\": 550}], "
+                + "\"jour3\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour4\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour7\": [{\"projet\": 500,\"minute\": 550}],"
+                + "\"weekend1\": [],"
+                + "\"weekend2\": [] }";
+        fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
+    }
+
+    @Test(expected = FeuilleTempsException.class)
+    public void testValiderFeuilleDeTempsException2() throws FeuilleTempsException {
         ErreurJournal erreurJournal = new ErreurJournal();
         JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
         String jsonTexte = "{\"numero_employe\": 400,"
@@ -213,11 +228,7 @@ public class EmployeTest {
                 + "\"jour4\": [{\"projet\": 500,\"minutes\": 550}],"
                 + "\"jour7\": [{\"projet\": 500,\"minutes\": 550}],"
                 + "\"weekend1\": [],"
-                + "\"weekend2\": [] }";
-        Employe employer = fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
-
-        boolean estFeuilleValide = employer.validerFeuilleDeTemps();
-
-        assertFalse(estFeuilleValide);
+                + "\"weekend2\": []";
+        fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
     }
 }

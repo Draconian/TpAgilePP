@@ -121,8 +121,13 @@ public class JsonFabriqueObj {
     }
 
     public Employe fabriquerFeuilleTempsDuTexteJson(String texteJSON) throws FeuilleTempsException {
-        JSONObject jsonFeuilleTemps = JSONObject.fromObject(texteJSON);
+        JSONObject jsonFeuilleTemps;
 
+        try {
+            jsonFeuilleTemps = JSONObject.fromObject(texteJSON);
+        } catch (JSONException e) {
+            throw new FeuilleTempsException("Fichier JSon mal formé.", e);
+        }
         return this.fabriquerFeuilleTemps(jsonFeuilleTemps);
     }
 
