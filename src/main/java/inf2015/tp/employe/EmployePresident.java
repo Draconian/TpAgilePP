@@ -41,4 +41,16 @@ public class EmployePresident extends Employe {
     protected void validerTypeEmployerContientTransport() {
         verifierCongeTransport();
     }
+
+    @Override
+    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
+        if (validerMinutesTransport(minutesTransport)) {
+            minutesJoursOuvrableBureau += minutesTransport;
+        }
+    }
+    
+    @Override
+    protected boolean validerMinutesTransport(int minutesTransport) {
+        return true;
+    }
 }

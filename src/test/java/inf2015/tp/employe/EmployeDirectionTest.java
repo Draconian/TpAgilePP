@@ -119,7 +119,7 @@ public class EmployeDirectionTest {
         int minutes = 200;
         Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesTeleTravail = 200;
-        employe.ajusterLesMinutes(200);
+        employe.verifierEtCalculerProjetTransport(200);
         assertEquals(employe.minutesTeleTravail, 400);
     }
 
@@ -129,7 +129,7 @@ public class EmployeDirectionTest {
         int minutes = 200;
         Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesTeleTravail = 200;
-        employe.ajusterLesMinutes(302);
+        employe.verifierEtCalculerProjetTransport(302);
         assertEquals(employe.minutesTeleTravail, 200);
     }
 }

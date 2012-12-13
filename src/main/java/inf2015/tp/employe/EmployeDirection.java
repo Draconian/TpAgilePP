@@ -43,4 +43,13 @@ public class EmployeDirection extends Employe {
     protected void validerTypeEmployerContientTransport() {
         verifierCongeTransport();
     }
+
+    @Override
+    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
+
+        if (validerMinutesTransport(minutesTransport)) {
+            minutesTeleTravail += minutesTransport;
+        }
+
+    }
 }

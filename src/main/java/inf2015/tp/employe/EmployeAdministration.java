@@ -55,4 +55,12 @@ public class EmployeAdministration extends Employe {
             super.erreurJournal.ajoutErreur(new ErreurEmployeTeletravailMaximum(this, this.maximumMinutesTeletravail));
         }
     }
+
+    @Override
+    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
+        if (validerMinutesTransport(minutesTransport)) {
+            minutesJoursOuvrableBureau += minutesTransport;
+        }
+
+    }
 }

@@ -174,7 +174,7 @@ public class EmployeAdministrationTest {
         int minutes = 200;
         Employe employe = new EmployeAdministration(500, erreurJournal);
         employe.minutesJoursOuvrableBureau = 200;
-        employe.ajusterLesMinutes(200);
+        employe.verifierEtCalculerProjetTransport(200);
         assertEquals(employe.minutesJoursOuvrableBureau, 400);
     }
 
@@ -184,7 +184,7 @@ public class EmployeAdministrationTest {
         int minutes = 200;
         Employe employe = new EmployeAdministration(500, erreurJournal);
         employe.minutesJoursOuvrableBureau = 200;
-        employe.ajusterLesMinutes(302);
+        employe.verifierEtCalculerProjetTransport(302);
         assertEquals(employe.minutesJoursOuvrableBureau, 200);
     }
 }

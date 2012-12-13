@@ -126,7 +126,7 @@ public abstract class Employe {
                 contientTransport = true;
             }
         }
-        if (contientTransport == true) {
+        if (contientTransport) {
             validerTypeEmployerContientTransport();
         }
         return contientTransport;
@@ -139,26 +139,13 @@ public abstract class Employe {
         }
         return minutes;
     }
-
-    protected void ajusterLesMinutes(int minutesTransport) {
-        //Ajuste les minutes selons le poste
-        if (EmployePresident.estEmploye(numeroEmployer)) {
-            minutesJoursOuvrableBureau += minutesTransport;
-        } else if (EmployeAdministration.estEmploye(numeroEmployer)) {
-            if (validerMinutesTransport(minutesTransport)) {
-                minutesJoursOuvrableBureau += minutesTransport;
-            }
-        } else if (EmployeDirection.estEmploye(numeroEmployer)) {
-            if (validerMinutesTransport(minutesTransport)) {
-                minutesTeleTravail += minutesTransport;
-            }
-        }
-    }
+    
+    protected abstract void verifierEtCalculerProjetTransport(int minutesTransport);
 
     protected void verifierCongeTransport() {
         int minutesTransport = 0;
         minutesTransport = getMinutesSemainesTransport();
-        ajusterLesMinutes(minutesTransport);
+        verifierEtCalculerProjetTransport(minutesTransport);
     }
 
     protected abstract void validerTypeEmployerContientTransport();
@@ -171,6 +158,7 @@ public abstract class Employe {
             valide = false;
             erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, minutesTransport));
         }
+        
         return valide;
     }
 }

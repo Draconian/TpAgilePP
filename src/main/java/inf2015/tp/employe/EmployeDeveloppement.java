@@ -19,10 +19,9 @@ public class EmployeDeveloppement extends Employe {
     protected static final int MIN_MINUTES_BUREAU_PAR_JOUR_OUVRABLE = 360; //6h
     protected static final int MAXIMUM_MINUTES_BUREAU = 2580; //43h
 
-        
     public EmployeDeveloppement(int numeroEmploye, ErreurJournal erreurJournal) {
         super(numeroEmploye, erreurJournal);
-        
+
         super.minimumMinutesParJourOuvrable = MIN_MINUTES_BUREAU_PAR_JOUR_OUVRABLE;
         super.maximumMinutesBureau = MAXIMUM_MINUTES_BUREAU;
         super.minimumMinutesBureau = MIN_MINUTES_BUREAU_OUVRABLE;
@@ -44,9 +43,11 @@ public class EmployeDeveloppement extends Employe {
 
     @Override
     protected void validerTypeEmployerContientTransport() {
-         erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
+        erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
     }
     
-          
-        
+    @Override
+    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
+        erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
+    }
 }

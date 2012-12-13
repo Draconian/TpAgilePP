@@ -90,7 +90,7 @@ public class EmployePresidentTest {
         int minutes = 200;
         Employe employe = new EmployePresident(6000, erreurJournal);
         employe.minutesJoursOuvrableBureau = 200;
-        employe.ajusterLesMinutes(minutes);
+        employe.verifierEtCalculerProjetTransport(minutes);
         assertEquals(employe.minutesJoursOuvrableBureau, 400);
     }
 
@@ -100,7 +100,7 @@ public class EmployePresidentTest {
         int minutes = 1000;
         Employe employe = new EmployePresident(6000, erreurJournal);
         employe.minutesJoursOuvrableBureau = 200;
-        employe.ajusterLesMinutes(minutes);
+        employe.verifierEtCalculerProjetTransport(minutes);
         assertEquals(employe.minutesJoursOuvrableBureau, 1200);
     }
 }
