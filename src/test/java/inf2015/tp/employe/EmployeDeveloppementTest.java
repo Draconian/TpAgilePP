@@ -30,42 +30,46 @@ public class EmployeDeveloppementTest {
 
         assertTrue(EmployeDeveloppement.estEmploye(numeroEmploye));
     }
-   @Test
+
+    @Test
     public void testEstPasEmploye() {
         int numeroEmploye = 3500;
         assertFalse(EmployeDeveloppement.estEmploye(numeroEmploye));
     }
- 
+
     @Test
     public void TestAnalyserFeuilleTempsValide() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Employe employe = new EmployeDeveloppement(0, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2200;
-        employe.minutesWeekendBureau = 200;      
+        employe.minutesWeekendBureau = 200;
         employe.analyserFeuilleTemps();
         assertTrue(erreurJournal.estVide());
     }
+
     @Test
-    public void TestAnalyserFeuilleTempsInvalideInferieurTempsMinimum(){
+    public void TestAnalyserFeuilleTempsInvalideInferieurTempsMinimum() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Employe employe = new EmployeDeveloppement(0, erreurJournal);
         employe.minutesJoursOuvrableBureau = 1900;
-        employe.minutesWeekendBureau = 200;      
+        employe.minutesWeekendBureau = 200;
         employe.analyserFeuilleTemps();
         Erreur erreur = erreurJournal.getErreurAIndex(0);
-        assertEquals(ErreurEmployeMinimumBureau.class,erreur.getClass());
+        assertEquals(ErreurEmployeMinimumBureau.class, erreur.getClass());
     }
+
     @Test
-    public void TestAnalyserFeuilleTempsSuperieurTempsMaximum(){
-         ErreurJournal erreurJournal = new ErreurJournal();
+    public void TestAnalyserFeuilleTempsSuperieurTempsMaximum() {
+        ErreurJournal erreurJournal = new ErreurJournal();
         Employe employe = new EmployeDeveloppement(0, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2500;
-        employe.minutesWeekendBureau = 200;      
+        employe.minutesWeekendBureau = 200;
         employe.analyserFeuilleTemps();
         Erreur erreur = erreurJournal.getErreurAIndex(0);
-        assertEquals(ErreurEmployeMaximumBureau.class,erreur.getClass());
+        assertEquals(ErreurEmployeMaximumBureau.class, erreur.getClass());
     }
-       @Test
+
+    @Test
     public void testVerifierMinimumMinutesQuotidienneValide() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Jour jour = new JourOuvrable("jour", erreurJournal);
@@ -91,10 +95,11 @@ public class EmployeDeveloppementTest {
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurEmployeMinimalUnJourOuvrableBureau.class, erreur.getClass());
     }
-        @Test
-    public void contientTransport(){
+
+    @Test
+    public void contientTransport() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        Employe employe = new EmployeDeveloppement(1500,erreurJournal);
+        Employe employe = new EmployeDeveloppement(1500, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2100;
         employe.minutesWeekendBureau = 200;
         Jour jour = new JourOuvrable("jour", erreurJournal);
@@ -103,11 +108,8 @@ public class EmployeDeveloppementTest {
         employe.ajoutJour(jour);
         employe.validerTypeEmployerContientTransport();
         employe.minutesJoursOuvrableBureau = 2200;
-        employe.minutesWeekendBureau = 200;  
+        employe.minutesWeekendBureau = 200;
         Erreur erreur = erreurJournal.getErreurAIndex(0);
-        assertEquals(ErreurEmployeDeveloppementExploitationContientTransport.class,erreur.getClass());
+        assertEquals(ErreurEmployeDeveloppementExploitationContientTransport.class, erreur.getClass());
     }
-  
-  
- 
 }

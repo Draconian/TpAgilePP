@@ -22,12 +22,6 @@ import org.junit.Test;
 
 public class EmployeAdministrationTest {
 
-    @Test
-    public void testerFonctionnalité() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-
-       
-    }
 
     @Test
     public void testGetTypeEmploye() {

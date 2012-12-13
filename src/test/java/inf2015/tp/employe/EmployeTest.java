@@ -10,7 +10,6 @@ package inf2015.tp.employe;
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
-import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;

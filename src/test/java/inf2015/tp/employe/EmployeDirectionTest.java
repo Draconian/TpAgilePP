@@ -34,7 +34,8 @@ public class EmployeDirectionTest {
 
         assertTrue(EmployeDirection.estEmploye(numeroEmploye));
     }
-        @Test
+
+    @Test
     public void testEstPasEmploye() {
         int numeroEmploye = 6000;
 
@@ -52,27 +53,27 @@ public class EmployeDirectionTest {
         employe.verifierMinimumMinutesQuotidiennes();
         assertTrue(erreurJournal.estVide());
     }
+
     @Test
-    public void TestAnalyserFeuilleTempsValide()
-    {
+    public void TestAnalyserFeuilleTempsValide() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2600;
         employe.minutesWeekendBureau = 200;
-        employe.analyserFeuilleTemps();        
+        employe.analyserFeuilleTemps();
         assertTrue(erreurJournal.estVide());
     }
+
     @Test
-     public void TestAnalyserFeuilleTempsInvalide()
-    {
+    public void TestAnalyserFeuilleTempsInvalide() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2000;
         employe.minutesWeekendBureau = 200;
-        employe.analyserFeuilleTemps();        
+        employe.analyserFeuilleTemps();
         assertFalse(erreurJournal.estVide());
     }
-            
+
     @Test
     public void testVerifierMinimumMinutesQuotidienneInvalide() {
         ErreurJournal erreurJournal = new ErreurJournal();
@@ -87,13 +88,14 @@ public class EmployeDirectionTest {
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurEmployeMinimalUnJourOuvrableBureau.class, erreur.getClass());
     }
-     @Test
+
+    @Test
     public void TestMaximumTempsTransport() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        
+
         Employe employe = new EmployeDirection(5200, erreurJournal);
         int minuteInvalide = 400;
-        
+
         employe.validerMinutesTransport(minuteInvalide);
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurTempsMaximaleTransport.class, erreur.getClass());
@@ -102,33 +104,32 @@ public class EmployeDirectionTest {
     @Test
     public void TestValideTempsTransport() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        
+
         Employe employe = new EmployeDirection(5200, erreurJournal);
         int minuteInvalide = 200;
-        
+
         employe.validerMinutesTransport(minuteInvalide);
-     
+
         assertEquals(erreurJournal.getNombresErreurs(), 0);
     }
-     @Test
+
+    @Test
     public void testVerifierAjoutMinutesTeleTravailTransport() {
         ErreurJournal erreurJournal = new ErreurJournal();
-       int minutes=200;
-        Employe employe = new EmployeDirection(5200, erreurJournal);   
+        int minutes = 200;
+        Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesTeleTravail = 200;
         employe.ajusterLesMinutes(200);
-        assertEquals(employe.minutesTeleTravail,400);
+        assertEquals(employe.minutesTeleTravail, 400);
     }
-          @Test
+
+    @Test
     public void testVerifierPasAjouterMinutesTeleTravailTransport() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes=200;
-        Employe employe = new EmployeDirection(5200, erreurJournal);   
+        int minutes = 200;
+        Employe employe = new EmployeDirection(5200, erreurJournal);
         employe.minutesTeleTravail = 200;
         employe.ajusterLesMinutes(302);
-        assertEquals(employe.minutesTeleTravail,200);
+        assertEquals(employe.minutesTeleTravail, 200);
     }
-      
-
-
 }
