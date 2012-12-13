@@ -61,11 +61,4 @@ public class Projet {
     public boolean estTransport(){
         return (this.projetID ==PROJET_ID_TRANSPORT);
     }
-
-    @Override
-    public String toString() {
-        return String.format("ProjetID: %d Minutes: %d Heures: %f",
-                this.projetID, this.minutes,
-                ((float) this.minutes / 60.0));
-    }
 }

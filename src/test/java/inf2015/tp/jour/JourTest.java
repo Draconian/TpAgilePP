@@ -275,6 +275,24 @@ public class JourTest {
     }
 
     @Test
+    public void testContientTransport() {
+        Jour jour = new JourOuvrable(null, null);
+        jour.ajoutProjet(new Projet(Projet.PROJET_ID_TRANSPORT, 100));
+        jour.ajoutProjet(new Projet(1000, 100));
+
+        assertTrue(jour.contientTransport());
+    }
+
+    @Test
+    public void testContientPasTransport() {
+        Jour jour = new JourOuvrable(null, null);
+        jour.ajoutProjet(new Projet(500, 100));
+        jour.ajoutProjet(new Projet(1000, 100));
+
+        assertFalse(jour.contientTransport());
+    }
+
+    @Test
     public void testAnalyserJour() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Jour jour = new JourOuvrable(null, erreurJournal);
