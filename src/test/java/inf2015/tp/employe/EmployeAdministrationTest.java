@@ -18,7 +18,6 @@ import inf2015.tp.erreur.ErreurTempsMaximaleTransport;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import static org.junit.Assert.*;
-import java.util.*;
 import org.junit.Test;
 
 public class EmployeAdministrationTest {
