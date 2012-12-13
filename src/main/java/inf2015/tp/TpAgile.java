@@ -12,12 +12,14 @@ import inf2015.tp.erreur.ErreurJournal;
 
 public class TpAgile {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         if (args.length != 2) {
             System.out.println("Erreur dans les arguments passés au programme: TpAgile [chemin feuille temps] [chemin erreur sortie]");
             System.exit(-1);
         }
 
+        
+        
         if (TpAgile.validerFeuilleTempsEmploye(args[0], args[1])) {
             System.out.println("Feuille de temps est valide.");
         } else {
@@ -35,7 +37,6 @@ public class TpAgile {
             Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(fichierEntre);
             estFeuilleTempsValide = employe.validerFeuilleDeTemps();
         } catch (Exception e) {           
-            System.out.println("MAIN: " + e.getLocalizedMessage());
             erreurJournal.effacerTout();
         }
 

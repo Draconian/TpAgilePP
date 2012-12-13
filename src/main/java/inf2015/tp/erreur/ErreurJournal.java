@@ -57,4 +57,11 @@ public class ErreurJournal {
 
         return jsonArray;
     }
+
+    @Override
+    public String toString() {
+        return this.convertirEnJsonArray().toString(5);
+    }
+    
+    
 }
