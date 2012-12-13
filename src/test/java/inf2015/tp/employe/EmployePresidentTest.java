@@ -9,11 +9,9 @@ package inf2015.tp.employe;
 
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
-import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
 import inf2015.tp.erreur.ErreurJournal;
-import inf2015.tp.erreur.ErreurTempsMaximaleTransport;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import static org.junit.Assert.*;
@@ -68,7 +66,7 @@ public class EmployePresidentTest {
     @Test
     public void TestAnalyserFeuilleTempsValide() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        Employe employe = new EmployeDirection(5200, erreurJournal);
+        Employe employe = new EmployePresident(5200, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2600;
         employe.minutesWeekendBureau = 200;
         employe.analyserFeuilleTempsDirection();
@@ -78,7 +76,7 @@ public class EmployePresidentTest {
     @Test
     public void TestAnalyserFeuilleTempsInvalide() {
         ErreurJournal erreurJournal = new ErreurJournal();
-        Employe employe = new EmployeDirection(5200, erreurJournal);
+        Employe employe = new EmployePresident(5200, erreurJournal);
         employe.minutesJoursOuvrableBureau = 2000;
         employe.minutesWeekendBureau = 200;
         employe.analyserFeuilleTemps();
