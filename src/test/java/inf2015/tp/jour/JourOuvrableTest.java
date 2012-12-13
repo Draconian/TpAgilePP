@@ -22,7 +22,7 @@ public class JourOuvrableTest {
     public void testEstJourOuvrable() {
         Jour jour = new JourOuvrable("jour1", null);
 
-        assertTrue(jour.estJourOuvable());
+        assertTrue(jour.estJourOuvrable());
     }
 
     @Test

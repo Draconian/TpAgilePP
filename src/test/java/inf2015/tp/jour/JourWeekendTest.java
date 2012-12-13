@@ -21,7 +21,7 @@ public class JourWeekendTest {
     public void testEstJourOuvrable() {
         Jour jour = new JourWeekend(null,null);
         
-        assertFalse(jour.estJourOuvable());
+        assertFalse(jour.estJourOuvrable());
     }
     
     @Test
