@@ -12,6 +12,7 @@ import inf2015.tp.employe.EmployeAdministration;
 import inf2015.tp.employe.EmployeDeveloppement;
 import inf2015.tp.employe.EmployeDirection;
 import inf2015.tp.employe.EmployeExploitation;
+import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import inf2015.tp.jour.JourWeekend;
@@ -74,7 +75,7 @@ public class JsonFabriqueObjTest {
     }
 
     @Test
-    public void testFabriquerProjet() {
+    public void testFabriquerProjet() throws FeuilleTempsException {
         JsonFabriqueObj fabrique = new JsonFabriqueObj(null);
         String fichierJsonContenu = "{\"numero_employe\": 500,\"jour1\": [ {\"projet\": 500,\"minutes\": 840}]}";
         JSONArray jsonJour1 = JSONObject.fromObject(fichierJsonContenu).getJSONArray("jour1");
