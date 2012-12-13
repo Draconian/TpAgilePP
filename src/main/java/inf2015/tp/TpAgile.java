@@ -34,7 +34,7 @@ public class TpAgile {
             JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
             Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(fichierEntre);
             estFeuilleTempsValide = employe.validerFeuilleDeTemps();
-        } catch (Exception e) {
+        } catch (Exception e) {           
             System.out.println("MAIN: " + e.getLocalizedMessage());
             erreurJournal.effacerTout();
         }
