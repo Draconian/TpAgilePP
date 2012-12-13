@@ -8,11 +8,16 @@
 package inf2015.tp.employe;
 
 import inf2015.tp.Projet;
+import inf2015.tp.erreur.Erreur;
+import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
+import inf2015.tp.erreur.ErreurEmployeMaximumBureau;
+import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
+import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
+import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
-import inf2015.tp.erreur.*;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class EmployeDeveloppementTest {
 
@@ -97,19 +102,33 @@ public class EmployeDeveloppementTest {
     }
 
     @Test
-    public void contientTransport() {
+    public void testVerifierEtCalculerProjetTransportValide() {
+        int minutesTransportOuvrable = 0;
+        int minutesTransportWeekend = 0;
+
         ErreurJournal erreurJournal = new ErreurJournal();
-        Employe employe = new EmployeDeveloppement(1500, erreurJournal);
-        employe.minutesJoursOuvrableBureau = 2100;
-        employe.minutesWeekendBureau = 200;
-        Jour jour = new JourOuvrable("jour", erreurJournal);
-        Projet projet = new Projet(777, 100);
-        jour.ajoutProjet(projet);
-        employe.ajoutJour(jour);
-        employe.validerTypeEmployerContientTransport();
-        employe.minutesJoursOuvrableBureau = 2200;
-        employe.minutesWeekendBureau = 200;
+        Employe employe = new EmployeDeveloppement(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(0, erreurJournal.getNombresErreurs());
+    }
+
+    @Test
+    public void testVerifierEtCalculerProjetTransportInvalide() {
+        int minutesTransportOuvrable = 200;
+        int minutesTransportWeekend = 150;
+
+        ErreurJournal erreurJournal = new ErreurJournal();
+
+        Employe employe = new EmployeDeveloppement(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(1, erreurJournal.getNombresErreurs());
         Erreur erreur = erreurJournal.getErreurAIndex(0);
-        assertEquals(ErreurEmployeDeveloppementExploitationContientTransport.class, erreur.getClass());
+        assertEquals(ErreurEmployeDoitPasContenirTransport.class, erreur.getClass());
     }
 }

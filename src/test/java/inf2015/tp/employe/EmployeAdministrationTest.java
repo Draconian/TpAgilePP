@@ -22,7 +22,6 @@ import org.junit.Test;
 
 public class EmployeAdministrationTest {
 
-
     @Test
     public void testGetTypeEmploye() {
         String typeEmploye = "Administration";
@@ -43,20 +42,6 @@ public class EmployeAdministrationTest {
         int employeID = 1001;
 
         assertFalse(EmployeAdministration.estEmploye(employeID));
-    }
-
-    @Test
-    public void testVerifierSiSemaineContientTransport() {
-        boolean contientTransport=false;
-        ErreurJournal erreurJournal = new ErreurJournal();
-        Jour jour = new JourOuvrable("jour", erreurJournal);
-        Projet projet = new Projet(777, 100);
-        jour.ajoutProjet(projet); 
-        Employe employe = new EmployeAdministration(0, erreurJournal);
-        employe.ajoutJour(jour);
-        contientTransport=employe.verifierSiSemaineContientTransport();
-        assertTrue(contientTransport);
-     
     }
 
     @Test
@@ -145,46 +130,34 @@ public class EmployeAdministrationTest {
     }
 
     @Test
-    public void TestMaximumTempsTransport() {
+    public void testVerifierEtCalculerProjetTransportValide() {
+        int minutesTransportOuvrable = 100;
+        int minutesTransportWeekend = 125;
+
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeAdministration(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
+        assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
+    }
+
+    @Test
+    public void testVerifierEtCalculerProjetTransportInvalide() {
+        int minutesTransportOuvrable = 200;
+        int minutesTransportWeekend = 150;
+
         ErreurJournal erreurJournal = new ErreurJournal();
 
-        Employe employe = new EmployeAdministration(500, erreurJournal);
-        int minuteInvalide = 400;
+        Employe employe = new EmployeAdministration(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.validerMinutesTransport(minuteInvalide);
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(1, erreurJournal.getNombresErreurs());
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurTempsMaximaleTransport.class, erreur.getClass());
-    }
-
-    @Test
-    public void TestValideTempsTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-
-        Employe employe = new EmployeAdministration(500, erreurJournal);
-        int minuteInvalide = 200;
-
-        employe.validerMinutesTransport(minuteInvalide);
-
-        assertEquals(erreurJournal.getNombresErreurs(), 0);
-    }
-
-    @Test
-    public void testVerifierAjoutMinutesBureauTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 200;
-        Employe employe = new EmployeAdministration(500, erreurJournal);
-        employe.minutesJoursOuvrableBureau = 200;
-        employe.verifierEtCalculerProjetTransport(200);
-        assertEquals(employe.minutesJoursOuvrableBureau, 400);
-    }
-
-    @Test
-    public void testVerifierPasAjouterMinutesBureauTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 200;
-        Employe employe = new EmployeAdministration(500, erreurJournal);
-        employe.minutesJoursOuvrableBureau = 200;
-        employe.verifierEtCalculerProjetTransport(302);
-        assertEquals(employe.minutesJoursOuvrableBureau, 200);
     }
 }

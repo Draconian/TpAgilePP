@@ -14,8 +14,8 @@ import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.erreur.ErreurTempsMaximaleTransport;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class EmployeDirectionTest {
 
@@ -90,46 +90,35 @@ public class EmployeDirectionTest {
     }
 
     @Test
-    public void TestMaximumTempsTransport() {
+    public void testVerifierEtCalculerProjetTransportValide() {
+        int minutesTransportOuvrable = 100;
+        int minutesTransportWeekend = 125;
+        int minutesTransportTotal = minutesTransportOuvrable + minutesTransportWeekend;
         ErreurJournal erreurJournal = new ErreurJournal();
 
-        Employe employe = new EmployeDirection(5200, erreurJournal);
-        int minuteInvalide = 400;
+        Employe employe = new EmployeDirection(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.validerMinutesTransport(minuteInvalide);
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(minutesTransportTotal, employe.minutesTeleTravail);
+        assertEquals(0, erreurJournal.getNombresErreurs());
+    }
+
+    @Test
+    public void testVerifierEtCalculerProjetTransportInvalide() {
+        int minutesTransportOuvrable = 200;
+        int minutesTransportWeekend = 400;
+
+        ErreurJournal erreurJournal = new ErreurJournal();
+
+        Employe employe = new EmployeDirection(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(1, erreurJournal.getNombresErreurs());
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurTempsMaximaleTransport.class, erreur.getClass());
-    }
-
-    @Test
-    public void TestValideTempsTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-
-        Employe employe = new EmployeDirection(5200, erreurJournal);
-        int minuteInvalide = 200;
-
-        employe.validerMinutesTransport(minuteInvalide);
-
-        assertEquals(erreurJournal.getNombresErreurs(), 0);
-    }
-
-    @Test
-    public void testVerifierAjoutMinutesTeleTravailTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 200;
-        Employe employe = new EmployeDirection(5200, erreurJournal);
-        employe.minutesTeleTravail = 200;
-        employe.verifierEtCalculerProjetTransport(200);
-        assertEquals(employe.minutesTeleTravail, 400);
-    }
-
-    @Test
-    public void testVerifierPasAjouterMinutesTeleTravailTransport() {
-        ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 200;
-        Employe employe = new EmployeDirection(5200, erreurJournal);
-        employe.minutesTeleTravail = 200;
-        employe.verifierEtCalculerProjetTransport(302);
-        assertEquals(employe.minutesTeleTravail, 200);
     }
 }

@@ -8,7 +8,7 @@
 package inf2015.tp.employe;
 
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
-import inf2015.tp.erreur.ErreurEmployeDeveloppementExploitationContientTransport;
+import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
 import inf2015.tp.erreur.ErreurEmployeMaximumBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
@@ -25,6 +25,8 @@ public abstract class Employe {
     protected int minutesTeleTravail = 0;
     protected int minutesJoursOuvrableBureau = 0;
     protected int minutesWeekendBureau = 0;
+    protected int minutesTransportJourOuvrable = 0;
+    protected int minutesTransportJourWeekend = 0;
     protected ArrayList<Jour> semaines = new ArrayList<Jour>();
     protected ErreurJournal erreurJournal;
     protected int minimumMinutesParJourOuvrable = 0;
@@ -57,7 +59,7 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-        this.verifierSiSemaineContientTransport();
+        this.verifierEtCalculerProjetTransport();
         this.calculerFeuilleTemps();
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
@@ -71,13 +73,16 @@ public abstract class Employe {
             jour.verifierMaxMinutesJour();
             if (jour.estJourOuvrable()) {
                 this.minutesJoursOuvrableBureau += jour.getMinutesBureau();
+                this.minutesTransportJourOuvrable += jour.getMinutesTransport();
             } else {
                 this.minutesWeekendBureau += jour.getMinutesBureau();
+                this.minutesTransportJourWeekend += jour.getMinutesTransport();
             }
             this.minutesTeleTravail += jour.getMinutesTeletravail();
-
         }
     }
+    
+    
 
     protected void analyserFeuilleTempsGeneral() {
         int minutesBureauTotal = this.minutesWeekendBureau + this.minutesJoursOuvrableBureau;
@@ -118,20 +123,6 @@ public abstract class Employe {
         }
     }
 
-    protected boolean verifierSiSemaineContientTransport() {
-        boolean contientTransport = false;
-
-        for (Jour jour : this.semaines) {
-            if (jour.contientTransport()) {
-                contientTransport = true;
-            }
-        }
-        if (contientTransport) {
-            validerTypeEmployerContientTransport();
-        }
-        return contientTransport;
-    }
-
     protected int getMinutesSemainesTransport() {
         int minutes = 0;
         for (Jour jour : this.semaines) {
@@ -140,25 +131,13 @@ public abstract class Employe {
         return minutes;
     }
     
-    protected abstract void verifierEtCalculerProjetTransport(int minutesTransport);
+    protected abstract void verifierEtCalculerProjetTransport();
 
-    protected void verifierCongeTransport() {
-        int minutesTransport = 0;
-        minutesTransport = getMinutesSemainesTransport();
-        verifierEtCalculerProjetTransport(minutesTransport);
-    }
-
-    protected abstract void validerTypeEmployerContientTransport();
-   
-
-    protected boolean validerMinutesTransport(int minutesTransport) {
-        boolean valide = true;
-
+    protected void validerMinutesTransport() {
+        int minutesTransport = this.minutesTransportJourOuvrable + this.minutesTransportJourWeekend;
+        
         if (minutesTransport > MAX_MINUTE_TRANSPORT) {
-            valide = false;
             erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, minutesTransport));
         }
-        
-        return valide;
     }
 }

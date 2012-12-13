@@ -40,16 +40,11 @@ public class EmployeDirection extends Employe {
     }
 
     @Override
-    protected void validerTypeEmployerContientTransport() {
-        verifierCongeTransport();
-    }
+    protected void verifierEtCalculerProjetTransport() {
+        int minutesTransport = super.minutesTransportJourOuvrable + super.minutesTransportJourWeekend;
 
-    @Override
-    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
+        this.validerMinutesTransport();
 
-        if (validerMinutesTransport(minutesTransport)) {
-            minutesTeleTravail += minutesTransport;
-        }
-
+        super.minutesTeleTravail += minutesTransport;
     }
 }

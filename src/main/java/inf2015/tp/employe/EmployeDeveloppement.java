@@ -7,7 +7,7 @@
  */
 package inf2015.tp.employe;
 
-import inf2015.tp.erreur.ErreurEmployeDeveloppementExploitationContientTransport;
+import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
 import inf2015.tp.erreur.ErreurJournal;
 
 public class EmployeDeveloppement extends Employe {
@@ -42,12 +42,9 @@ public class EmployeDeveloppement extends Employe {
     }
 
     @Override
-    protected void validerTypeEmployerContientTransport() {
-        erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
-    }
-    
-    @Override
-    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
-        erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
+    protected void verifierEtCalculerProjetTransport() {
+        if (super.minutesTransportJourOuvrable > 0 || super.minutesTransportJourWeekend > 0) {
+            erreurJournal.ajoutErreur(new ErreurEmployeDoitPasContenirTransport(this));
+        }
     }
 }

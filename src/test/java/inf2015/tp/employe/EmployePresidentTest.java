@@ -9,9 +9,11 @@ package inf2015.tp.employe;
 
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
+import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
 import inf2015.tp.erreur.ErreurJournal;
+import inf2015.tp.erreur.ErreurTempsMaximaleTransport;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import static org.junit.Assert.*;
@@ -85,22 +87,34 @@ public class EmployePresidentTest {
     }
 
     @Test
-    public void testVerifierAjoutMinutesBureauTransport() {
+    public void testVerifierEtCalculerProjetTransportValideMoins5h() {
+        int minutesTransportOuvrable = 100;
+        int minutesTransportWeekend = 125;
+
         ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 200;
-        Employe employe = new EmployePresident(6000, erreurJournal);
-        employe.minutesJoursOuvrableBureau = 200;
-        employe.verifierEtCalculerProjetTransport(minutes);
-        assertEquals(employe.minutesJoursOuvrableBureau, 400);
+        Employe employe = new EmployePresident(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
+        assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
+        assertEquals(0, erreurJournal.getNombresErreurs());
     }
 
     @Test
-    public void testVerifierMinutesTransportIllimitee() {
+    public void testVerifierEtCalculerProjetTransportValidePlus5h() {
+        int minutesTransportOuvrable = 200;
+        int minutesTransportWeekend = 125;
+
         ErreurJournal erreurJournal = new ErreurJournal();
-        int minutes = 1000;
-        Employe employe = new EmployePresident(6000, erreurJournal);
-        employe.minutesJoursOuvrableBureau = 200;
-        employe.verifierEtCalculerProjetTransport(minutes);
-        assertEquals(employe.minutesJoursOuvrableBureau, 1200);
+        Employe employe = new EmployePresident(0, erreurJournal);
+        employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
+        employe.minutesTransportJourWeekend = minutesTransportWeekend;
+
+        employe.verifierEtCalculerProjetTransport();
+        assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
+        assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
+        assertEquals(0, erreurJournal.getNombresErreurs());
     }
 }

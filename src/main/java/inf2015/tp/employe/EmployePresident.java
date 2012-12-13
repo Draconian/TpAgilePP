@@ -38,19 +38,15 @@ public class EmployePresident extends Employe {
     }
 
     @Override
-    protected void validerTypeEmployerContientTransport() {
-        verifierCongeTransport();
-    }
+    protected void verifierEtCalculerProjetTransport() {
+        this.validerMinutesTransport();
 
-    @Override
-    protected void verifierEtCalculerProjetTransport(int minutesTransport) {
-        if (validerMinutesTransport(minutesTransport)) {
-            minutesJoursOuvrableBureau += minutesTransport;
-        }
+        super.minutesJoursOuvrableBureau += super.minutesTransportJourOuvrable;
+        super.minutesWeekendBureau += super.minutesTransportJourWeekend;
     }
     
     @Override
-    protected boolean validerMinutesTransport(int minutesTransport) {
-        return true;
+    protected void validerMinutesTransport() {
+        //Toujours valide.
     }
 }
