@@ -95,7 +95,7 @@ public class EmployePresidentTest {
     }
 
     @Test
-    public void testVerifierMinutesTransportIllimitée() {
+    public void testVerifierMinutesTransportIllimitee() {
         ErreurJournal erreurJournal = new ErreurJournal();
         int minutes = 1000;
         Employe employe = new EmployePresident(6000, erreurJournal);
