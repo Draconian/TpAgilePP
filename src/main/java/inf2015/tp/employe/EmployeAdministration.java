@@ -7,6 +7,7 @@
  */
 package inf2015.tp.employe;
 
+import inf2015.tp.erreur.ErreurEmployeDeveloppementExploitationContientTransport;
 import inf2015.tp.erreur.ErreurEmployeTeletravailMaximum;
 import inf2015.tp.erreur.ErreurJournal;
 
@@ -42,11 +43,15 @@ public class EmployeAdministration extends Employe {
     protected void analyserFeuilleTemps() {
         super.analyserFeuilleTempsGeneral();
         this.verifierTeleTravail();
-       
+
     }
-    
+
+    protected void validerTypeEmployerContientTransport() {
+        this.verifierCongeTransport();
+    }
+
     protected void verifierTeleTravail() {
-         if (super.minutesTeleTravail > this.maximumMinutesTeletravail) {
+        if (super.minutesTeleTravail > this.maximumMinutesTeletravail) {
             super.erreurJournal.ajoutErreur(new ErreurEmployeTeletravailMaximum(this, this.maximumMinutesTeletravail));
         }
     }

@@ -7,6 +7,7 @@
  */
 package inf2015.tp.employe;
 
+import inf2015.tp.erreur.ErreurEmployeDeveloppementExploitationContientTransport;
 import inf2015.tp.erreur.ErreurJournal;
 
 public class EmployeDeveloppement extends Employe {
@@ -40,4 +41,12 @@ public class EmployeDeveloppement extends Employe {
     protected void analyserFeuilleTemps() {
         super.analyserFeuilleTempsGeneral();
     }
+
+    @Override
+    protected void validerTypeEmployerContientTransport() {
+         erreurJournal.ajoutErreur(new ErreurEmployeDeveloppementExploitationContientTransport(this));
+    }
+    
+          
+        
 }

@@ -12,7 +12,7 @@ import inf2015.tp.erreur.ErreurJournal;
 public class EmployePresident extends Employe {
 
     protected static final String TYPE_EMPLOYE = "President";
-    protected static final int EMPLOYE_ID=6000;
+    protected static final int EMPLOYE_ID = 6000;
     protected static final int MIN_MINUTES_BUREAU_OUVRABLE = 240; //4h
     protected static final int MINIMUM_MINUTES_BUREAU = 2580; //43h
 
@@ -20,7 +20,7 @@ public class EmployePresident extends Employe {
         super(numeroEmploye, erreurJournal);
         super.minimumMinutesParJourOuvrable = MIN_MINUTES_BUREAU_OUVRABLE;
         super.minimumMinutesBureau = MINIMUM_MINUTES_BUREAU;
- 
+
     }
 
     @Override
@@ -28,15 +28,17 @@ public class EmployePresident extends Employe {
         return TYPE_EMPLOYE;
     }
 
-     public static boolean estEmploye(int id) {
-        return (id==EMPLOYE_ID);
+    public static boolean estEmploye(int id) {
+        return (id == EMPLOYE_ID);
     }
 
     @Override
     protected void analyserFeuilleTemps() {
         super.analyserFeuilleTempsDirection();
     }
+
+    @Override
+    protected void validerTypeEmployerContientTransport() {
+        verifierCongeTransport();
+    }
 }
-
-
-
