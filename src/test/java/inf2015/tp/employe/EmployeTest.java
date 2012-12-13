@@ -129,4 +129,36 @@ public class EmployeTest {
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurEmployeCongeParentalMultiple.class, erreur.getClass());
     }
+
+    @Test
+    public void testGetMinutesSemainesTransport() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeAdministration(0, erreurJournal);
+        Jour jour1 = new JourOuvrable("jour1", null);
+        Jour jour2 = new JourOuvrable("jour2", null);
+
+        jour1.ajoutProjet(new Projet(Projet.PROJET_ID_TRANSPORT, 50));
+        jour2.ajoutProjet(new Projet(Projet.PROJET_ID_TRANSPORT, 100));
+
+        employe.ajoutJour(jour2);
+        employe.ajoutJour(jour1);
+
+        assertEquals(150, employe.getMinutesSemainesTransport());
+    }
+
+    @Test
+    public void testGetMinutesSemainesTransportZero() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeAdministration(0, erreurJournal);
+        Jour jour1 = new JourOuvrable("jour1", null);
+        Jour jour2 = new JourOuvrable("jour2", null);
+
+        jour1.ajoutProjet(new Projet(Projet.PROJET_ID_CONGE_PARENTAL, 50));
+        jour2.ajoutProjet(new Projet(150, 100));
+
+        employe.ajoutJour(jour2);
+        employe.ajoutJour(jour1);
+
+        assertEquals(0, employe.getMinutesSemainesTransport());
+    }
 }
