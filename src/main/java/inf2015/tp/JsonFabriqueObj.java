@@ -7,22 +7,22 @@
  */
 package inf2015.tp;
 
-import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.employe.Employe;
 import inf2015.tp.employe.EmployeAdministration;
 import inf2015.tp.employe.EmployeDeveloppement;
-import inf2015.tp.employe.EmployeExploitation;
 import inf2015.tp.employe.EmployeDirection;
+import inf2015.tp.employe.EmployeExploitation;
 import inf2015.tp.employe.EmployePresident;
 import inf2015.tp.erreur.ErreurJournal;
+import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import inf2015.tp.jour.JourWeekend;
 import java.io.IOException;
 import java.util.Iterator;
 import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
 
 public class JsonFabriqueObj {
 
@@ -35,8 +35,13 @@ public class JsonFabriqueObj {
     }
 
     protected Employe fabriquerEmploye(JSONObject jsonFeuilleTemps) throws FeuilleTempsException {
-        int numeroEmploye = jsonFeuilleTemps.getInt("numero_employe");
+        int numeroEmploye;
 
+        try {
+            numeroEmploye = jsonFeuilleTemps.getInt("numero_employe");
+        } catch (JSONException e) {
+            throw new FeuilleTempsException("Numéro employé mal former.", e);
+        }
         Employe employe = this.fabriquerEmployeSelonNumero(numeroEmploye);
 
         return employe;
@@ -89,12 +94,16 @@ public class JsonFabriqueObj {
         return jourCreer;
     }
 
-    protected Projet fabriquerProjet(JSONObject jsonObjProjet) {
+    protected Projet fabriquerProjet(JSONObject jsonObjProjet) throws FeuilleTempsException {
         Projet projet;
+        int projetID, projetMinutes;
 
-        int projetID = jsonObjProjet.getInt("projet");
-        int projetMinutes = jsonObjProjet.getInt("minutes");
-
+        try {
+            projetID = jsonObjProjet.getInt("projet");
+            projetMinutes = jsonObjProjet.getInt("minutes");
+        } catch (JSONException e) {
+            throw new FeuilleTempsException("Projet mal former.", e);
+        }
         projet = new Projet(projetID, projetMinutes);
 
         return projet;
@@ -107,7 +116,7 @@ public class JsonFabriqueObj {
         } catch (IOException ioe) {
             throw new FeuilleTempsException("Problème pour charger le fichier Json", ioe);
         }
-        
+
         return this.fabriquerFeuilleTemps(jsonFeuilleTemps);
     }
 
@@ -119,10 +128,14 @@ public class JsonFabriqueObj {
 
     protected Employe fabriquerFeuilleTemps(JSONObject jsonFeuilleTemps) throws FeuilleTempsException {
         Employe employe = this.fabriquerEmploye(jsonFeuilleTemps);
+        JSONArray jsonJourArray;
 
         for (String nomJour : JOUR_SEMAINES) {
-            JSONArray jsonJourArray = jsonFeuilleTemps.getJSONArray(nomJour);
-
+            try {
+                jsonJourArray = jsonFeuilleTemps.getJSONArray(nomJour);
+            } catch (JSONException e) {
+                throw new FeuilleTempsException("Jour manquant dans la feuille de temps.", e);
+            }
             Jour jourCreer = this.fabriquerProjetsPourJsonJour(nomJour, jsonJourArray);
             employe.getSemaine().add(jourCreer);
         }
@@ -130,7 +143,7 @@ public class JsonFabriqueObj {
         return employe;
     }
 
-    private Jour fabriquerProjetsPourJsonJour(String nomJour, JSONArray jsonJourArray) {
+    private Jour fabriquerProjetsPourJsonJour(String nomJour, JSONArray jsonJourArray) throws FeuilleTempsException {
         Jour jourCreer = this.fabriquerJour(nomJour);
         Iterator<JSONObject> iteratorProjet = jsonJourArray.iterator();
 

@@ -9,6 +9,7 @@ package inf2015.tp;
 
 import inf2015.tp.employe.Employe;
 import inf2015.tp.erreur.ErreurJournal;
+import inf2015.tp.erreur.FeuilleTempsException;
 
 public class TpAgile {
 
@@ -36,7 +37,7 @@ public class TpAgile {
             JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
             Employe employe = fabrique.fabriquerFeuilleTempsDuFichierJson(fichierEntre);
             estFeuilleTempsValide = employe.validerFeuilleDeTemps();
-        } catch (Exception e) {           
+        } catch (FeuilleTempsException e) {           
             erreurJournal.effacerTout();
         }
 

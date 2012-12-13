@@ -7,10 +7,12 @@
  */
 package inf2015.tp.employe;
 
+import inf2015.tp.JsonFabriqueObj;
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
 import inf2015.tp.erreur.ErreurJournal;
+import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import inf2015.tp.jour.JourWeekend;
@@ -160,5 +162,62 @@ public class EmployeTest {
         employe.ajoutJour(jour1);
 
         assertEquals(0, employe.getMinutesSemainesTransport());
+    }
+
+    @Test
+    public void testValiderFeuilleDeTempsValide() throws FeuilleTempsException {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
+        String jsonTexte = "{\"numero_employe\": 400,"
+                + "\"jour1\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour2\": [{\"projet\": 500,\"minutes\": 550}], "
+                + "\"jour3\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour4\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour5\": [{\"projet\": 500,\"minutes\": 259}],"
+                + "\"weekend1\": [],"
+                + "\"weekend2\": [] }";
+        Employe employer = fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
+
+        boolean estFeuilleValide = employer.validerFeuilleDeTemps();
+
+        assertTrue(estFeuilleValide);
+    }
+
+    @Test
+    public void testValiderFeuilleDeTempsInvalide() throws FeuilleTempsException {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
+        String jsonTexte = "{\"numero_employe\": 400,"
+                + "\"jour1\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour2\": [{\"projet\": 500,\"minutes\": 550}], "
+                + "\"jour3\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour4\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour5\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"weekend1\": [],"
+                + "\"weekend2\": [] }";
+        Employe employer = fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
+
+        boolean estFeuilleValide = employer.validerFeuilleDeTemps();
+
+        assertFalse(estFeuilleValide);
+    }
+
+    @Test(expected = FeuilleTempsException.class)
+    public void testValiderFeuilleDeTempsException() throws FeuilleTempsException {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        JsonFabriqueObj fabrique = new JsonFabriqueObj(erreurJournal);
+        String jsonTexte = "{\"numero_employe\": 400,"
+                + "\"jour1\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour2\": [{\"projet\": 500,\"minutes\": 550}], "
+                + "\"jour3\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour4\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"jour7\": [{\"projet\": 500,\"minutes\": 550}],"
+                + "\"weekend1\": [],"
+                + "\"weekend2\": [] }";
+        Employe employer = fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
+
+        boolean estFeuilleValide = employer.validerFeuilleDeTemps();
+
+        assertFalse(estFeuilleValide);
     }
 }
