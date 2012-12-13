@@ -7,21 +7,19 @@
  */
 package inf2015.tp.jour;
 
-import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.Projet;
-import inf2015.tp.erreur.ErreurJourDepasseMinute;
-import java.io.IOException;
+import inf2015.tp.erreur.ErreurJournal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public abstract class Jour {
-    
+
     public static final int MINUTES_JOURNEE_FERIEE = 480;
     public static final int MINUTES_JOURNEE_MALADIE = 480;
     public static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
     public static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
-    public static final int MAX_MINUTES_TRANSPORT=300;
+    public static final int MAX_MINUTES_TRANSPORT = 300;
     public static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
     public static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
     protected ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
@@ -93,7 +91,7 @@ public abstract class Jour {
             if (projet.estTeleTravail()) {
                 minutes = minutes + projet.getMinutes();
             }
-           
+
         }
 
         return minutes;
@@ -121,7 +119,8 @@ public abstract class Jour {
 
         return minutes;
     }
-        public int getMinutesTransport() {
+
+    public int getMinutesTransport() {
         int minutes = 0;
         for (Projet projet : this.projetsJournee) {
             if (projet.estTransport()) {
@@ -131,8 +130,6 @@ public abstract class Jour {
 
         return minutes;
     }
-        
-   
 
     public boolean estJourneeVacances() {
         boolean estVacances = false;
@@ -168,14 +165,15 @@ public abstract class Jour {
 
         return estMaladie;
     }
-    public boolean contientTransport(){
+
+    public boolean contientTransport() {
         boolean contientTransport = false;
-             for (Projet projet : this.projetsJournee) {
+        for (Projet projet : this.projetsJournee) {
             if (projet.estTransport()) {
                 contientTransport = true;
             }
         }
-             return contientTransport;
+        return contientTransport;
     }
 
     public boolean estJourneeCongeParental() {
@@ -194,8 +192,7 @@ public abstract class Jour {
     public boolean contientTeleTravail() {
         boolean estTeleTravail = false;
 
-        for (Projet projet : this.projetsJournee) 
-        {
+        for (Projet projet : this.projetsJournee) {
             if (projet.estTeleTravail()) {
                 estTeleTravail = true;
             }
@@ -215,7 +212,7 @@ public abstract class Jour {
 
         return estTravailBureau;
     }
-    
+
     public boolean contientAutresProjetsQue(int projetID) {
         boolean contientAutreProjet = false;
 
@@ -247,16 +244,13 @@ public abstract class Jour {
         if (this.estJourMaladie()) {
             this.analyserJourMaladie();
         }
-   
-                
+
+
     }
 
     @Override
     public String toString() {
         return String.format("%s", this.nomJour);
-    }
-    public void analyserProjetTransport(){
-        
     }
 
     public abstract boolean estJourOuvrable();
