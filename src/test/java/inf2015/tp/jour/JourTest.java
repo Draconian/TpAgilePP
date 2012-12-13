@@ -293,6 +293,26 @@ public class JourTest {
     }
 
     @Test
+    public void testGetMinutesTransport() {
+        Jour jour = new JourOuvrable(null, null);
+        jour.ajoutProjet(new Projet(Projet.PROJET_ID_TRANSPORT, 100));
+        jour.ajoutProjet(new Projet(Projet.PROJET_ID_TRANSPORT, 200));
+        jour.ajoutProjet(new Projet(1000, 200));
+        
+        assertEquals(300, jour.getMinutesTransport());
+    }
+
+    @Test
+    public void testGetMinutesTransportZero() {
+       Jour jour = new JourOuvrable(null, null);
+        jour.ajoutProjet(new Projet(50, 100));
+        jour.ajoutProjet(new Projet(30, 200));
+        jour.ajoutProjet(new Projet(1000, 200));
+        
+        assertEquals(0, jour.getMinutesTransport());
+    }
+    
+    @Test
     public void testAnalyserJour() {
         ErreurJournal erreurJournal = new ErreurJournal();
         Jour jour = new JourOuvrable(null, erreurJournal);
