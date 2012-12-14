@@ -52,7 +52,7 @@ public class EmployeAdministration extends Employe {
     }
 
     @Override
-    protected void verifierEtCalculerProjetTransport() {
+    protected void verifierProjetTransport() {
         this.validerMinutesTransport();
 
         super.minutesJoursOuvrableBureau += super.minutesTransportJourOuvrable;

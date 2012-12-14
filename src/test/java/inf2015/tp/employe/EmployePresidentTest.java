@@ -94,7 +94,7 @@ public class EmployePresidentTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
         assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
         assertEquals(0, erreurJournal.getNombresErreurs());
@@ -110,7 +110,7 @@ public class EmployePresidentTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
         assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
         assertEquals(0, erreurJournal.getNombresErreurs());

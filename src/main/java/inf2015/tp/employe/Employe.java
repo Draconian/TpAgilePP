@@ -60,7 +60,7 @@ public abstract class Employe {
 
     public boolean validerFeuilleDeTemps() {
         this.calculerFeuilleTemps();
-        this.verifierEtCalculerProjetTransport();
+        this.verifierProjetTransport();
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
@@ -131,7 +131,7 @@ public abstract class Employe {
         return minutes;
     }
     
-    protected abstract void verifierEtCalculerProjetTransport();
+    protected abstract void verifierProjetTransport();
 
     protected void validerMinutesTransport() {
         int minutesTransport = this.minutesTransportJourOuvrable + this.minutesTransportJourWeekend;

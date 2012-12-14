@@ -42,7 +42,7 @@ public class EmployeDeveloppement extends Employe {
     }
 
     @Override
-    protected void verifierEtCalculerProjetTransport() {
+    protected void verifierProjetTransport() {
         if (super.minutesTransportJourOuvrable > 0 || super.minutesTransportJourWeekend > 0) {
             erreurJournal.ajoutErreur(new ErreurEmployeDoitPasContenirTransport(this));
         }

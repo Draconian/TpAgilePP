@@ -40,7 +40,7 @@ public class EmployeDirection extends Employe {
     }
 
     @Override
-    protected void verifierEtCalculerProjetTransport() {
+    protected void verifierProjetTransport() {
         int minutesTransport = super.minutesTransportJourOuvrable + super.minutesTransportJourWeekend;
 
         this.validerMinutesTransport();

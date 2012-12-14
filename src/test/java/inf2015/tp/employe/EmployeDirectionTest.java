@@ -100,7 +100,7 @@ public class EmployeDirectionTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(minutesTransportTotal, employe.minutesTeleTravail);
         assertEquals(0, erreurJournal.getNombresErreurs());
     }
@@ -116,7 +116,7 @@ public class EmployeDirectionTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(1, erreurJournal.getNombresErreurs());
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurTempsMaximaleTransport.class, erreur.getClass());

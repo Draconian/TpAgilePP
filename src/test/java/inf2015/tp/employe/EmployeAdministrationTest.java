@@ -139,7 +139,7 @@ public class EmployeAdministrationTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(minutesTransportOuvrable, employe.minutesJoursOuvrableBureau);
         assertEquals(minutesTransportWeekend, employe.minutesWeekendBureau);
     }
@@ -155,7 +155,7 @@ public class EmployeAdministrationTest {
         employe.minutesTransportJourOuvrable = minutesTransportOuvrable;
         employe.minutesTransportJourWeekend = minutesTransportWeekend;
 
-        employe.verifierEtCalculerProjetTransport();
+        employe.verifierProjetTransport();
         assertEquals(1, erreurJournal.getNombresErreurs());
         Erreur erreur = erreurJournal.getErreurAIndex(0);
         assertEquals(ErreurTempsMaximaleTransport.class, erreur.getClass());
