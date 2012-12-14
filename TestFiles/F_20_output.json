@@ -1,8 +1,8 @@
 [
-     "L'employé 2500 n'a pas le droit de utiliser du temps de transport.Le temps de transport est reservé uniquement au employés d'administration et de la direction.",
-     "L'employé Exploitation n'a pas fait le  nombre d'heures minimum au bureau. Celui-ci doit faire au moins: 39,5 heures.",
-     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour2. L'employé Exploitation doit travailler au moins 360 minutes par jour.",
-     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour3. L'employé Exploitation doit travailler au moins 360 minutes par jour.",
-     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour4. L'employé Exploitation doit travailler au moins 360 minutes par jour.",
-     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Exploitation doit travailler au moins 360 minutes par jour."
+     "L'employé 900 a dépassé le nombre d'heures de transport. Il ne peut pas dépasser 5 heures dans la semaine.",
+     "L'employé Administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 41,5 heures.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour2. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour3. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour4. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Administration doit travailler au moins 240 minutes par jour."
 ]
