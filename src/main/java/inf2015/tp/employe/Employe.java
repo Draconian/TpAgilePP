@@ -59,8 +59,8 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
-        this.verifierEtCalculerProjetTransport();
         this.calculerFeuilleTemps();
+        this.verifierEtCalculerProjetTransport();
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
