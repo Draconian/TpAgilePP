@@ -39,6 +39,7 @@ public class TpAgile {
             estFeuilleTempsValide = employe.validerFeuilleDeTemps();
         } catch (FeuilleTempsException e) {           
             erreurJournal.effacerTout();
+            System.out.println(e.getLocalizedMessage());
         }
 
         erreurJournal.ecrireErreurDansFichier(fichierSortie);

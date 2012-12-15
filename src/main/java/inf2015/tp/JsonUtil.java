@@ -7,6 +7,7 @@
  */
 package inf2015.tp;
 
+import inf2015.tp.erreur.FeuilleTempsException;
 import java.io.*;
 import java.util.Scanner;
 import net.sf.json.JSONArray;
@@ -16,22 +17,27 @@ public class JsonUtil {
 
     private static String SAUT_LIGNE = System.getProperty("line.separator");
 
-    public static JSONObject chargerJsonObjetDuFichier(String fichierChemin) throws IOException {
-        JSONObject jsonObject;
+    public static JSONObject chargerJsonObjetDuFichier(String fichierChemin) throws FeuilleTempsException {
+        JSONObject jsonObject = null;
+        try {
+            String jsonString = JsonUtil.chargerContenuDuFichier(fichierChemin);
 
-        String jsonString = JsonUtil.chargerContenuDuFichier(fichierChemin);
-
-        jsonObject = JSONObject.fromObject(jsonString);
+            jsonObject = JSONObject.fromObject(jsonString);
+        } catch (Exception e) {
+            throw new FeuilleTempsException("Impossible de charger le fichier JSON.", e);
+        }
 
         return jsonObject;
     }
 
-    public static JSONArray chargerJsonArrayDuFichier(String fichierChemin) throws IOException {
-        JSONArray jsonArray;
-
-        String jsonString = JsonUtil.chargerContenuDuFichier(fichierChemin);
-        jsonArray = JSONArray.fromObject(jsonString);
-
+    public static JSONArray chargerJsonArrayDuFichier(String fichierChemin) throws FeuilleTempsException {
+        JSONArray jsonArray = null;
+        try {
+            String jsonString = JsonUtil.chargerContenuDuFichier(fichierChemin);
+            jsonArray = JSONArray.fromObject(jsonString);
+        } catch (Exception e) {
+            throw new FeuilleTempsException("Impossible de charger le fichier JSON.", e);
+        }
         return jsonArray;
     }
 

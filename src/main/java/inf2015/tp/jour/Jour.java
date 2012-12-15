@@ -20,8 +20,8 @@ public abstract class Jour {
     public static final int MINUTES_JOURNEE_CONGE_PARENTAL = 480;
     public static final int MINUTES_JOURNEE_CONGE_VACANCES = 480;
     public static final int MAX_MINUTES_TRANSPORT = 300;
-    public static final int MAX_MINUTES_PAR_JOURS = 24 * 60;
-    public static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 32 * 60;
+    public static final int MAX_MINUTES_PAR_JOURS = 1440; //24h
+    public static final int MAX_MINUTES_PAR_JOURS_AVEC_CONGE = 1920; //32h
     protected ArrayList<Projet> projetsJournee = new ArrayList<Projet>();
     protected String nomJour;
     protected ErreurJournal erreurJournal;

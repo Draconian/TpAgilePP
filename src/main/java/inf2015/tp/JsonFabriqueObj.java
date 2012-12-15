@@ -111,11 +111,9 @@ public class JsonFabriqueObj {
 
     public Employe fabriquerFeuilleTempsDuFichierJson(String cheminFichierJSON) throws FeuilleTempsException {
         JSONObject jsonFeuilleTemps = null;
-        try {
-            jsonFeuilleTemps = JsonUtil.chargerJsonObjetDuFichier(cheminFichierJSON);
-        } catch (IOException ioe) {
-            throw new FeuilleTempsException("Problème pour charger le fichier Json", ioe);
-        }
+        
+        jsonFeuilleTemps = JsonUtil.chargerJsonObjetDuFichier(cheminFichierJSON);
+
 
         return this.fabriquerFeuilleTemps(jsonFeuilleTemps);
     }
