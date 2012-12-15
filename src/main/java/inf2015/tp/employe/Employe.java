@@ -8,7 +8,6 @@
 package inf2015.tp.employe;
 
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
-import inf2015.tp.erreur.ErreurEmployeDoitPasContenirTransport;
 import inf2015.tp.erreur.ErreurEmployeMaximumBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimalUnJourOuvrableBureau;
 import inf2015.tp.erreur.ErreurEmployeMinimumBureau;
@@ -59,12 +58,13 @@ public abstract class Employe {
     }
 
     public boolean validerFeuilleDeTemps() {
+        this.analyserJoursSemaine();
         this.calculerFeuilleTemps();
-        this.verifierProjetTransport();
+        
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
-
+        this.verifierProjetTransport();
         return this.erreurJournal.estVide();
     }
 
@@ -139,5 +139,12 @@ public abstract class Employe {
         if (minutesTransport > MAX_MINUTE_TRANSPORT) {
             erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, minutesTransport));
         }
+    }
+
+    protected void analyserJoursSemaine() {
+        
+        for(Jour jour : this.semaines) {
+            jour.analyserJour();
+        }        
     }
 }

@@ -11,6 +11,7 @@ import inf2015.tp.JsonFabriqueObj;
 import inf2015.tp.Projet;
 import inf2015.tp.erreur.Erreur;
 import inf2015.tp.erreur.ErreurEmployeCongeParentalMultiple;
+import inf2015.tp.erreur.ErreurJourSpecialEgalMinutes;
 import inf2015.tp.erreur.ErreurJournal;
 import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.jour.Jour;
@@ -230,5 +231,34 @@ public class EmployeTest {
                 + "\"weekend1\": [],"
                 + "\"weekend2\": []";
         fabrique.fabriquerFeuilleTempsDuTexteJson(jsonTexte);
+    }
+    
+    @Test
+    public void testAnalyserJoursSemaineValide() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeAdministration(0,erreurJournal);
+        Jour jour = new JourOuvrable("jour1", erreurJournal);
+        jour.ajoutProjet(new Projet(999, 480));
+        employe.ajoutJour(jour);
+        
+        employe.analyserJoursSemaine();
+        
+        assertTrue(erreurJournal.estVide());
+    }
+    
+    @Test
+    public void testAnalyserJoursSemaineInvalide() {
+        ErreurJournal erreurJournal = new ErreurJournal();
+        Employe employe = new EmployeAdministration(0,erreurJournal);
+        Jour jour = new JourOuvrable("jour1", erreurJournal);
+        jour.ajoutProjet(new Projet(999, 420));
+        employe.ajoutJour(jour);
+        
+        employe.analyserJoursSemaine();
+        
+        assertEquals(1, erreurJournal.getNombresErreurs());
+        
+        Erreur erreur = erreurJournal.getErreurAIndex(0);
+        assertEquals(ErreurJourSpecialEgalMinutes.class, erreur.getClass());
     }
 }
