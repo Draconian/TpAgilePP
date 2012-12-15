@@ -1,5 +1,6 @@
 [
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour1.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour5.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser 10.0 heures."
+     "L'employé Administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser 10,00 heures (600 minutes).",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour1. L'employé Administration doit travailler au moins 240 minutes (4,00 heures) par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour2. L'employé Administration doit travailler au moins 240 minutes (4,00 heures) par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Administration doit travailler au moins 240 minutes (4,00 heures) par jour."
 ]

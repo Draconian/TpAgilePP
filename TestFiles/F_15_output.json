@@ -1,6 +1,6 @@
 [
-     "Erreur : 1925 dépasse le maximum autorisé (1920)",
-     "Erreur : 2480 dépasse le maximum autorisé (1920)",
-     "L'employé d'exploitation n'a pas travaillé le nombre d'heures minimal au bureau  pendant le jour5.L'employé doit travailler au moins 360 minutes par jour.",
-     "L'employé d'exploitation a dépassé le nombre d'heures maximum au bureau. Il ne peut pas dépasser 2580 ."
+     "Le jour jour2 contient 1925 minutes,il dépasse le maximum de minutes authorisés qui est 1920 minutes",
+     "Le jour jour3 contient 2480 minutes,il dépasse le maximum de minutes authorisés qui est 1920 minutes",
+     "L'employé Exploitation a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 43,0 heures.",
+     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Exploitation doit travailler au moins 360 minutes par jour."
 ]

@@ -2,11 +2,15 @@
     "numero_employe": 5555,
     "jour1": [
     {
-        "projet": 2000,
-        "minutes": 480
+        "projet": 500,
+        "minutes": 2581
     }
     ], 
     "jour2": [
+    {
+        "projet": 950,
+        "minutes": 2581
+    }
     ], 
     "jour3": [
 

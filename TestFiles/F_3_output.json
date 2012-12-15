@@ -1,1 +1,5 @@
-["L'employé Exploitation a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 43,0 heures."]
+[
+     "L'employé Exploitation a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 43,0 heures.",
+     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour1. L'employé Exploitation doit travailler au moins 360 minutes par jour.",
+     "L'employé Exploitation n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Exploitation doit travailler au moins 360 minutes par jour."
+]

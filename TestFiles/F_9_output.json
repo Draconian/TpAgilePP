@@ -1,9 +1,9 @@
 [
-     "Le jour \"jour3\" qui est férié, doit contenir 480 minutes. (Il contient 25 minutes.)",
-     "\nLe jour \"weekend1\" qui est maladie ne doit pas être le weekend.",
-     "Le jour \"weekend1\" qui est maladie, doit contenir 480 minutes. (Il contient 45 minutes.)",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour3.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour5.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau. Il doit travailler 37.5 heures.",
-     "L'employé administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser 10.0 heures."
+     "Le jour jour3 qui est férié, doit contenir 480 minutes. (Il contient 50 minutes.)",
+     "Le jour weekend1 qui est férié ne doit pas être le weekend.",
+     "L'employé Administration n'a pas fait le  nombre d'heures minimum au bureau. Celui-ci doit faire au moins: 37,5 heures.",
+     "L'employé Administration a dépassé le nombre d'heures de télétravail. Il ne peut pas dépasser 10,0 heures.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour2. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour3. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Administration doit travailler au moins 240 minutes par jour."
 ]

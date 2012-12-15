@@ -1,6 +1,7 @@
 [
-     "Le jour \"jour1\" qui est maladie, doit contenir 480 minutes. (Il contient 1440 minutes.)",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour3.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour4.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour5.L'employé doit travailler au moins 240 minutes par jour."
+     "Le jour jour1 qui est maladie, doit contenir 480 minutes. (Il contient 1435 minutes.)",
+     "L'employé Développement n'a pas fait le  nombre d'heures minimum au bureau. Celui-ci doit faire au moins: 38,0 heures.",
+     "L'employé Développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour3. L'employé Développement doit travailler au moins 360 minutes par jour.",
+     "L'employé Développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour4. L'employé Développement doit travailler au moins 360 minutes par jour.",
+     "L'employé Développement n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Développement doit travailler au moins 360 minutes par jour."
 ]

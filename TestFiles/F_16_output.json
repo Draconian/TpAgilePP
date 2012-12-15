@@ -1,10 +1,8 @@
 [
-     "\nLe jour \"jour1\" qui est congé parental ne doit pas avoir d'autre projet dans la même journée.",
-     "\nLe jour \"jour2\" qui est congé parental ne doit pas avoir d'autre projet dans la même journée.",
-     "\nLe jour \"jour3\" qui est congé parental ne doit pas avoir d'autre projet dans la même journée.",
-     "\nLe jour \"weekend1\" qui est Congé parental ne doit pas être le weekend.",
-     "Erreur : 1925 dépasse le maximum autorisé (1440)",
-     "Erreur : 2480 dépasse le maximum autorisé (1440)",
-     "L'employé d'exploitation a dépassé le nombre d'heures maximum au bureau. Il ne peut pas dépasser 2580 .",
+     "Le jour jour1 qui est parental contient d'autre code de projet dans la même journée.",
+     "Le jour jour3 qui est parental contient d'autre code de projet dans la même journée.",
+     "Le jour weekend1 qui est parental ne doit pas être le weekend.",
+     "Le jour jour3 contient 2480 minutes,il dépasse le maximum de minutes authorisés qui est 1440 minutes",
+     "L'employé Exploitation a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 43,0 heures.",
      "Une semaine ne peut contenir plus qu'un congé parental."
 ]

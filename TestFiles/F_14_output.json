@@ -1,6 +1,6 @@
 [
-     "Le jour \"jour3\" qui est vacance, doit contenir 480 minutes. (Il contient 400 minutes.)",
-     "\nLe jour \"weekend1\" qui est vacances ne doit pas être le weekend.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour5.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser : 41.5 heures."
+     "Le jour jour3 qui est vacance, doit contenir 480 minutes. (Il contient 400 minutes.)",
+     "Le jour weekend1 qui est vacances ne doit pas être le weekend.",
+     "L'employé Administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 41,5 heures.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Administration doit travailler au moins 240 minutes par jour."
 ]

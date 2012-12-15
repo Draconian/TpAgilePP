@@ -1,6 +1,8 @@
 [
-     "Erreur : 2250 dépasse le maximum autorisé (1440)",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour2.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour3.L'employé doit travailler au moins 240 minutes par jour.",
-     "L'employé administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pendant le jour4.L'employé doit travailler au moins 240 minutes par jour."
+     "Le jour jour1 contient 2495 minutes,il dépasse le maximum de minutes authorisés qui est 1440 minutes",
+     "L'employé Administration a dépassé le nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser: 41,5 heures.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour2. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour3. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour4. L'employé Administration doit travailler au moins 240 minutes par jour.",
+     "L'employé Administration n'a pas travaillé le nombre d'heures minimal au bureau (jour ouvrable) pour le jour jour5. L'employé Administration doit travailler au moins 240 minutes par jour."
 ]
