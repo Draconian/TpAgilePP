@@ -7,13 +7,14 @@
  */
 package inf2015.tp.erreur;
 
+import inf2015.tp.MinuteHeureConvertion;
 import inf2015.tp.employe.Employe;
 
 public class ErreurEmployeMinimumBureau extends Erreur {
 
     protected static final String ERREUR_MESSAGE = "L'employé %s n'a pas fait le  "
             + "nombre d'heures minimum au bureau. Celui-ci doit faire au moins"
-            + ": %.1f heures.";
+            + ": %.2f heures (%d minutes).";
     private int maxMinutes;
 
     public ErreurEmployeMinimumBureau(Employe employeErreur, int maxMinutes) {
@@ -23,7 +24,7 @@ public class ErreurEmployeMinimumBureau extends Erreur {
 
     @Override
     protected String afficherErreur() {
-        float heures = (float) this.maxMinutes / (float) 60;
-        return String.format(ERREUR_MESSAGE, this.employeErreur.getTypeEmploye(), heures);
+        float heures = MinuteHeureConvertion.minutesVersHeures(this.maxMinutes);
+        return String.format(ERREUR_MESSAGE, this.employeErreur.getTypeEmploye(), heures, this.maxMinutes);
     }
 }

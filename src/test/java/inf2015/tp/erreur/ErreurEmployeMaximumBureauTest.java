@@ -22,9 +22,9 @@ public class ErreurEmployeMaximumBureauTest {
         Employe employe = new EmployeAdministration(500, null);
         int maxMinutes = 90;
 
-        String messageExpecter = "L'employé Administration a dépassé le "
+        String messageExpecter = String.format("L'employé Administration a dépassé le "
                 + "nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser"
-                + ": 1,5 heures.";
+                + ": %.2f heures (90 minutes).", 1.5f);
 
         Erreur erreur = new ErreurEmployeMaximumBureau(employe, maxMinutes);
         String messageRecu = erreur.afficherErreur();

@@ -13,20 +13,20 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ErreurJourCongeWeekendTest {
-    
+
     public ErreurJourCongeWeekendTest() {
     }
 
     @Test
     public void testAfficherErreur() {
         String messageExpecter = "Le jour weekend1 qui est férié ne "
-            + "doit pas être le weekend.";
+                + "doit pas être le weekend.";
         Jour jour = new JourWeekend("weekend1", null);
         String typeDeJour = "férié";
-        
+
         Erreur erreur = new ErreurJourCongeWeekend(jour, typeDeJour);
         String messageRecu = erreur.afficherErreur();
-              
-        assertEquals(messageExpecter, messageRecu); 
+
+        assertEquals(messageExpecter, messageRecu);
     }
 }

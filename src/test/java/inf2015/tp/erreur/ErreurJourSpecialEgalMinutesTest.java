@@ -16,21 +16,21 @@ import static org.junit.Assert.*;
  */
 public class ErreurJourSpecialEgalMinutesTest {
 
-
     @Test
     public void testAfficherErreur() {
         int maxMinutes = 60;
-        String typeDeJour ="férié";
+        String typeDeJour = "férié";
         Jour jour = new JourOuvrable("jour2", null);
-        Projet projet = new Projet(500,500);
+        Projet projet = new Projet(500, 500);
         jour.ajoutProjet(projet);
-        
-        String erreurMsgExpecter = "Le jour jour2 qui est férié, " +
-                "doit contenir 60 minutes. (Il contient 500 minutes.)";
-        
-        Erreur erreur = new ErreurJourSpecialEgalMinutes(jour,typeDeJour, maxMinutes);
+
+        String erreurMsgExpecter = String.format("Le jour jour2 qui est férié, "
+                + "doit contenir 60 minutes (%.2f heures). (Il contient "
+                + "500 minutes (%.2f heures).)", 1.0f, 8.33f);
+
+        Erreur erreur = new ErreurJourSpecialEgalMinutes(jour, typeDeJour, maxMinutes);
         String erreurMsgRecu = erreur.afficherErreur();
-        
+
         assertEquals(erreurMsgExpecter, erreurMsgRecu);
     }
 }

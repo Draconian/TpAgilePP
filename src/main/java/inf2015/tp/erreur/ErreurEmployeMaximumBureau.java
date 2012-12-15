@@ -7,13 +7,14 @@
  */
 package inf2015.tp.erreur;
 
+import inf2015.tp.MinuteHeureConvertion;
 import inf2015.tp.employe.Employe;
 
 public class ErreurEmployeMaximumBureau extends Erreur {
 
     protected static final String ERREUR_MESSAGE = "L'employé %s a dépassé le "
             + "nombre d'heures maximum au bureau. Celui-ci ne peut pas dépasser"
-            + ": %.1f heures.";
+            + ": %.2f heures (%d minutes).";
     private int maxMinutes;
 
     public ErreurEmployeMaximumBureau(Employe employeErreur, int maxMinutes) {
@@ -23,7 +24,8 @@ public class ErreurEmployeMaximumBureau extends Erreur {
 
     @Override
     protected String afficherErreur() {
-        float heures = (float) this.maxMinutes / (float) 60;
-        return String.format(ERREUR_MESSAGE, this.employeErreur.getTypeEmploye(), heures);
+        int minutes = this.maxMinutes;
+        float heures = MinuteHeureConvertion.minutesVersHeures(minutes);
+        return String.format(ERREUR_MESSAGE, this.employeErreur.getTypeEmploye(), heures, minutes);
     }
 }

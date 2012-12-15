@@ -1,29 +1,31 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * ErreurTempsMaximaleTransport - INF2015 - TP Agile - EQUIPE 17
+ *
+ * @author Francois Dufault
+ * @author Lyes Tamazouzt
+ * @author Abdessamad Essakhi
  */
 package inf2015.tp.erreur;
 
+import inf2015.tp.MinuteHeureConvertion;
 import inf2015.tp.employe.Employe;
 
-/**
- *
- * @author Lyes
- */
-public class ErreurTempsMaximaleTransport extends Erreur{
-  protected static final int NB_HEURES_MAX=5;
-  protected static final String ERREUR_MESSAGE = "L'employé %s a dépassé le nombre "
-            + "d'heures de transport. Il ne peut pas dépasser " + NB_HEURES_MAX + " heures dans la semaine.";
-    private int maxMinutes=0;
-    
-   public ErreurTempsMaximaleTransport(Employe employeErreur, int maxMinutes) {
+public class ErreurTempsMaximaleTransport extends Erreur {
+
+    protected static final String ERREUR_MESSAGE = "L'employé %s a dépassé le nombre "
+            + "d'heures de transport. Il ne peut pas dépasser %.2f heures "
+            + "(%d minutes) dans la semaine.";
+    private int maxMinutes = 0;
+
+    public ErreurTempsMaximaleTransport(Employe employeErreur, int maxMinutes) {
         super(ERREUR_MESSAGE, employeErreur);
         this.maxMinutes = maxMinutes;
     }
+
     @Override
     protected String afficherErreur() {
-          return String.format(ERREUR_MESSAGE, employeErreur.getNumeroEmploye(),
-                 maxMinutes);
+        float heures = MinuteHeureConvertion.minutesVersHeures(this.maxMinutes);
+        return String.format(ERREUR_MESSAGE, employeErreur.getNumeroEmploye(),
+                heures, maxMinutes);
     }
-    
 }

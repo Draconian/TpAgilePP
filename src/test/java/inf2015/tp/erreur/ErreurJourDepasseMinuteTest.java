@@ -15,9 +15,6 @@ import org.junit.Test;
 
 public class ErreurJourDepasseMinuteTest {
 
-    public ErreurJourDepasseMinuteTest() {
-    }
-
     @Test
     public void testAfficherErreur() {
         int maxMinutes = 60;
@@ -25,8 +22,9 @@ public class ErreurJourDepasseMinuteTest {
         Projet projet = new Projet(500, 500);
         jour.ajoutProjet(projet);
 
-        String erreurMsgExpecter = "Le jour jour1 contient 500 minutes,il dépasse "
-                + "le maximum de minutes authorisés qui est 60 minutes";
+        String erreurMsgExpecter = String.format("Le jour jour1 contient 500 "
+                + "minutes (%.2f heures),il dépasse le maximum de minutes "
+                + "authorisés qui est 60 minutes (%.2f heures)", 8.33f, 1.0f);
 
         Erreur erreur = new ErreurJourDepasseMinute(jour, maxMinutes);
         String erreurMsgRecu = erreur.afficherErreur();

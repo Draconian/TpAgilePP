@@ -7,12 +7,14 @@
  */
 package inf2015.tp.erreur;
 
+import inf2015.tp.MinuteHeureConvertion;
 import inf2015.tp.jour.Jour;
 
 public class ErreurJourDepasseMinute extends Erreur {
 
     protected static final String ERREUR_MESSAGE = "Le jour %s contient %d "
-            + "minutes,il dépasse le maximum de minutes authorisés qui est %d minutes";
+            + "minutes (%.2f heures),il dépasse le maximum de minutes authorisés "
+            + "qui est %d minutes (%.2f heures)";
     private int maxMinutes;
 
     public ErreurJourDepasseMinute(Jour jourErreur, int maxMinutes) {
@@ -23,7 +25,10 @@ public class ErreurJourDepasseMinute extends Erreur {
 
     @Override
     protected String afficherErreur() {
+        float totalHeuresJournee = MinuteHeureConvertion.minutesVersHeures(jourErreur.getTotalMinutesJournee());
+        float maxMinutesHeures = MinuteHeureConvertion.minutesVersHeures(this.maxMinutes);
+
         return String.format(ERREUR_MESSAGE, jourErreur.getNomJour(),
-                jourErreur.getTotalMinutesJournee(), maxMinutes);
+                jourErreur.getTotalMinutesJournee(), totalHeuresJournee, this.maxMinutes, maxMinutesHeures);
     }
 }

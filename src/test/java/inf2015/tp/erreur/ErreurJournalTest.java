@@ -96,9 +96,9 @@ public class ErreurJournalTest {
 
         erreurJournal.ajoutErreur(erreur);
 
-        String jsonExpected = "[\"Une semaine ne peut contenir"
+        String jsonExpected = String.format("[\"Une semaine ne peut contenir"
                 + " plus qu'un congé parental.\",\"L'employé Administration a dépassé le nombre d'heures maximum au "
-                + "bureau. Celui-ci ne peut pas dépasser: 1,0 heures.\"]";
+                + "bureau. Celui-ci ne peut pas dépasser: %.2f heures (60 minutes).\"]", 1.0f);
         String jsonrecu = erreurJournal.convertirEnJsonArray().toString();
 
         assertEquals(jsonExpected, jsonrecu);
