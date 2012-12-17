@@ -7,10 +7,9 @@
  */
 package inf2015.tp.jour;
 
-import inf2015.tp.erreur.ErreurJournal;
-import inf2015.tp.Projet;
 import inf2015.tp.erreur.ErreurJourCongeWeekend;
 import inf2015.tp.erreur.ErreurJourDepasseMinute;
+import inf2015.tp.erreur.ErreurJournal;
 
 public class JourWeekend extends Jour {
 
@@ -26,7 +25,7 @@ public class JourWeekend extends Jour {
     @Override
     public void verifierMaxMinutesJour() {
         int minutesJournee = this.getTotalMinutesJournee();
-        
+
         if (minutesJournee > MAX_MINUTES_PAR_JOURS) {
             erreurJournal.ajoutErreur(new ErreurJourDepasseMinute(this, MAX_MINUTES_PAR_JOURS));
         }

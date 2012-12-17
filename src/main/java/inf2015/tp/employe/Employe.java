@@ -60,7 +60,7 @@ public abstract class Employe {
     public boolean validerFeuilleDeTemps() {
         this.analyserJoursSemaine();
         this.calculerFeuilleTemps();
-        
+
         this.analyserFeuilleTemps();
         this.verifierMinimumMinutesQuotidiennes();
         this.verifierCongeParental();
@@ -81,8 +81,6 @@ public abstract class Employe {
             this.minutesTeleTravail += jour.getMinutesTeletravail();
         }
     }
-    
-    
 
     protected void analyserFeuilleTempsGeneral() {
         int minutesBureauTotal = this.minutesWeekendBureau + this.minutesJoursOuvrableBureau;
@@ -130,21 +128,21 @@ public abstract class Employe {
         }
         return minutes;
     }
-    
+
     protected abstract void verifierProjetTransport();
 
     protected void validerMinutesTransport() {
         int minutesTransport = this.minutesTransportJourOuvrable + this.minutesTransportJourWeekend;
-        
+
         if (minutesTransport > MAX_MINUTE_TRANSPORT) {
             erreurJournal.ajoutErreur(new ErreurTempsMaximaleTransport(this, minutesTransport));
         }
     }
 
     protected void analyserJoursSemaine() {
-        
-        for(Jour jour : this.semaines) {
+
+        for (Jour jour : this.semaines) {
             jour.analyserJour();
-        }        
+        }
     }
 }

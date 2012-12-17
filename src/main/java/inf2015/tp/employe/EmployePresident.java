@@ -44,7 +44,7 @@ public class EmployePresident extends Employe {
         super.minutesJoursOuvrableBureau += super.minutesTransportJourOuvrable;
         super.minutesWeekendBureau += super.minutesTransportJourWeekend;
     }
-    
+
     @Override
     protected void validerMinutesTransport() {
         //Toujours valide.

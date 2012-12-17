@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import net.sf.json.JSONArray;
 
 public class ErreurJournal {
+
     protected ArrayList<Erreur> erreurs = new ArrayList<Erreur>();
 
     public void ajoutErreur(Erreur nouvelleErreur) {
@@ -62,6 +63,4 @@ public class ErreurJournal {
     public String toString() {
         return this.convertirEnJsonArray().toString(5);
     }
-    
-    
 }

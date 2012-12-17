@@ -27,7 +27,7 @@ public class ErreurEmployeMinimalUnJourOuvrableBureau extends Erreur {
     @Override
     protected String afficherErreur() {
         float heures = MinuteHeureConvertion.minutesVersHeures(this.minMinutes);
-        
+
         return String.format(ERREUR_MESSAGE, this.employeErreur.getTypeEmploye(),
                 this.jourErreur.getNomJour(), this.employeErreur.getTypeEmploye(),
                 this.minMinutes, heures);

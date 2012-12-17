@@ -25,9 +25,9 @@ public class JourOuvrable extends Jour {
     }
 
     @Override
-     public void verifierMaxMinutesJour() {
+    public void verifierMaxMinutesJour() {
         int minutesJournee = this.getTotalMinutesJournee();
-        
+
         if (this.estJourneeVacances() || this.estJourneeFerie()) {
             if (minutesJournee > MAX_MINUTES_PAR_JOURS_AVEC_CONGE) {
                 erreurJournal.ajoutErreur(new ErreurJourDepasseMinute(this, MAX_MINUTES_PAR_JOURS_AVEC_CONGE));
@@ -37,8 +37,8 @@ public class JourOuvrable extends Jour {
                 erreurJournal.ajoutErreur(new ErreurJourDepasseMinute(this, MAX_MINUTES_PAR_JOURS));
             }
         }
-    } 
-    
+    }
+
     @Override
     protected void analyserJourFerie() {
         this.comparerJourSpecialEtMinutesRequis("férié", this.getMinutesJourneeFeriee(), Jour.MINUTES_JOURNEE_FERIEE);

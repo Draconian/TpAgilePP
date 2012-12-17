@@ -18,7 +18,6 @@ import inf2015.tp.erreur.FeuilleTempsException;
 import inf2015.tp.jour.Jour;
 import inf2015.tp.jour.JourOuvrable;
 import inf2015.tp.jour.JourWeekend;
-import java.io.IOException;
 import java.util.Iterator;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
@@ -111,7 +110,7 @@ public class JsonFabriqueObj {
 
     public Employe fabriquerFeuilleTempsDuFichierJson(String cheminFichierJSON) throws FeuilleTempsException {
         JSONObject jsonFeuilleTemps = null;
-        
+
         jsonFeuilleTemps = JsonUtil.chargerJsonObjetDuFichier(cheminFichierJSON);
 
 
